@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#111319">
-  <title>Amz v1.8</title>
+  <title>Amz v1.9</title>
 
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -12,9 +12,9 @@
   <meta name="apple-mobile-web-app-title" content="Rádio Amizade">
   <meta name="application-name" content="Rádio Amizade">
 
-  <link rel="icon" type="image/png" href="assets/avatar.png?v=1.8">
-  <link rel="apple-touch-icon" href="assets/avatar.png?v=1.8">
-  <link rel="manifest" href="manifest.webmanifest?v=1.8">
+  <link rel="icon" type="image/png" href="assets/avatar.png?v=1.9">
+  <link rel="apple-touch-icon" href="assets/avatar.png?v=1.9">
+  <link rel="manifest" href="manifest.webmanifest?v=1.9">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://5a2b083e9f360.streamlock.net" crossorigin>
@@ -77,13 +77,13 @@
       left:50%;
       transform:translateX(-50%);
       padding:8px 16px;
-      border:1px solid rgba(255,255,255,.08);
+      border:1px solid rgba(255,217,26,.18);
       border-radius:999px;
-      color:rgba(255,255,255,.88);
-      background:rgba(29,32,39,.90);
+      color:#111319;
+      background:#ffd91a;
       box-shadow:0 10px 24px rgba(0,0,0,.18);
       font-size:14px;
-      font-weight:700;
+      font-weight:800;
       line-height:1;
       white-space:nowrap;
       cursor:pointer;
@@ -216,6 +216,54 @@
     .playing .play-triangle{display:none}
     .playing .pause{display:block}
 
+    .install-sheet[hidden]{display:none}
+
+    .install-sheet{
+      position:fixed;
+      z-index:200;
+      inset:0;
+      display:grid;
+      place-items:end center;
+      padding:20px 16px calc(16px + env(safe-area-inset-bottom));
+      background:rgba(0,0,0,.46);
+    }
+
+    .install-sheet__card{
+      width:min(100%,430px);
+      padding:20px;
+      border:1px solid rgba(255,255,255,.10);
+      border-radius:24px;
+      color:#fff;
+      background:#1d2027;
+      box-shadow:0 24px 70px rgba(0,0,0,.42);
+    }
+
+    .install-sheet__card h2{
+      margin:0 0 10px;
+      font-size:18px;
+      line-height:1.2;
+    }
+
+    .install-sheet__card p{
+      margin:0;
+      color:rgba(255,255,255,.78);
+      font-size:14px;
+      line-height:1.5;
+    }
+
+    .install-sheet__card strong{color:#ffd91a}
+
+    .install-sheet__close{
+      width:100%;
+      min-height:46px;
+      margin-top:18px;
+      border-radius:15px;
+      color:#111319;
+      background:#ffd91a;
+      font-weight:800;
+      cursor:pointer;
+    }
+
     @media(max-width:380px){
       .menu{left:14px;right:14px}
       h1{font-size:18px}
@@ -284,6 +332,24 @@
 
     <audio id="audio" preload="auto" playsinline></audio>
   </main>
+
+  <div
+    class="install-sheet"
+    id="installSheet"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="installSheetTitle"
+    hidden
+  >
+    <div class="install-sheet__card">
+      <h2 id="installSheetTitle">Adicionar à Tela de Início</h2>
+      <p>
+        No iPhone, toque em <strong>Compartilhar</strong> no Safari e escolha
+        <strong>Adicionar à Tela de Início</strong>.
+      </p>
+      <button class="install-sheet__close" id="installSheetClose" type="button">Entendi</button>
+    </div>
+  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/hls.js@1"></script>
   <script>
@@ -391,6 +457,8 @@
   <script>
     (() => {
       const installButton = document.getElementById("installButton");
+      const installSheet = document.getElementById("installSheet");
+      const installSheetClose = document.getElementById("installSheetClose");
       let deferredPrompt = null;
 
       const isStandalone = () =>
@@ -404,7 +472,6 @@
           installButton.hidden = true;
           return;
         }
-
         installButton.hidden = !isIOS;
       }
 
@@ -431,13 +498,27 @@
         }
 
         if (isIOS) {
-          alert('No Safari, toque em Compartilhar e depois em “Adicionar à Tela de Início”.');
+          installSheet.hidden = false;
+          installSheetClose.focus();
         }
+      });
+
+      installSheetClose.addEventListener("click", () => {
+        installSheet.hidden = true;
+      });
+
+      installSheet.addEventListener("click", (event) => {
+        if (event.target === installSheet) installSheet.hidden = true;
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && !installSheet.hidden) installSheet.hidden = true;
       });
 
       window.addEventListener("appinstalled", () => {
         deferredPrompt = null;
         installButton.hidden = true;
+        installSheet.hidden = true;
       });
     })();
   </script>
