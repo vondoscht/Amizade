@@ -1,16 +1,13 @@
-const CACHE_NAME = "radio-amizade-mobile-v1.7";
+const CACHE_NAME = "radio-amizade-mobile-v1.8";
 
 const APP_SHELL = [
   "./app.html",
-  "./manifest.webmanifest?v=1.7",
-  "./assets/avatar.png?v=1.7",
+  "./manifest.webmanifest?v=1.8",
+  "./assets/avatar.png?v=1.8",
   "./assets/icone-instagram.svg",
   "./assets/icone-facebook.svg",
   "./assets/icone-youtube.svg",
   "./assets/icone-whatsapp.svg",
-  "./icons/icon-192.png?v=1.7",
-  "./icons/icon-512.png?v=1.7",
-  "./icons/icon-maskable-512.png?v=1.7"
 ];
 
 self.addEventListener("install", (event) => {
