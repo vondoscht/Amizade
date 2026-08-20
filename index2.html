@@ -1,78 +1,1436 @@
 <!DOCTYPE html>
+
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8">
+  <script>
+    if (window.matchMedia("(max-width: 900px)").matches) {
+      window.location.replace("app.html");
+    }
+  </script>
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+  <title>Amz v1.3</title>
+  <meta name="description" content="Ouça a Rádio Amizade 98.7 FM ao vivo e acompanhe música, informação, entretenimento e os principais acontecimentos do Vale do Paranhana.">
+  <meta name="author" content="Gabriel Von Doscht">
+  <meta name="application-name" content="Rádio Amizade 98.7 FM">
   <meta name="theme-color" content="#111319">
-  <title>Amz v1.2</title>
-  <meta name="description" content="Ouça a Rádio Amizade 98.7 FM ao vivo.">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <link rel="canonical" href="https://amizade.fm.br/">
+
   <link rel="icon" type="image/png" href="assets/favicon.png">
-  <link rel="apple-touch-icon" href="assets/avatar.png">
+  <link rel="apple-touch-icon" href="assets/favicon.png">
+
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:site_name" content="Rádio Amizade 98.7 FM">
+  <meta property="og:title" content="Rádio Amizade 98.7 FM">
+  <meta property="og:description" content="Há mais de 35 anos em sintonia com o Vale do Paranhana. Ouça a Rádio Amizade 98.7 FM ao vivo e acompanhe nossa programação.">
+  <meta property="og:url" content="https://amizade.fm.br/">
+  <meta property="og:image" content="https://amizade.fm.br/assets/compartilhamento.png">
+  <meta property="og:image:secure_url" content="https://amizade.fm.br/assets/compartilhamento.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Rádio Amizade 98.7 FM">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Rádio Amizade 98.7 FM">
+  <meta name="twitter:description" content="Há mais de 35 anos em sintonia com o Vale do Paranhana. Ouça a Rádio Amizade 98.7 FM ao vivo e acompanhe nossa programação.">
+  <meta name="twitter:image" content="https://amizade.fm.br/assets/compartilhamento.png">
+  <meta name="twitter:image:alt" content="Rádio Amizade 98.7 FM">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "RadioStation",
+      "name": "Rádio Amizade 98.7 FM",
+      "alternateName": "Rádio Amizade",
+      "url": "https://amizade.fm.br/",
+      "logo": "https://amizade.fm.br/assets/logo-amizade.png",
+      "image": "https://amizade.fm.br/assets/compartilhamento.png",
+      "description": "Rádio Amizade 98.7 FM — música, informação e entretenimento no Vale do Paranhana.",
+      "email": "amizade@amizade.fm.br",
+      "telephone": "+55-51-3545-2300",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Rua Ernesto Dorneles, 693",
+        "addressLocality": "Igrejinha",
+        "addressRegion": "RS",
+        "postalCode": "95650-000",
+        "addressCountry": "BR"
+      },
+      "sameAs": [
+        "https://www.instagram.com/radioamizade/",
+        "https://www.facebook.com/RadioAmizadeFM98.7",
+        "https://www.youtube.com/@RadioAmizade98.7"
+      ],
+      "location": {
+        "@type": "Place",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Rua Ernesto Dorneles, 693 - Centro",
+          "addressLocality": "Igrejinha",
+          "addressRegion": "RS",
+          "postalCode": "95650-000",
+          "addressCountry": "BR"
+        }
+      }
+    }
+  </script>
+
   <style>
-    html, body {
-      margin: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      background: #111319;
+    :root {
+      --gray-900: #111319;
+      --gray-850: #171920;
+      --gray-800: #1d2027;
+      --gray-750: #23262e;
+      --gray-700: #2a2d36;
+      --yellow: #ffd91a;
+      --red: #ef2347;
+      --radius-container: 12px;
+      --radius-control: 14px;
+      --radius-inner: 10px;
+      --radius-pill: 999px;
+      --font-display: 800;
+      --font-title: 700;
+      --font-meta: 500;
+      --side-column: 300px;
+      --shadow: 0 22px 60px rgba(0,0,0,.18);
+      --section-gap: 24px;
     }
 
-    #siteView {
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Manrope", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at 15% 8%, rgba(214,27,67,.12) 0%, transparent 32%),radial-gradient(circle at 85% 55%, rgba(70,75,95,.10) 0%, transparent 38%),var(--gray-900);
+      color: #202020;
+    }
+
+    button,a {
+      font: inherit;
+    }
+
+    .site {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 14px 0 42px;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 14px;
+      z-index: 30;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto var(--side-column);
+      align-items: center;
+      gap: 14px;
+      width: calc(100% + 48px);
+      margin-left: -24px;
+      min-height: 132px;
+      padding: 14px 24px;
+      border: 1px solid transparent;
+      border-radius: var(--radius-container);
+      background: transparent;
+      box-shadow: none;
+      backdrop-filter: blur(0);
+      -webkit-backdrop-filter: blur(0);
+      transition: background .28s ease, border-color .28s ease, box-shadow .28s ease, backdrop-filter .28s ease, -webkit-backdrop-filter .28s ease, border-radius .28s ease;
+    }
+
+    .topbar.scrolled {
+      background: rgba(18,19,23,.90);
+      border-color: rgba(255,255,255,.08);
+      border-radius: 12px;
+      box-shadow: 0 16px 42px rgba(0,0,0,.22);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      color: #fff;
+      text-decoration: none;
+      min-width: 0;
+    }
+
+    .brand-picture {
+      display: block;
+      line-height: 0;
+    }
+
+    .brand-image {
+      display: block;
+      width: auto;
+      height: 90px;
+      max-width: 344px;
+      object-fit: contain;
+      object-position: left center;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    .socials {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .social {
+      width: 50px;
+      height: 50px;
+      display: grid;
+      place-items: center;
+      border-radius: var(--radius-control);
+      text-decoration: none;
+      border: 1px solid rgba(255,255,255,.08);
+      background: linear-gradient(180deg,var(--gray-800) 0%, var(--gray-850) 100%);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.04), 0 8px 18px rgba(0,0,0,.14);
+      transition: background .22s ease, border-color .22s ease, box-shadow .22s ease;
+    }
+
+    .social img {
+      display: block;
+      width: 22px;
+      height: 22px;
+      object-fit: contain;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    .social:hover {
+      transform: none;
+      background: linear-gradient(180deg,var(--gray-750) 0%,var(--gray-800) 100%);
+      border-color: rgba(255,255,255,.24);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.07), 0 8px 18px rgba(0,0,0,.14), 0 0 16px rgba(255,255,255,.10);
+    }
+
+    .social:active {
+      transform: none;
+      background: linear-gradient(180deg,var(--gray-800) 0%,var(--gray-850) 100%);
+      border-color: rgba(255,255,255,.10);
+    }
+
+    .live-btn {
+      width: var(--side-column);
+      min-width: var(--side-column);
+      justify-self: stretch;
+      height: 84px;
+      border: 0;
+      border-radius: var(--radius-container);
+      overflow: hidden;
+      padding: 0;
+      cursor: default;
+      color: #fff;
+      display: grid;
+      grid-template-columns: 84px 1fr;
+      background: linear-gradient(180deg,#ff0f57 0%, #ff004b 100%);
+      box-shadow: 0 12px 28px rgba(239,35,71,.24), 0 0 0 1px rgba(255,255,255,.04) inset;
+    }
+
+    .live-btn .icon {
+      display: grid;
+      place-items: center;
+      width: 100%;
+      height: 100%;
+      aspect-ratio: 1 / 1;
+      border: 0;
+      padding: 0;
+      margin: 0;
+      cursor: pointer;
+      background: linear-gradient(180deg,#d61b43 0%, #a9001a 100%);
+      color: var(--yellow);
+      box-shadow: inset -1px 0 0 rgba(255,255,255,.04);
+      transition: background .32s cubic-bezier(.22,.61,.36,1), filter .32s cubic-bezier(.22,.61,.36,1), box-shadow .32s cubic-bezier(.22,.61,.36,1);
+    }
+
+    .live-btn .icon:hover {
+      background: linear-gradient(180deg,#e42a50 0%, #bd0624 100%);
+      filter: brightness(1.035) saturate(1.025);
+      box-shadow: inset -1px 0 0 rgba(255,255,255,.07);
+    }
+
+    .live-btn .icon:hover .play-shape {
+      transform: scale(1.08);
+    }
+
+    .live-btn .icon:active {
+      background: linear-gradient(180deg,#cf173b 0%, #980016 100%);
+      filter: brightness(.99);
+    }
+
+    .live-btn .icon:active .play-shape {
+      transform: scale(.93);
+    }
+
+    .live-btn .icon:focus-visible {
+      outline: 2px solid rgba(255,217,26,.9);
+      outline-offset: -4px;
+    }
+
+    .play-shape {
+      width: 34px;
+      height: 38px;
+      margin-left: 4px;
+      background: currentColor;
+      clip-path: path("M 5 2 Q 3 1 3 5 L 3 33 Q 3 37 7 35 L 31 21 Q 34 19 31 17 L 7 3 Q 6 2 5 2 Z");
+      -webkit-clip-path: path("M 5 2 Q 3 1 3 5 L 3 33 Q 3 37 7 35 L 31 21 Q 34 19 31 17 L 7 3 Q 6 2 5 2 Z");
+      transform: scale(1);
+      transform-origin: center;
+      transition: transform .26s cubic-bezier(.22,.61,.36,1);
+    }
+
+    @supports not (clip-path: path("M 0 0 L 1 1 Z")) {
+      .play-shape {
+        width: 0;
+        height: 0;
+        background: transparent;
+        border-top: 17px solid transparent;
+        border-bottom: 17px solid transparent;
+        border-left: 28px solid currentColor;
+        margin-left: 5px;
+      }
+    }
+
+    .pause-shape {
+      display: none;
+      width: 26px;
+      height: 30px;
+      position: relative;
+    }
+
+    .pause-shape:before,.pause-shape:after {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 8px;
+      border-radius: 2px;
+      background: currentColor;
+    }
+
+    .pause-shape:before {
+      left: 2px;
+    }
+
+    .pause-shape:after {
+      right: 2px;
+    }
+
+    .live-btn.playing .play-shape {
+      display: none;
+    }
+
+    .live-btn.playing .pause-shape {
+      display: block;
+    }
+
+    .live-copy {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 12px;
+      padding: 0 18px;
+      font-weight: 800;
+      font-size: 16px;
+      letter-spacing: -.2px;
+      white-space: nowrap;
+      text-align: left;
+      min-width: 0;
+      overflow: hidden;
+    }
+
+    .live-text {
+      display: block;
+      text-align: left;
+      font-family: "Manrope", ui-sans-serif, system-ui, sans-serif;
+      font-weight: 800;
+      letter-spacing: -.35px;
+    }
+
+    .waves {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      height: 26px;
+      flex: 0 0 auto;
+      opacity: 0;
+      visibility: hidden;
+      transform: scaleX(.86);
+      transform-origin: left center;
+      transition: opacity .22s ease, transform .22s ease, visibility 0s linear .22s;
+    }
+
+    .live-btn.playing .waves {
+      opacity: 1;
+      visibility: visible;
+      transform: scaleX(1);
+      transition: opacity .22s ease, transform .22s ease, visibility 0s linear 0s;
+    }
+
+    .waves i {
+      width: 5px;
+      border-radius: var(--radius-pill);
+      background: var(--yellow);
+      display: block;
+      animation: wave .9s infinite ease-in-out;
+      animation-play-state: paused;
+    }
+
+    .live-btn.playing .waves i {
+      animation-play-state: running;
+    }
+
+    .waves i:nth-child(1) {
+      height: 22px;
+    }
+
+    .waves i:nth-child(2) {
+      height: 34px;
+      animation-delay: .1s;
+    }
+
+    .waves i:nth-child(3) {
+      height: 24px;
+      animation-delay: .2s;
+    }
+
+    .waves i:nth-child(4) {
+      height: 34px;
+      animation-delay: .3s;
+    }
+
+    .waves i:nth-child(5) {
+      height: 22px;
+      animation-delay: .4s;
+    }
+
+    @keyframes wave {
+      50% {
+        transform: scaleY(.55);
+        opacity: .65;
+      }
+    }
+
+    .hero {
+      margin-top: 14px;
+      position: relative;
+      width: 100%;
+      aspect-ratio: 2.5 / 1;
+      overflow: hidden;
+      border-radius: var(--radius-container);
+      box-shadow: var(--shadow);
+      background: var(--gray-900);
+    }
+
+    .slides {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      transition: transform .55s cubic-bezier(.22,.61,.36,1);
+    }
+
+    .slide {
+      position: relative;
+      flex: 0 0 100%;
+      height: 100%;
+      overflow: hidden;
+      background: var(--gray-900);
+    }
+
+    .slide a, .slide-media {
       display: block;
       width: 100%;
-      height: 100vh;
-      height: 100svh;
+      height: 100%;
+    }
+
+    .slide img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    .dots {
+      position: absolute;
+      z-index: 5;
+      left: 50%;
+      bottom: 16px;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 8px;
+    }
+
+    .dot {
+      width: 9px;
+      height: 9px;
       border: 0;
-      margin: 0;
+      border-radius: var(--radius-pill);
+      background: rgba(255,255,255,.55);
       padding: 0;
-      background: #111319;
+      cursor: pointer;
+      transition: .2s ease;
+      box-shadow: 0 2px 8px rgba(0,0,0,.18);
+    }
+
+    .dot.active {
+      width: 28px;
+      background: #f5f6f8;
+    }
+
+    .quick-image {
+      display: block;
+      position: relative;
+      min-width: 0;
+      text-decoration: none;
+      box-sizing: border-box;
+      border-radius: var(--radius-container);
+      overflow: hidden;
+      box-shadow: 0 12px 26px rgba(0,0,0,.10);
+      background: var(--gray-700);
+      transition: transform .20s ease, box-shadow .22s ease;
+      transform: none;
+    }
+
+    .quick-image:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 26px rgba(0,0,0,.10), 0 0 18px rgba(255,255,255,.09);
+    }
+
+    .quick-image:active {
+      transform: translateY(-1px);
+    }
+
+    .quick-image:hover img {
+      filter: brightness(1.05) saturate(1.14) contrast(1.04);
+    }
+
+    .quick-image img {
+      display: block;
+      width: 100%;
+      height: auto;
+      user-select: none;
+      -webkit-user-drag: none;
+      filter: brightness(1) saturate(1) contrast(1);
+      transition: filter .22s ease;
+    }
+
+    .main-content-grid {
+      margin-top: var(--section-gap);
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) var(--side-column);
+      gap: var(--section-gap);
+      align-items: start;
+    }
+
+    .left-main {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: var(--section-gap);
+      align-self: start;
+    }
+
+    .quick-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      align-items: start;
+      width: 100%;
+    }
+
+    .side-rail {
+      width: var(--side-column);
+      min-width: var(--side-column);
+      display: flex;
+      flex-direction: column;
+      gap: var(--section-gap);
+      align-self: start;
+    }
+
+    .sponsor-wrap {
+      width: var(--side-column);
+      min-width: var(--side-column);
+      height: auto;
+    }
+
+    .sponsor-card {
+      display: block;
+      width: var(--side-column);
+      height: auto;
+      overflow: hidden;
+      border-radius: var(--radius-container);
+      background: linear-gradient(180deg,var(--gray-700),var(--gray-750));
+      border: 0;
+      box-shadow: var(--shadow), inset 0 0 0 1px rgba(255,255,255,.05);
+      text-decoration: none;
+    }
+
+    .sponsor-card img {
+      display: block;
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      user-select: none;
+      -webkit-user-drag: none;
+      filter: brightness(1) saturate(1);
+      transition: filter .22s ease;
+    }
+
+    .sponsor-card:hover {
+      transform: none;
+    }
+
+    .sponsor-card:hover img {
+      filter: brightness(1.05) saturate(1.14);
+    }
+
+    .schedule-wrap {
+      margin-top: 0;
+      min-width: 0;
+      width: 100%;
+      align-self: start;
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+      border-radius: var(--radius-container);
+      background: linear-gradient(135deg,#d31b4f 0%, #d61b43 100%);
+      padding: 24px;
+      box-shadow: 0 0 0 1px rgba(255,255,255,.04) inset;
+      color: #ffffff;
+      border: 1px solid rgba(255,255,255,.08);
+    }
+
+    .section-heading {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+
+    .section-heading h2 {
+      margin: 0;
+      color: #ffffff;
+      font: var(--font-title) 23px/1.2 "Manrope",sans-serif;
+      letter-spacing: -.5px;
+      text-shadow: 0 2px 10px rgba(37,0,22,.16);
+    }
+
+    .section-heading h2::after {
+      content: "";
+      display: block;
+      width: 34px;
+      height: 3px;
+      margin-top: 9px;
+      border-radius: 999px;
+      background: #ffda00;
+      box-shadow: 0 2px 8px rgba(255,218,0,.24);
+    }
+
+    .day-tabs {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 9px;
+      width: 100%;
+      overflow: visible;
+      padding-top: 5px;
+      padding-bottom: 14px;
+      margin-top: -5px;
+      margin-bottom: 7px;
+    }
+
+    .day-tab {
+      width: 100%;
+      min-width: 0;
+      min-height: 48px;
+      padding: 10px 12px;
+      border: 1px solid rgba(255,255,255,.17);
+      border-radius: var(--radius-control);
+      background: rgba(255,255,255,.11);
+      color: #ffffff;
+      font: var(--font-display) 13px/1 "Manrope",sans-serif;
+      letter-spacing: .1px;
+      cursor: pointer;
+      box-shadow: 0 8px 18px rgba(37,0,22,.13), inset 0 1px 0 rgba(255,255,255,.10);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      transition: transform .22s ease, box-shadow .22s ease, background .22s ease, color .22s ease, border-color .22s ease;
+    }
+
+    .day-tab:hover {
+      transform: translateY(-3px);
+      background: rgba(255,255,255,.17);
+      border-color: rgba(255,255,255,.28);
+      box-shadow: 0 12px 24px rgba(37,0,22,.17), inset 0 1px 0 rgba(255,255,255,.14);
+      filter: none;
+    }
+
+    .day-tab:active {
+      transform: translateY(-1px);
+    }
+
+    .day-tab.active, .day-tab.active:hover {
+      background: #ffda00;
+      color: #1d2027;
+      border-color: #ffda00;
+      box-shadow: 0 10px 22px rgba(37,0,22,.20), inset 0 1px 0 rgba(255,255,255,.36);
+      filter: none;
+    }
+
+    .day-tab.active:hover {
+      background: #ffda00;
+      color: #1d2027;
+      border-color: #ffda00;
+      transform: translateY(-3px);
+      box-shadow: 0 14px 28px rgba(37,0,22,.22), inset 0 1px 0 rgba(255,255,255,.40);
+      filter: brightness(1.01);
+    }
+
+    .day-tab.active:active {
+      background: #ffda00;
+      color: #1d2027;
+      border-color: #ffda00;
+      transform: translateY(-1px);
+      box-shadow: 0 7px 16px rgba(37,0,22,.17), inset 0 1px 0 rgba(255,255,255,.28);
+      filter: none;
+    }
+
+    .program-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .program {
+      display: grid;
+      grid-template-columns: 88px 1fr;
+      gap: 16px;
+      align-items: center;
+      min-height: 62px;
+      padding: 8px;
+      border-radius: var(--radius-control);
+      background: rgba(255,255,255,.94);
+      box-shadow: 0 7px 18px rgba(37,0,22,.10);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: background .2s ease;
+    }
+
+    .program:hover {
+      background: #ffe2ec;
+    }
+
+    .program.current {
+      background: #ffe2ec;
+      box-shadow: 0 10px 24px rgba(37,0,22,.14);
+    }
+
+    .program.current:hover {
+      background: #ffe2ec;
+    }
+
+    .program-time {
+      display: grid;
+      place-items: center;
+      min-height: 42px;
+      border-radius: var(--radius-inner);
+      background: linear-gradient(180deg,#ffda00 0%,#ffc21a 100%);
+      color: #20242c;
+      font-weight: 800;
+      font-size: 15px;
+      box-shadow: 0 5px 12px rgba(255,194,26,.22), inset 0 1px 0 rgba(255,255,255,.38);
+    }
+
+    .program.current .program-time {
+      background: linear-gradient(180deg,#f23357 0%,#d60020 100%);
+      color: #ffffff;
+      box-shadow: 0 5px 12px rgba(214,0,32,.20), inset 0 1px 0 rgba(255,255,255,.12);
+    }
+
+    .program-main {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+      flex-wrap: wrap;
+    }
+
+    .program-name {
+      color: #30343c;
+      font-weight: 600;
+      line-height: 1.2;
+      font-size: 15px;
+    }
+
+    .on-air {
+      display: none;
+      padding: 7px 10px;
+      border-radius: var(--radius-pill);
+      background: var(--red);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .6px;
+      white-space: nowrap;
+    }
+
+    .program.current .on-air {
+      display: block;
+    }
+
+    .about-grid {
+      margin-top: var(--section-gap);
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) var(--side-column);
+      gap: var(--section-gap);
+      align-items: stretch;
+    }
+
+    .about-card, .contact-card {
+      border-radius: var(--radius-container);
+      padding: 30px;
+      background: linear-gradient(180deg,#ffffff 0%,#f4f5f7 100%);
+      box-shadow: 0 14px 34px rgba(17,19,25,.08);
+      border: 1px solid rgba(17,19,25,.07);
+    }
+
+    .contact-card {
+      width: var(--side-column);
+      min-width: var(--side-column);
+    }
+
+    .about-card h2 {
+      margin: 0 0 10px;
+      color: #20242c;
+      font: var(--font-title) 23px/1.2 "Manrope",sans-serif;
+      letter-spacing: -.5px;
+    }
+
+    .contact-card h2 {
+      margin: 0 0 14px;
+      color: #20242c;
+      font: var(--font-title) 23px/1.2 "Manrope",sans-serif;
+      letter-spacing: -.5px;
+    }
+
+    .about-card p, .contact-card p {
+      margin: 0;
+      color: #626a78;
+      font: 500 14px/1.65 "Manrope",sans-serif;
+      letter-spacing: -.05px;
+    }
+
+    .contact-details {
+      display: flex;
+      flex-direction: column;
+      margin-top: 0;
+    }
+
+    .contact-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      padding: 12px 0;
+    }
+
+    .contact-item + .contact-item {
+      border-top: 1px solid rgba(17,19,25,.07);
+    }
+    .contact-item:first-child {
+      padding-top: 0;
+      border-top: 0;
+    }
+
+    .contact-item:last-child {
+      padding-bottom: 0;
+    }
+
+    .contact-label {
+      color: #626a78;
+      font: 600 10px/1.2 "Manrope",sans-serif;
+      letter-spacing: .65px;
+      text-transform: uppercase;}
+
+    .contact-value {
+      color: #626a78;
+      font: 500 14px/1.45 "Manrope",sans-serif;
+      letter-spacing: -.05px;
+      overflow-wrap: anywhere;
+    }
+
+    .contact-link {
+      text-decoration: none;
+      transition: color .18s ease;
+    }
+
+    .contact-link:hover {
+      color: #20242c;
+    }
+
+    footer {
+      margin-top: 28px;
+      padding: 28px 8px 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: rgba(255,255,255,.62);
+      font: var(--font-meta) 12px/1.4 "Manrope",sans-serif;
+    }
+
+    @media (min-width:901px) {
+      .socials {
+        margin-right: 10px;
+      }
+    }
+
+    
+    
+    
+    .about-card p + p {
+      margin-top: 10px;
+    }
+
+    .about-card h2::after, .contact-card h2::after {
+      content: "";
+      display: block;
+      width: 34px;
+      height: 3px;
+      margin-top: 9px;
+      border-radius: 999px;
+      background: var(--yellow);
+    }
+
+    .about-card p strong {
+      font-weight: 700;
     }
   </style>
 </head>
-<body>
-  <iframe
-    id="siteView"
-    title="Rádio Amizade"
-    allow="autoplay"
-  ></iframe>
 
+<body id="top">
+  <main class="site">
+
+    <header class="topbar">
+      <a class="brand" href="#top" aria-label="Voltar ao início da página">
+        <picture class="brand-picture">
+          <img
+            class="brand-image"
+            src="assets/logo-amizade.png"
+            alt="Rádio Amizade"
+          >
+        </picture>
+      </a>
+
+      <nav class="socials" aria-label="Redes sociais">
+        <a class="social" href="https://www.instagram.com/radioamizade/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+          <img src="assets/icone-instagram.svg" alt="">
+        </a>
+
+        <a class="social" href="https://www.facebook.com/RadioAmizadeFM98.7" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+          <img src="assets/icone-facebook.svg" alt="">
+        </a>
+
+        <a class="social" href="https://www.youtube.com/@RadioAmizade98.7" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+          <img src="assets/icone-youtube.svg" alt="">
+        </a>
+      </nav>
+
+      <div class="live-btn" id="livePlayer">
+        <button
+          class="icon"
+          id="liveButton"
+          type="button"
+          aria-label="Ouvir Rádio Amizade ao vivo"
+        >
+          <span class="play-shape"></span>
+          <span class="pause-shape"></span>
+        </button>
+
+        <span class="live-copy">
+          <span class="live-text">Ao vivo 98.7 FM</span>
+          <span class="waves" aria-hidden="true">
+            <i></i><i></i><i></i><i></i><i></i>
+          </span>
+        </span>
+      </div>
+
+      <audio id="radioStream" preload="none" playsinline></audio>
+    </header>
+
+    <section class="hero" aria-label="Destaques">
+      <div class="slides" id="slides">
+
+        <article class="slide">
+          <div class="slide-media">
+            <img src="assets/banner-01.png" alt="Banner de destaque 1">
+          </div>
+        </article>
+
+        <article class="slide">
+          <div class="slide-media">
+            <img src="assets/banner-02.png" alt="Banner de destaque 2">
+          </div>
+        </article>
+
+        <article class="slide">
+          <div class="slide-media">
+            <img src="assets/banner-03.png" alt="Banner de destaque 3">
+          </div>
+        </article>
+
+      </div>
+
+      <div class="dots" id="dots" aria-label="Navegação dos banners">
+        <button class="dot active" type="button" aria-label="Banner 1"></button>
+        <button class="dot" type="button" aria-label="Banner 2"></button>
+        <button class="dot" type="button" aria-label="Banner 3"></button>
+      </div>
+    </section>
+
+    <div class="main-content-grid" aria-label="Acessos, programação e patrocinador">
+
+      <div class="left-main">
+
+        <div class="quick-row" aria-label="Acessos rápidos">
+          <a class="quick-image" href="https://wa.me/5551998770145" target="_blank" rel="noopener noreferrer" aria-label="Fale com a Rádio Amizade pelo WhatsApp">
+            <img src="assets/botao-whatsapp.png" alt="Botão de WhatsApp">
+          </a>
+
+          <a class="quick-image" href="https://wa.me/555180527460" target="_blank" rel="noopener noreferrer" aria-label="Anuncie na Rádio Amizade pelo WhatsApp">
+            <img src="assets/botao-anuncie.png" alt="Botão Anuncie na Amizade">
+          </a>
+
+          <a class="quick-image" href="app.html" aria-label="Abra o aplicativo da Rádio Amizade">
+            <img src="assets/botao-iphone.png" alt="Botão Baixe o app para iPhone">
+          </a>
+        </div>
+
+        <section class="schedule-wrap" id="programacao">
+          <div class="section-heading">
+            <h2>Programação</h2>
+          </div>
+
+          <div class="day-tabs" id="dayTabs"></div>
+          <div class="program-list" id="programList"></div>
+        </section>
+
+      </div>
+
+      <aside class="side-rail" aria-label="Patrocinador">
+        <div class="sponsor-wrap">
+          <div class="sponsor-card" aria-label="Espaço do patrocinador">
+            <img src="assets/banner-patrocinador.png" alt="Banner patrocinador provisório">
+          </div>
+        </div>
+      </aside>
+
+    </div>
+
+    <section class="about-grid">
+      <article class="about-card">
+        <h2>A Rádio Amizade</h2>
+
+        <p>
+          <strong>Há mais de 35 anos, a Rádio Amizade faz parte da vida do Vale do Paranhana</strong>,
+          levando música, informação e entretenimento para uma das regiões mais importantes do Rio Grande do Sul.
+        </p>
+
+        <p>
+          Com uma programação popular, de forte audiência e próxima dos seus ouvintes, a Amizade acompanha
+          de perto os principais acontecimentos locais e construiu, ao longo de sua história, uma relação
+          de confiança e credibilidade com o público.
+        </p>
+
+        <p>
+          Essa presença hoje vai muito além do rádio. A emissora também está nas plataformas digitais,
+          ampliando seu alcance com notícias, vídeos e diferentes formas de interação. A combinação entre
+          a força do rádio e a presença na internet permite à Amizade manter uma comunicação constante,
+          ampliar a visibilidade das marcas e aproximar empresas de um público presente em mais de 40 cidades.
+        </p>
+      </article>
+
+      <article class="contact-card">
+        <h2>Contato</h2>
+
+        <div class="contact-details">
+
+          <div class="contact-item">
+            <span class="contact-label">E-mail</span>
+            <a class="contact-value contact-link" href="mailto:amizade@amizade.fm.br">amizade@amizade.fm.br</a>
+          </div>
+
+          <div class="contact-item">
+            <span class="contact-label">Telefone</span>
+            <a class="contact-value contact-link" href="tel:+555135452300">(51) 3545-2300</a>
+          </div>
+
+          <div class="contact-item">
+            <span class="contact-label">Endereço</span>
+            <span class="contact-value">Rua Ernesto Dorneles, 693<br>
+              Igrejinha - RS</span>
+          </div>
+
+        </div>
+      </article>
+
+    </section>
+
+    <footer>
+      <span>© 2026 Rádio Amizade</span>
+    </footer>
+
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@1"></script>
   <script>
-    (() => {
-      const frame = document.getElementById("siteView");
-      const mobile = window.matchMedia("(max-width: 900px)");
 
-      function aplicarHoverDesktop() {
-        if (frame.dataset.destino !== "desktop.html") return;
+    const topbar = document.querySelector(".topbar");
 
-        try {
-          const doc = frame.contentDocument;
-          if (!doc || !doc.head || doc.getElementById("desktop-hover-v12")) return;
+    function updateHeaderOnScroll() {
+      topbar.classList.toggle("scrolled", window.scrollY > 28);
+    }
 
-          const link = doc.createElement("link");
-          link.id = "desktop-hover-v12";
-          link.rel = "stylesheet";
-          link.href = "desktop-hover-v1.2.css";
-          doc.head.appendChild(link);
-          doc.title = "Amz v1.2";
-        } catch (_) {}
+    updateHeaderOnScroll();
+
+    window.addEventListener("scroll", updateHeaderOnScroll, {
+      passive: true
+    });
+
+    const streamUrl = "https://5a2b083e9f360.streamlock.net/amizadefm/amizadefm.stream/playlist.m3u8";
+    const audio = document.getElementById("radioStream");
+    const livePlayer = document.getElementById("livePlayer");
+    const liveButton = document.getElementById("liveButton");
+
+    let hls = null;
+    let hlsReady = false;
+    let pendingPlay = false;
+    let hasStartedPlayback = false;
+
+    function setPlaying(isPlaying) {
+      livePlayer.classList.toggle("playing", isPlaying);
+      liveButton.setAttribute(
+        "aria-label",
+        isPlaying ? "Pausar Rádio Amizade" : "Ouvir Rádio Amizade ao vivo"
+      );
+    }
+
+    function seekToLiveEdge() {
+      if (hls) {
+        const liveSyncPosition = hls.liveSyncPosition;
+
+        if (Number.isFinite(liveSyncPosition) && liveSyncPosition > 0) {
+          audio.currentTime = liveSyncPosition;
+          return true;
+        }
       }
 
-      function carregarVersao() {
-        const destino = mobile.matches ? "app.html" : "desktop.html";
-        if (frame.dataset.destino === destino) return;
-        frame.dataset.destino = destino;
-        frame.src = destino;
+      if (audio.seekable && audio.seekable.length) {
+        const lastRange = audio.seekable.length - 1;
+        const rangeStart = audio.seekable.start(lastRange);
+        const rangeEnd = audio.seekable.end(lastRange);
+        const liveTarget = Math.max(rangeStart, rangeEnd - 0.5);
+
+        if (Number.isFinite(liveTarget)) {
+          audio.currentTime = liveTarget;
+          return true;
+        }
       }
 
-      frame.addEventListener("load", aplicarHoverDesktop);
-      carregarVersao();
+      return false;
+    }
 
-      if (mobile.addEventListener) {
-        mobile.addEventListener("change", carregarVersao);
-      } else if (mobile.addListener) {
-        mobile.addListener(carregarVersao);
+    function playRadio() {
+      if (hasStartedPlayback) {
+        seekToLiveEdge();
       }
-    })();
-  </script>
+
+      audio.play()
+        .catch(error => {
+          console.error("Erro ao reproduzir a rádio:", error);
+          setPlaying(false);
+        });
+    }
+
+    function setupStream() {
+      if (window.Hls && Hls.isSupported()) {
+        hls = new Hls({
+          lowLatencyMode: false,
+          liveSyncDurationCount: 3,
+          initialLiveManifestSize: 3
+        });
+
+        hls.loadSource(streamUrl);
+        hls.attachMedia(audio);
+
+        hls.on(Hls.Events.MANIFEST_PARSED, () => {
+          hlsReady = true;
+
+          if (pendingPlay) {
+            pendingPlay = false;
+            playRadio();
+          }
+        });
+
+        hls.on(Hls.Events.ERROR, (_, data) => {
+          console.error("HLS:", data);
+
+          if (!data.fatal) return;
+
+          if (data.type === Hls.ErrorTypes.NETWORK_ERROR) {
+            hls.startLoad();
+            return;
+          }
+
+          if (data.type === Hls.ErrorTypes.MEDIA_ERROR) {
+            hls.recoverMediaError();
+            return;
+          }
+
+          setPlaying(false);
+        });
+
+        return;
+      }
+
+      if (audio.canPlayType("application/vnd.apple.mpegurl")) {
+        audio.src = streamUrl;
+        return;
+      }
+
+      console.error("Este navegador não oferece suporte a HLS.");
+    }
+
+    liveButton.addEventListener("click", () => {
+      if (!audio.paused) {
+        audio.pause();
+        pendingPlay = false;
+        return;
+      }
+
+      if (hls && !hlsReady) {
+        pendingPlay = true;
+        return;
+      }
+
+      playRadio();
+    });
+
+    audio.addEventListener("playing", () => {
+      hasStartedPlayback = true;
+      setPlaying(true);
+    });
+    audio.addEventListener("pause", () => {
+      if (!audio.ended) setPlaying(false);
+    });
+    audio.addEventListener("ended", () => setPlaying(false));
+    audio.addEventListener("error", () => setPlaying(false));
+
+    setupStream();
+
+    const slides = document.getElementById("slides");
+    const dots = [...document.querySelectorAll(".dot")];
+    let currentSlide = 0;
+    let carouselTimer = null;
+
+    function goToSlide(index) {
+      currentSlide = (index + dots.length) % dots.length;
+      slides.style.transform = `translateX(-${currentSlide * 100}%)`;
+
+      dots.forEach((dot, i) => {
+        dot.classList.toggle("active", i === currentSlide);
+      });
+
+      restartCarousel();
+    }
+
+    function restartCarousel() {
+      clearInterval(carouselTimer);
+      carouselTimer = setInterval(() => {
+        goToSlide(currentSlide + 1);
+      }, 5500);
+    }
+
+    dots.forEach((dot, i) => dot.addEventListener("click", () => goToSlide(i)));
+
+
+    restartCarousel();
+
+    const schedule = {
+      1: [
+        ["01:00", "Show da Madrugada"],
+        ["05:00", "Bom Dia Amizade"],
+        ["07:00", "Girando com a Notícia"],
+        ["08:00", "Sintonia 98 - Manhã"],
+        ["10:00", "Conexão 98"],
+        ["14:00", "Sintonia 98 - Tarde"],
+        ["18:00", "Hora Extra"],
+        ["19:00", "A Voz do Brasil"],
+        ["20:00", "Expresso 98"]
+      ],
+      2: [
+        ["01:00", "Show da Madrugada"],
+        ["05:00", "Bom Dia Amizade"],
+        ["07:00", "Girando com a Notícia"],
+        ["08:00", "Sintonia 98 - Manhã"],
+        ["10:00", "Conexão 98"],
+        ["14:00", "Sintonia 98 - Tarde"],
+        ["18:00", "Hora Extra"],
+        ["19:00", "A Voz do Brasil"],
+        ["20:00", "Expresso 98"]
+      ],
+      3: [
+        ["01:00", "Show da Madrugada"],
+        ["05:00", "Bom Dia Amizade"],
+        ["07:00", "Girando com a Notícia"],
+        ["08:00", "Sintonia 98 - Manhã"],
+        ["10:00", "Conexão 98"],
+        ["14:00", "Sintonia 98 - Tarde"],
+        ["18:00", "Hora Extra"],
+        ["19:00", "A Voz do Brasil"],
+        ["20:00", "Expresso 98"]
+      ],
+      4: [
+        ["01:00", "Show da Madrugada"],
+        ["05:00", "Bom Dia Amizade"],
+        ["07:00", "Girando com a Notícia"],
+        ["08:00", "Sintonia 98 - Manhã"],
+        ["10:00", "Conexão 98"],
+        ["14:00", "Sintonia 98 - Tarde"],
+        ["18:00", "Hora Extra"],
+        ["19:00", "A Voz do Brasil"],
+        ["20:00", "Expresso 98"]
+      ],
+      5: [
+        ["01:00", "Show da Madrugada"],
+        ["05:00", "Bom Dia Amizade"],
+        ["07:00", "Girando com a Notícia"],
+        ["08:00", "Sintonia 98 - Manhã"],
+        ["10:00", "Conexão 98"],
+        ["14:00", "Sintonia 98 - Tarde"],
+        ["18:00", "Hora Extra"],
+        ["19:00", "A Voz do Brasil"],
+        ["20:00", "Show Clube & Cia"]
+      ],
+      6: [
+        ["01:00", "Show da Madrugada"],
+        ["05:00", "Bom Dia Amizade"],
+        ["06:00", "Amizade em Foco"],
+        ["07:00", "Amizade Total"],
+        ["12:00", "As Melhores da Semana"],
+        ["14:00", "Sintonia Quente"],
+        ["20:00", "Show Clube & Cia"]
+      ],
+      0: [
+        ["01:00", "Show da Madrugada"],
+        ["05:00", "Amizade em Foco"],
+        ["06:00", "Bom Dia Amizade"],
+        ["08:00", "Ritmo de Kerb"],
+        ["11:00", "Tempero Bom Demais"],
+        ["15:00", "Domingo Especial"]
+      ]
+    };
+
+    const dayNames = [
+      ["Segunda", 1],["Terça", 2],["Quarta", 3],["Quinta", 4],
+      ["Sexta", 5],["Sábado", 6],["Domingo", 0]
+    ];
+
+    const dayTabs = document.getElementById("dayTabs");
+    const programList = document.getElementById("programList");
+
+    function mins(time) {
+      const [h, m] = time.split(":").map(Number);
+      return h * 60 + m;
+    }
+
+    function broadcastDay(date = new Date()) {
+      const calendarDay = date.getDay();
+
+      return date.getHours() < 1 ? (calendarDay + 6) % 7 : calendarDay;
+    }
+
+    function currentProgramIndex(items) {
+      if (!items.length) return -1;
+
+      const now = new Date();
+      const current = now.getHours() * 60 + now.getMinutes();
+      const firstStart = mins(items[0][0]);
+
+      if (current < firstStart) return items.length - 1;
+
+      for (let i = 0; i < items.length; i++) {
+        const start = mins(items[i][0]);
+        const end = i < items.length - 1 ? mins(items[i + 1][0]) : 24 * 60;
+
+        if (current >= start && current < end) return i;
+      }
+
+      return -1;
+    }
+
+    function renderDay(day) {
+      const today = broadcastDay();
+      const items = schedule[day] || [];
+      const onAirIndex = day === today ? currentProgramIndex(items) : -1;
+
+      [...dayTabs.children].forEach(btn => {
+        btn.classList.toggle("active", Number(btn.dataset.day) === day);
+      });
+
+      programList.innerHTML = items.map((item, i) => `
+        <article class="program ${i === onAirIndex ? "current" : ""}">
+          <div class="program-time">${item[0]}</div>
+          <div class="program-main">
+            <div class="program-name">${item[1]}</div>
+            <div class="on-air">NO AR AGORA</div>
+          </div>
+        </article>
+      `).join("");
+    }
+
+    const shortDayNames = {
+      "Segunda": "SEG",
+      "Terça": "TER",
+      "Quarta": "QUA",
+      "Quinta": "QUI",
+      "Sexta": "SEX",
+      "Sábado": "SÁB",
+      "Domingo": "DOM"
+    };
+
+    dayNames.forEach(([label, day]) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "day-tab";
+      btn.dataset.day = day;
+      btn.dataset.short = shortDayNames[label] || label;
+      btn.textContent = label;
+      btn.setAttribute("aria-label", label);
+      btn.addEventListener("click", () => renderDay(day));
+      dayTabs.appendChild(btn);
+    });
+
+    renderDay(broadcastDay());
+</script>
 </body>
 </html>

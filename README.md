@@ -1,17 +1,9 @@
-# Rádio Amizade — v1.1
+# Rádio Amizade — v1.3
 
-Site da Rádio Amizade 98.7 FM.
+Estrutura atual:
 
-## Estrutura atual
+- `index2.html` — site desktop direto, sem iframe. Em telas de até 900 px redireciona imediatamente para `app.html`.
+- `app.html` — interface compacta para intermediário/mobile.
+- `assets/` — imagens e ícones usados pelas interfaces.
 
-- `index2.html` — entrada única; escolhe automaticamente a versão conforme a largura da tela.
-- `desktop.html` — site completo para telas acima de 900 px.
-- `app.html` — interface compacta para telas de 900 px ou menos.
-- `assets/` — imagens e ícones usados pelas duas interfaces.
-
-## Regra de exibição
-
-- acima de 900 px: `desktop.html`
-- 900 px ou menos: `app.html`
-
-O projeto atual não usa manifest PWA, service worker ou os antigos pacotes de ícones PWA.
+O iframe foi removido para preservar interação nativa do mouse, hover e cursor no desktop.
