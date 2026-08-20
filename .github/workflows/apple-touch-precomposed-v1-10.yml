@@ -1,0 +1,59 @@
+name: Apple touch precomposed v1.10
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/apple-touch-precomposed-v1-10.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Adicionar apple-touch-icon-precomposed
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          app = Path('app.html')
+          s = app.read_text()
+          s = s.replace('<title>Amz v1.9</title>', '<title>Amz v1.10</title>')
+          s = s.replace('assets/avatar.png?v=1.9', 'assets/avatar.png?v=1.10')
+          s = s.replace('manifest.webmanifest?v=1.9', 'manifest.webmanifest?v=1.10')
+          normal = '<link rel="apple-touch-icon" href="assets/avatar.png?v=1.10">'
+          pre = '<link rel="apple-touch-icon-precomposed" href="assets/avatar.png?v=1.10">'
+          if pre not in s:
+              s = s.replace(normal, normal + '\n  ' + pre)
+          app.write_text(s)
+
+          index = Path('index2.html')
+          i = index.read_text()
+          i = i.replace('<title>Amz v1.9</title>', '<title>Amz v1.10</title>')
+          normal_i = '<link rel="apple-touch-icon" href="assets/favicon.png">'
+          pre_i = '<link rel="apple-touch-icon-precomposed" href="assets/favicon.png">'
+          if pre_i not in i:
+              i = i.replace(normal_i, normal_i + '\n  ' + pre_i)
+          index.write_text(i)
+
+          manifest = Path('manifest.webmanifest')
+          m = manifest.read_text().replace('v=1.9', 'v=1.10')
+          manifest.write_text(m)
+
+          sw = Path('service-worker.js')
+          w = sw.read_text().replace('radio-amizade-mobile-v1.9', 'radio-amizade-mobile-v1.10').replace('v=1.9', 'v=1.10')
+          sw.write_text(w)
+          PY
+
+      - name: Commitar alterações
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          rm .github/workflows/apple-touch-precomposed-v1-10.yml
+          git add -A
+          git commit -m "Amz v1.10 - Adiciona apple-touch-icon-precomposed"
+          git push
