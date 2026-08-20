@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
-  <title>Amz v1.18</title>
+  <title>Amz v1.20</title>
   <meta name="description" content="Ouça a Rádio Amizade 98.7 FM ao vivo e acompanhe música, informação, entretenimento e os principais acontecimentos do Vale do Paranhana.">
   <meta name="author" content="Gabriel Von Doscht">
   <meta name="application-name" content="Rádio Amizade 98.7 FM">
@@ -1208,11 +1208,20 @@
       .app-mini-player {
         position: fixed;
         z-index: 120;
-        cursor: pointer;
+        display: block;
         left: 50%;
         bottom: calc(18px + env(safe-area-inset-bottom));
         width: min(calc(100% - 44px), 436px);
         height: 80px;
+        transform: translateX(-50%);
+        -webkit-transform: translateX(-50%);
+        cursor: pointer;
+        pointer-events: none;
+      }
+
+      .app-mini-surface {
+        width: 100%;
+        height: 100%;
         display: grid;
         grid-template-columns: 50px minmax(0,1fr) 50px;
         align-items: center;
@@ -1227,27 +1236,28 @@
           inset 0 1px 0 rgba(255,255,255,.05);
         backdrop-filter: blur(18px);
         -webkit-backdrop-filter: blur(18px);
-        isolation: isolate;
         opacity: 0;
-        pointer-events: none;
-        transform: translate3d(-50%, calc(100% + 28px), 0);
-        -webkit-transform: translate3d(-50%, calc(100% + 28px), 0);
+        transform: translate3d(0, 24px, 0);
+        -webkit-transform: translate3d(0, 24px, 0);
         will-change: transform, opacity;
         backface-visibility: hidden;
         -webkit-backface-visibility: hidden;
         transition:
-          transform .30s cubic-bezier(.22,.61,.36,1),
-          opacity .24s ease;
+          transform .48s cubic-bezier(.22,.75,.18,1),
+          opacity .34s ease;
         -webkit-transition:
-          -webkit-transform .30s cubic-bezier(.22,.61,.36,1),
-          opacity .24s ease;
+          -webkit-transform .48s cubic-bezier(.22,.75,.18,1),
+          opacity .34s ease;
       }
 
       .app-mini-player.visible {
-        opacity: 1;
         pointer-events: auto;
-        transform: translate3d(-50%, 0, 0);
-        -webkit-transform: translate3d(-50%, 0, 0);
+      }
+
+      .app-mini-player.visible .app-mini-surface {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+        -webkit-transform: translate3d(0, 0, 0);
       }
 
       .app-mini-cover {
@@ -2050,29 +2060,31 @@
   </section>
 
   <aside class="app-mini-player" id="mobileMiniPlayer" aria-label="Player compacto da Rádio Amizade" aria-hidden="true">
-    <div class="app-mini-cover">
-      <img src="assets/avatar.png" alt="">
-    </div>
-
-    <div class="app-mini-copy">
-      <div class="app-mini-title-row">
-        <span class="app-mini-title">Rádio Amizade 98.7 FM</span>
-        <span class="app-mini-eq" aria-hidden="true">
-          <i></i><i></i><i></i><i></i><i></i>
-        </span>
+    <div class="app-mini-surface">
+      <div class="app-mini-cover">
+        <img src="assets/avatar.png" alt="">
       </div>
-    </div>
 
-    <div class="app-mini-control-slot">
-      <button class="app-mini-play" id="mobileMiniPlay" type="button" aria-label="Ouvir Rádio Amizade">
-        <svg class="app-mini-play-triangle" viewBox="0 0 36 38" aria-hidden="true">
-          <path fill="currentColor" d="M5 2Q3 1 3 5v28q0 4 4 2l24-14q3-2 0-4L7 3Q6 2 5 2Z"/>
-        </svg>
-        <svg class="app-mini-pause" viewBox="0 0 36 38" aria-hidden="true">
-          <rect x="7" y="5" width="8" height="28" rx="3" fill="currentColor"/>
-          <rect x="21" y="5" width="8" height="28" rx="3" fill="currentColor"/>
-        </svg>
-      </button>
+      <div class="app-mini-copy">
+        <div class="app-mini-title-row">
+          <span class="app-mini-title">Rádio Amizade 98.7 FM</span>
+          <span class="app-mini-eq" aria-hidden="true">
+            <i></i><i></i><i></i><i></i><i></i>
+          </span>
+        </div>
+      </div>
+
+      <div class="app-mini-control-slot">
+        <button class="app-mini-play" id="mobileMiniPlay" type="button" aria-label="Ouvir Rádio Amizade">
+          <svg class="app-mini-play-triangle" viewBox="0 0 36 38" aria-hidden="true">
+            <path fill="currentColor" d="M5 2Q3 1 3 5v28q0 4 4 2l24-14q3-2 0-4L7 3Q6 2 5 2Z"/>
+          </svg>
+          <svg class="app-mini-pause" viewBox="0 0 36 38" aria-hidden="true">
+            <rect x="7" y="5" width="8" height="28" rx="3" fill="currentColor"/>
+            <rect x="21" y="5" width="8" height="28" rx="3" fill="currentColor"/>
+          </svg>
+        </button>
+      </div>
     </div>
   </aside>
 
@@ -2942,12 +2954,12 @@
 
       // Pequena histerese evita que o Safari alterne o estado várias vezes
       // quando o limite do player grande fica exatamente junto ao topo.
-      if (!miniPlayerVisible && largePlayerBottom <= -8) {
+      if (!miniPlayerVisible && largePlayerBottom <= -18) {
         applyMiniPlayerVisibility(true);
         return;
       }
 
-      if (miniPlayerVisible && largePlayerBottom >= 16) {
+      if (miniPlayerVisible && largePlayerBottom >= 32) {
         applyMiniPlayerVisibility(false);
       }
     }
@@ -2964,7 +2976,7 @@
 
     // Estado inicial sem animação desnecessária.
     const initialLargePlayerBottom = app.getBoundingClientRect().bottom;
-    if (initialLargePlayerBottom <= -8) {
+    if (initialLargePlayerBottom <= -18) {
       miniPlayerVisible = true;
       miniPlayer.classList.add("visible");
       miniPlayer.setAttribute("aria-hidden", "false");
