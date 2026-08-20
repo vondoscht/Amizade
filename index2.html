@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
-  <title>Amz v1.10</title>
+  <title>Amz v1.15</title>
   <meta name="description" content="Ouça a Rádio Amizade 98.7 FM ao vivo e acompanhe música, informação, entretenimento e os principais acontecimentos do Vale do Paranhana.">
   <meta name="author" content="Gabriel Von Doscht">
   <meta name="application-name" content="Rádio Amizade 98.7 FM">
@@ -916,6 +916,7 @@
         padding: 0 8px 8px;
         justify-content: center;
         text-align: center;
+        color: rgba(255,255,255,.38);
       }
     }
 
@@ -1186,18 +1187,36 @@
         display: block;
       }
 
+      .mobile-app-shell.loading .app-play svg {
+        display: none !important;
+      }
+
+      .mobile-app-shell.loading .app-play::after {
+        content: "";
+        width: 29px;
+        height: 29px;
+        border: 3px solid rgba(255,217,26,.30);
+        border-top-color: #ffd91a;
+        border-radius: 50%;
+        animation: app-play-loading .72s linear infinite;
+      }
+
+      @keyframes app-play-loading {
+        to { transform: rotate(360deg); }
+      }
+
       .app-mini-player {
         position: fixed;
         z-index: 120;
         left: 50%;
-        bottom: calc(12px + env(safe-area-inset-bottom));
-        width: min(calc(100% - 28px), 436px);
-        height: 72px;
+        bottom: calc(18px + env(safe-area-inset-bottom));
+        width: min(calc(100% - 44px), 436px);
+        height: 80px;
         display: grid;
         grid-template-columns: 50px minmax(0,1fr) 50px;
         align-items: center;
         gap: 12px;
-        padding: 10px;
+        padding: 10px 15px;
         border: 1px solid rgba(255,255,255,.10);
         border-radius: var(--radius-container);
         color: #fff;
@@ -1233,6 +1252,7 @@
       .app-mini-cover {
         width: 50px;
         height: 50px;
+        justify-self: stretch;
         align-self: center;
         overflow: hidden;
         border-radius: 13px;
@@ -1327,36 +1347,67 @@
         }
       }
 
-      .app-mini-play {
+      .app-mini-control-slot {
+        position: relative;
         width: 50px;
         height: 50px;
-        display: grid;
-        place-items: center;
+        justify-self: stretch;
         align-self: center;
+        overflow: visible;
+      }
+
+      .app-mini-play {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 80px;
+        height: 80px;
+        transform: translate(-50%,-50%);
         padding: 0;
         border: 0;
-        border-radius: 50%;
         color: #ffd91a;
-        background: linear-gradient(180deg,#d61b43 0%,#a9001a 100%);
-        box-shadow: inset 0 1px 0 rgba(255,255,255,.10);
+        background: transparent;
         cursor: pointer;
         -webkit-appearance: none;
         appearance: none;
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
       }
 
-      .app-mini-play:active {
-        transform: scale(.95);
+      .app-mini-play::before {
+        content: "";
+        position: absolute;
+        z-index: 0;
+        top: 50%;
+        left: 50%;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: linear-gradient(180deg,#d61b43 0%,#a9001a 100%);
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.10);
+        transform: translate(-50%,-50%) scale(1);
+        transition: transform .12s ease;
+      }
+
+      .app-mini-play:active::before {
+        transform: translate(-50%,-50%) scale(.95);
       }
 
       .app-mini-play svg {
+        position: absolute;
+        z-index: 1;
+        top: 50%;
+        left: 50%;
         display: block;
         width: 22px;
         height: 25px;
         margin: 0;
+        transform: translate(-50%,-50%);
       }
 
       .app-mini-play .app-mini-play-triangle {
-        transform: translate(1.8px, 0);
+        left: calc(50% + 1.5px);
+        transform: translate(-50%,-50%);
       }
 
       .app-mini-play .app-mini-pause {
@@ -1369,6 +1420,30 @@
 
       .app-mini-player.playing .app-mini-pause {
         display: block;
+      }
+
+      .app-mini-player.loading .app-mini-play svg {
+        display: none !important;
+      }
+
+      .app-mini-player.loading .app-mini-play::after {
+        content: "";
+        position: absolute;
+        z-index: 2;
+        top: 50%;
+        left: 50%;
+        width: 21px;
+        height: 21px;
+        border: 3px solid rgba(255,217,26,.30);
+        border-top-color: #ffd91a;
+        border-radius: 50%;
+        transform: translate(-50%,-50%);
+        animation: app-mini-loading .72s linear infinite;
+      }
+
+      @keyframes app-mini-loading {
+        from { transform: translate(-50%,-50%) rotate(0deg); }
+        to   { transform: translate(-50%,-50%) rotate(360deg); }
       }
 
       body.mini-player-active .site {
@@ -1464,12 +1539,12 @@
       .program {
         grid-template-columns: 60px minmax(0,1fr);
         gap: 6px;
-        min-height: 54px;
-        padding: 5px 9px 5px 5px;
+        min-height: 44px;
+        padding: 3px 9px 3px 5px;
       }
 
       .program-time {
-        min-height: 40px;
+        min-height: 34px;
         font-size: 14px;
         white-space: nowrap;
       }
@@ -1590,6 +1665,10 @@
       .site {
         padding-left: 14px;
         padding-right: 14px;
+      }
+
+      .app-mini-player {
+        width: min(calc(100% - 28px), 436px);
       }
 
       .mobile-app-shell {
@@ -1983,15 +2062,17 @@
       </div>
     </div>
 
-    <button class="app-mini-play" id="mobileMiniPlay" type="button" aria-label="Ouvir Rádio Amizade">
-      <svg class="app-mini-play-triangle" viewBox="0 0 36 38" aria-hidden="true">
-        <path fill="currentColor" d="M5 2Q3 1 3 5v28q0 4 4 2l24-14q3-2 0-4L7 3Q6 2 5 2Z"/>
-      </svg>
-      <svg class="app-mini-pause" viewBox="0 0 36 38" aria-hidden="true">
-        <rect x="7" y="5" width="8" height="28" rx="3" fill="currentColor"/>
-        <rect x="21" y="5" width="8" height="28" rx="3" fill="currentColor"/>
-      </svg>
-    </button>
+    <div class="app-mini-control-slot">
+      <button class="app-mini-play" id="mobileMiniPlay" type="button" aria-label="Ouvir Rádio Amizade">
+        <svg class="app-mini-play-triangle" viewBox="0 0 36 38" aria-hidden="true">
+          <path fill="currentColor" d="M5 2Q3 1 3 5v28q0 4 4 2l24-14q3-2 0-4L7 3Q6 2 5 2Z"/>
+        </svg>
+        <svg class="app-mini-pause" viewBox="0 0 36 38" aria-hidden="true">
+          <rect x="7" y="5" width="8" height="28" rx="3" fill="currentColor"/>
+          <rect x="21" y="5" width="8" height="28" rx="3" fill="currentColor"/>
+        </svg>
+      </button>
+    </div>
   </aside>
 
     <section class="hero" aria-label="Destaques">
@@ -2323,15 +2404,19 @@
     dots.forEach((dot, i) => dot.addEventListener("click", () => goToSlide(i)));
 
     // Swipe/arraste real no aplicativo:
-    // a imagem acompanha o dedo durante o gesto, como em um carrossel touchscreen.
+    // os eventos ficam presos ao quadro fixo (.hero), não ao trilho (.slides).
+    // Assim o gesto continua funcionando depois que o trilho é deslocado
+    // para a segunda, terceira ou qualquer outra imagem.
     if (window.matchMedia("(max-width: 900px)").matches) {
+      const carouselTouchArea = slides.closest(".hero");
+
       let touchStartX = 0;
       let touchStartY = 0;
       let touchDeltaX = 0;
       let isDraggingCarousel = false;
       let horizontalGesture = false;
 
-      slides.addEventListener("touchstart", e => {
+      carouselTouchArea.addEventListener("touchstart", e => {
         if (e.touches.length !== 1) return;
 
         clearInterval(carouselTimer);
@@ -2345,7 +2430,7 @@
         slides.classList.add("dragging");
       }, { passive: true });
 
-      slides.addEventListener("touchmove", e => {
+      carouselTouchArea.addEventListener("touchmove", e => {
         if (!isDraggingCarousel || e.touches.length !== 1) return;
 
         const x = e.touches[0].clientX;
@@ -2379,7 +2464,7 @@
         isDraggingCarousel = false;
         slides.classList.remove("dragging");
 
-        const threshold = Math.min(56, slides.clientWidth * 0.16);
+        const threshold = Math.min(56, carouselTouchArea.clientWidth * 0.16);
 
         if (horizontalGesture && Math.abs(touchDeltaX) >= threshold) {
           goToSlide(currentSlide + (touchDeltaX < 0 ? 1 : -1));
@@ -2392,8 +2477,8 @@
         horizontalGesture = false;
       }
 
-      slides.addEventListener("touchend", finishCarouselSwipe, { passive: true });
-      slides.addEventListener("touchcancel", finishCarouselSwipe, { passive: true });
+      carouselTouchArea.addEventListener("touchend", finishCarouselSwipe, { passive: true });
+      carouselTouchArea.addEventListener("touchcancel", finishCarouselSwipe, { passive: true });
     }
 
     restartCarousel();
@@ -2580,8 +2665,9 @@
 
     let hls = null;
     let ready = false;
-    let pendingPlay = false;
+    let userWantsPlayback = false;
     let needsLiveReconnect = false;
+    let loadingTimer = null;
     const nativeHls = !!audio.canPlayType("application/vnd.apple.mpegurl");
 
     const MOBILE_HLS_CONFIG = {
@@ -2595,13 +2681,47 @@
       startFragPrefetch: true
     };
 
+    function updateControlLabels() {
+      const isLoading = app.classList.contains("loading");
+      const isPlaying = app.classList.contains("playing");
+      const label = isLoading
+        ? "Carregando Rádio Amizade"
+        : isPlaying
+          ? "Pausar Rádio Amizade"
+          : "Ouvir Rádio Amizade";
+
+      button.setAttribute("aria-label", label);
+      miniButton.setAttribute("aria-label", label);
+      button.setAttribute("aria-busy", isLoading ? "true" : "false");
+      miniButton.setAttribute("aria-busy", isLoading ? "true" : "false");
+    }
+
+    function setLoading(value) {
+      app.classList.toggle("loading", value);
+      miniPlayer.classList.toggle("loading", value);
+
+      clearTimeout(loadingTimer);
+      loadingTimer = null;
+
+      if (value) {
+        loadingTimer = setTimeout(() => {
+          if (!app.classList.contains("loading")) return;
+          userWantsPlayback = false;
+          try { audio.pause(); } catch (_) {}
+          setLoading(false);
+          setPlaying(false);
+        }, 15000);
+      }
+
+      updateControlLabels();
+    }
+
     function setPlaying(value) {
       app.classList.toggle("playing", value);
       miniPlayer.classList.toggle("playing", value);
 
-      const label = value ? "Pausar Rádio Amizade" : "Ouvir Rádio Amizade";
-      button.setAttribute("aria-label", label);
-      miniButton.setAttribute("aria-label", label);
+      if (value) setLoading(false);
+      updateControlLabels();
     }
 
     function seekToLiveEdge() {
@@ -2611,7 +2731,7 @@
         hls.liveSyncPosition > 0
       ) {
         try { audio.currentTime = hls.liveSyncPosition; } catch (_) {}
-        return;
+        return true;
       }
 
       if (audio.seekable && audio.seekable.length) {
@@ -2622,41 +2742,113 @@
 
         if (Number.isFinite(target)) {
           try { audio.currentTime = target; } catch (_) {}
+          return true;
         }
+      }
+
+      return false;
+    }
+
+    function handlePlayFailure(error) {
+      console.error("Erro ao reproduzir a rádio:", error);
+
+      // AbortError pode acontecer quando a mídia ainda está trocando de estado.
+      // Mantemos o pedido ativo para o canplay/manifest concluir a partida.
+      if (error && error.name === "AbortError" && userWantsPlayback) return;
+
+      // Se o manifesto ainda não chegou, deixa o loader ativo; o callback
+      // MANIFEST_PARSED fará uma tentativa de recuperação.
+      if (!ready && hls && userWantsPlayback) return;
+
+      userWantsPlayback = false;
+      setLoading(false);
+      setPlaying(false);
+    }
+
+    function requestNativeLivePlayback() {
+      if (needsLiveReconnect) {
+        // Recarregar a playlist nativa dentro do próprio clique garante
+        // uma nova janela AO VIVO em Safari/iPhone/iPad.
+        ready = false;
+        audio.src = STREAM;
+        audio.load();
+        needsLiveReconnect = false;
+      } else {
+        seekToLiveEdge();
+      }
+
+      const playPromise = audio.play();
+      if (playPromise && typeof playPromise.catch === "function") {
+        playPromise.catch(handlePlayFailure);
+      }
+    }
+
+    function requestHlsJsLivePlayback() {
+      if (!hls) createMobileHls();
+
+      if (needsLiveReconnect) {
+        // Reinicia o carregamento no live edge sem destruir o MediaSource.
+        // Isso mantém o play dentro do gesto do usuário e evita voltar ao buffer antigo.
+        try { hls.startLoad(-1); } catch (_) {}
+        needsLiveReconnect = false;
+      } else if (!ready) {
+        try { hls.startLoad(-1); } catch (_) {}
+      }
+
+      seekToLiveEdge();
+
+      // Importante: play() é chamado diretamente dentro do clique.
+      // Em mobile isso preserva a autorização do gesto do usuário.
+      const playPromise = audio.play();
+      if (playPromise && typeof playPromise.catch === "function") {
+        playPromise.catch(handlePlayFailure);
       }
     }
 
     function playRadioMobile() {
-      seekToLiveEdge();
+      userWantsPlayback = true;
+      setPlaying(false);
+      setLoading(true);
 
-      audio.play()
-        .then(() => {
-          // Uma segunda sincronização elimina qualquer trecho antigo
-          // que ainda estivesse no buffer no instante do clique.
-          requestAnimationFrame(seekToLiveEdge);
-          setTimeout(seekToLiveEdge, 250);
-        })
-        .catch(() => setPlaying(false));
+      if (nativeHls) {
+        requestNativeLivePlayback();
+        return;
+      }
+
+      if (window.Hls && Hls.isSupported()) {
+        requestHlsJsLivePlayback();
+        return;
+      }
+
+      userWantsPlayback = false;
+      setLoading(false);
     }
 
-    function createMobileHls(autoPlay = false) {
+    function createMobileHls() {
       if (hls) {
-        hls.destroy();
+        try { hls.destroy(); } catch (_) {}
         hls = null;
       }
 
       ready = false;
       hls = new Hls(MOBILE_HLS_CONFIG);
-
       hls.loadSource(STREAM);
       hls.attachMedia(audio);
 
       hls.on(Hls.Events.MANIFEST_PARSED, () => {
         ready = true;
 
-        if (autoPlay || pendingPlay) {
-          pendingPlay = false;
-          playRadioMobile();
+        if (!userWantsPlayback) return;
+
+        seekToLiveEdge();
+
+        // Normalmente o play() chamado no clique já está pendente e começa aqui.
+        // Esta chamada é apenas uma recuperação para navegadores que o abortaram.
+        if (audio.paused) {
+          const retry = audio.play();
+          if (retry && typeof retry.catch === "function") {
+            retry.catch(handlePlayFailure);
+          }
         }
       });
 
@@ -2664,78 +2856,60 @@
         if (!data.fatal) return;
 
         if (data.type === Hls.ErrorTypes.NETWORK_ERROR) {
-          hls.startLoad(-1);
-        } else if (data.type === Hls.ErrorTypes.MEDIA_ERROR) {
-          hls.recoverMediaError();
+          try { hls.startLoad(-1); } catch (_) {}
+          return;
         }
+
+        if (data.type === Hls.ErrorTypes.MEDIA_ERROR) {
+          try { hls.recoverMediaError(); } catch (_) {}
+          return;
+        }
+
+        userWantsPlayback = false;
+        setLoading(false);
+        setPlaying(false);
       });
     }
 
-    function reconnectToLiveAndPlay() {
-      needsLiveReconnect = false;
-      pendingPlay = false;
-
-      // HLS nativo (Safari/iPhone/iPad): recarrega a playlist.
-      // Isso descarta a posição em que o usuário havia pausado.
-      if (nativeHls) {
-        ready = false;
-        audio.src = STREAM;
-        audio.load();
-        ready = true;
-        playRadioMobile();
-        return;
-      }
-
-      // hls.js (Chrome/Android/etc.): recria a sessão HLS.
-      // Assim o novo play começa a partir do manifesto AO VIVO atual,
-      // e não do buffer que existia quando foi pausado.
-      if (window.Hls && Hls.isSupported()) {
-        createMobileHls(true);
-      }
-    }
-
-    // Safari / iPhone / iPad / macOS: HLS nativo.
+    // Prepara a transmissão antes do primeiro clique para reduzir a espera.
     if (nativeHls) {
       audio.preload = "auto";
       audio.src = STREAM;
       audio.load();
-      ready = true;
-    }
-    // Chrome / Android / demais navegadores: hls.js.
-    else if (window.Hls && Hls.isSupported()) {
-      createMobileHls(false);
+    } else if (window.Hls && Hls.isSupported()) {
+      createMobileHls();
     } else {
       button.disabled = true;
       miniButton.disabled = true;
-      button.setAttribute(
-        "aria-label",
-        "Áudio indisponível neste navegador"
-      );
-      miniButton.setAttribute(
-        "aria-label",
-        "Áudio indisponível neste navegador"
-      );
+      button.setAttribute("aria-label", "Áudio indisponível neste navegador");
+      miniButton.setAttribute("aria-label", "Áudio indisponível neste navegador");
+    }
+
+    function pauseRadioMobile() {
+      userWantsPlayback = false;
+      needsLiveReconnect = true;
+      setLoading(false);
+
+      try { audio.pause(); } catch (_) {}
+
+      // Ao parar o download em hls.js, não acumulamos áudio antigo enquanto pausado.
+      if (hls) {
+        try { hls.stopLoad(); } catch (_) {}
+      }
+
+      setPlaying(false);
     }
 
     function toggleRadioMobile() {
-      if (!audio.paused) {
-        // Marca que o próximo play deve se reconectar à transmissão atual.
-        needsLiveReconnect = true;
-        audio.pause();
-        pendingPlay = false;
+      // Durante a partida, um segundo toque não dispara sessões concorrentes.
+      if (app.classList.contains("loading")) return;
+
+      if (userWantsPlayback || !audio.paused) {
+        pauseRadioMobile();
         return;
       }
 
-      if (needsLiveReconnect) {
-        reconnectToLiveAndPlay();
-        return;
-      }
-
-      if (ready) {
-        playRadioMobile();
-      } else {
-        pendingPlay = true;
-      }
+      playRadioMobile();
     }
 
     button.addEventListener("click", toggleRadioMobile);
@@ -2766,21 +2940,52 @@
     window.addEventListener("scroll", requestMiniPlayerUpdate, { passive: true });
     window.addEventListener("resize", requestMiniPlayerUpdate, { passive: true });
 
-    audio.addEventListener("loadedmetadata", seekToLiveEdge);
+    audio.addEventListener("loadedmetadata", () => {
+      ready = true;
+      if (userWantsPlayback) seekToLiveEdge();
+    });
 
     audio.addEventListener("canplay", () => {
       ready = true;
+      if (userWantsPlayback) seekToLiveEdge();
+    });
 
-      if (pendingPlay) {
-        pendingPlay = false;
-        playRadioMobile();
+    audio.addEventListener("playing", () => {
+      if (!userWantsPlayback) return;
+      seekToLiveEdge();
+      setPlaying(true);
+    });
+
+    audio.addEventListener("waiting", () => {
+      if (!userWantsPlayback) return;
+      setPlaying(false);
+      setLoading(true);
+    });
+
+    audio.addEventListener("stalled", () => {
+      if (!userWantsPlayback) return;
+      setPlaying(false);
+      setLoading(true);
+    });
+
+    audio.addEventListener("pause", () => {
+      if (!userWantsPlayback) {
+        setLoading(false);
+        setPlaying(false);
       }
-    }, { once: true });
+    });
 
-    audio.addEventListener("playing", () => setPlaying(true));
-    audio.addEventListener("pause", () => setPlaying(false));
-    audio.addEventListener("ended", () => setPlaying(false));
-    audio.addEventListener("error", () => setPlaying(false));
+    audio.addEventListener("ended", () => {
+      userWantsPlayback = false;
+      setLoading(false);
+      setPlaying(false);
+    });
+
+    audio.addEventListener("error", () => {
+      userWantsPlayback = false;
+      setLoading(false);
+      setPlaying(false);
+    });
   })();
 </script>
 
