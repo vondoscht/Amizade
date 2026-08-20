@@ -70,7 +70,7 @@
       if (mobile.addEventListener) {
         mobile.addEventListener("change", carregarVersao);
       } else if (mobile.addListener) {
-        mobile.addListener("change", carregarVersao);
+        mobile.addListener(carregarVersao);
       }
     })();
   </script>
