@@ -1,11 +1,11 @@
 {
-  "id": "./?app=radio-amizade-v7",
+  "id": "./?app=radio-amizade-v8",
   "name": "Rádio Amizade",
   "short_name": "Rádio Amizade",
   "description": "Ouça a Rádio Amizade 98.7 FM ao vivo.",
   "lang": "pt-BR",
   "dir": "ltr",
-  "start_url": "./?app=radio-amizade-v7",
+  "start_url": "./?app=radio-amizade-v8",
   "scope": "./",
   "display": "standalone",
   "display_override": [

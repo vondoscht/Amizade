@@ -1,18 +1,19 @@
-const CACHE_NAME = "radio-amizade-pwa-v7";
+const CACHE_NAME = "radio-amizade-pwa-v8";
 
 const APP_SHELL = [
   "./",
   "./index.html",
-  "./manifest.webmanifest?v=7",
-  "./assets/avatar.png?v=7",
+  "./manifest.webmanifest?v=8",
+  "./assets/avatar.png?v=8",
   "./assets/icone-instagram.svg",
   "./assets/icone-facebook.svg",
   "./assets/icone-youtube.svg",
   "./assets/icone-whatsapp.svg",
-  "./icons/icon-192.png?v=7",
-  "./icons/icon-512.png?v=7",
-  "./icons/icon-maskable-512.png?v=7"
-];
+  "./icons/icon-192.png?v=8",
+  "./icons/icon-512.png?v=8",
+  "./icons/icon-maskable-512.png?v=8"
+,
+  "./icons/apple-touch-icon-radio-amizade-v8.png"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(

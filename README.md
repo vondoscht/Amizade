@@ -27,7 +27,7 @@ O layout principal do player foi preservado.
 Esta versão restaura a mesma estratégia HLS do player original da Rádio Amizade:
 hls.js primeiro e HLS nativo como fallback.
 
-O cache da PWA foi atualizado para v7. Depois de subir os arquivos,
+O cache da PWA foi atualizado para v8. Depois de subir os arquivos,
 feche e reabra o app instalado para receber a versão nova.
 
 ## Início mais rápido no iPhone
@@ -36,13 +36,20 @@ feche e reabra o app instalado para receber a versão nova.
 - áudio com preload=auto;
 - iPhone/iPad priorizam HLS nativo;
 - Mac/Android/Desktop mantêm hls.js;
-- cache da PWA atualizado para v7.
+- cache da PWA atualizado para v8.
 
 Observação: o tempo mínimo de início ainda depende da duração dos segmentos HLS
 gerados pelo servidor de streaming.
 
 ## Versão atual
 
-- Service Worker / cache: **v7**
+- Service Worker / cache: **v8**
 - Nome do app: **Rádio Amizade**
 - Ícone do app: baseado no **avatar**
+
+## Ajustes da v8
+
+- iPhone volta a usar um `apple-touch-icon` explícito, derivado diretamente do avatar, sem filtros.
+- O manifesto PWA foi mantido.
+- O botão/link "Instalar app / amizade.fm.br" foi movido levemente para baixo.
+- Nenhum outro elemento do layout teve sua posição alterada.
