@@ -30,12 +30,11 @@
       --cover-size: min(64vw, 255px);
       --menu-height: 76px;
 
-      --topo-y: 8svh;
+      --topo-y: 5svh;
       --quadrado-y: 24svh;
-      --menu-y: 74svh;
+      --menu-y: 84svh;
 
-      --titulo-gap: 18px;
-      --equalizador-gap: 14px;
+      --titulo-y: 58svh;
 
       --play-size: 98px;
       --play-slot: 116px;
@@ -98,12 +97,11 @@
 
     /*
       POSICIONAMENTO PRINCIPAL:
-      topo: 8% da altura visível
+      topo: 5% da altura visível
       quadrado: 24% da altura visível
-      menu: 74% da altura visível
-
-      Título e equalizador ficam ancorados abaixo do quadrado.
-      Isso evita sobreposição em iPhones com alturas de viewport diferentes.
+      título: 58% da altura visível
+      equalizador: preservado na posição anterior
+      menu: 84% da altura visível.
     */
 
     .app {
@@ -186,7 +184,7 @@
 
     .station-title {
       position: absolute;
-      top: calc(var(--quadrado-y) + var(--cover-size) + var(--titulo-gap));
+      top: var(--titulo-y);
       left: 50%;
       transform: translateX(-50%);
       margin: 0;
@@ -201,7 +199,7 @@
 
     .waves {
       position: absolute;
-      top: calc(var(--menu-y) - 48px);
+      top: calc(74svh - 48px);
       left: 50%;
       transform: translateX(-50%) scaleX(.86);
       z-index: 5;
