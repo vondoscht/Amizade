@@ -1334,9 +1334,9 @@
         place-items: center;
         align-self: center;
         padding: 0;
-        border: 1px solid rgba(255,255,255,.08);
+        border: 0;
         border-radius: 50%;
-        color: var(--yellow);
+        color: #ffd91a;
         background: linear-gradient(180deg,#d61b43 0%,#a9001a 100%);
         box-shadow: inset 0 1px 0 rgba(255,255,255,.10);
         cursor: pointer;
@@ -1381,6 +1381,11 @@
         border-radius: var(--radius-container);
         overflow: hidden;
         isolation: isolate;
+        touch-action: pan-y;
+      }
+
+      .slides.dragging {
+        transition: none;
       }
 
       .dots {
@@ -2296,7 +2301,6 @@
     const dots = [...document.querySelectorAll(".dot")];
     let currentSlide = 0;
     let carouselTimer = null;
-    let touchStartX = 0;
 
     function goToSlide(index) {
       currentSlide = (index + dots.length) % dots.length;
@@ -2318,16 +2322,79 @@
 
     dots.forEach((dot, i) => dot.addEventListener("click", () => goToSlide(i)));
 
-    slides.addEventListener("touchstart", e => {
-      touchStartX = e.touches[0].clientX;
-    }, { passive: true });
+    // Swipe/arraste real no aplicativo:
+    // a imagem acompanha o dedo durante o gesto, como em um carrossel touchscreen.
+    if (window.matchMedia("(max-width: 900px)").matches) {
+      let touchStartX = 0;
+      let touchStartY = 0;
+      let touchDeltaX = 0;
+      let isDraggingCarousel = false;
+      let horizontalGesture = false;
 
-    slides.addEventListener("touchend", e => {
-      const delta = e.changedTouches[0].clientX - touchStartX;
-      if (Math.abs(delta) > 45) {
-        goToSlide(currentSlide + (delta < 0 ? 1 : -1));
+      slides.addEventListener("touchstart", e => {
+        if (e.touches.length !== 1) return;
+
+        clearInterval(carouselTimer);
+
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+        touchDeltaX = 0;
+        isDraggingCarousel = true;
+        horizontalGesture = false;
+
+        slides.classList.add("dragging");
+      }, { passive: true });
+
+      slides.addEventListener("touchmove", e => {
+        if (!isDraggingCarousel || e.touches.length !== 1) return;
+
+        const x = e.touches[0].clientX;
+        const y = e.touches[0].clientY;
+        const deltaX = x - touchStartX;
+        const deltaY = y - touchStartY;
+
+        if (!horizontalGesture) {
+          if (Math.abs(deltaX) < 6 && Math.abs(deltaY) < 6) return;
+
+          if (Math.abs(deltaY) > Math.abs(deltaX)) {
+            isDraggingCarousel = false;
+            slides.classList.remove("dragging");
+            restartCarousel();
+            return;
+          }
+
+          horizontalGesture = true;
+        }
+
+        touchDeltaX = deltaX;
+        e.preventDefault();
+
+        slides.style.transform =
+          `translate3d(calc(-${currentSlide * 100}% + ${touchDeltaX}px), 0, 0)`;
+      }, { passive: false });
+
+      function finishCarouselSwipe() {
+        if (!isDraggingCarousel) return;
+
+        isDraggingCarousel = false;
+        slides.classList.remove("dragging");
+
+        const threshold = Math.min(56, slides.clientWidth * 0.16);
+
+        if (horizontalGesture && Math.abs(touchDeltaX) >= threshold) {
+          goToSlide(currentSlide + (touchDeltaX < 0 ? 1 : -1));
+        } else {
+          slides.style.transform = `translateX(-${currentSlide * 100}%)`;
+          restartCarousel();
+        }
+
+        touchDeltaX = 0;
+        horizontalGesture = false;
       }
-    }, { passive: true });
+
+      slides.addEventListener("touchend", finishCarouselSwipe, { passive: true });
+      slides.addEventListener("touchcancel", finishCarouselSwipe, { passive: true });
+    }
 
     restartCarousel();
 
