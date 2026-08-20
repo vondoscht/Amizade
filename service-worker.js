@@ -1,8 +1,8 @@
-const CACHE_NAME = "radio-amizade-unified-v1.26";
+const CACHE_NAME = "radio-amizade";
 
 const APP_SHELL = [
-  "./index2.html",
-  "./manifest.webmanifest?v=1.26",
+  "./index.html",
+  "./manifest.webmanifest",
   "./assets/avatar.png",
   "./assets/icone-instagram.svg",
   "./assets/icone-facebook.svg",
@@ -24,7 +24,7 @@ self.addEventListener("activate", (event) => {
       .then((keys) => Promise.all(
         keys
           .filter((key) =>
-            (key.startsWith("radio-amizade-mobile-") || key.startsWith("radio-amizade-unified-")) &&
+            (key.startsWith("radio-amizade-mobile-") || key.startsWith("radio-amizade")) &&
             key !== CACHE_NAME
           )
           .map((key) => caches.delete(key))
@@ -45,10 +45,10 @@ self.addEventListener("fetch", (event) => {
       fetch(request)
         .then((response) => {
           const copy = response.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put("./index2.html", copy));
+          caches.open(CACHE_NAME).then((cache) => cache.put("./index.html", copy));
           return response;
         })
-        .catch(() => caches.match("./index2.html"))
+        .catch(() => caches.match("./index.html"))
     );
     return;
   }
