@@ -1,16 +1,16 @@
-const CACHE_NAME = "radio-amizade-mobile-v1.6";
+const CACHE_NAME = "radio-amizade-mobile-v1.7";
 
 const APP_SHELL = [
   "./app.html",
-  "./manifest.webmanifest?v=1.6",
-  "./assets/avatar.png?v=1.6",
+  "./manifest.webmanifest?v=1.7",
+  "./assets/avatar.png?v=1.7",
   "./assets/icone-instagram.svg",
   "./assets/icone-facebook.svg",
   "./assets/icone-youtube.svg",
   "./assets/icone-whatsapp.svg",
-  "./icons/icon-192.png?v=1.6",
-  "./icons/icon-512.png?v=1.6",
-  "./icons/icon-maskable-512.png?v=1.6"
+  "./icons/icon-192.png?v=1.7",
+  "./icons/icon-512.png?v=1.7",
+  "./icons/icon-maskable-512.png?v=1.7"
 ];
 
 self.addEventListener("install", (event) => {
@@ -39,10 +39,8 @@ self.addEventListener("fetch", (event) => {
 
   const url = new URL(request.url);
 
-  // O stream, fontes e CDNs externos nunca passam pelo cache do PWA.
   if (url.origin !== self.location.origin) return;
 
-  // A navegação do app usa rede primeiro e cache apenas como fallback offline.
   if (request.mode === "navigate") {
     event.respondWith(
       fetch(request)
@@ -56,7 +54,6 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  // Assets locais: cache com atualização em segundo plano.
   event.respondWith(
     caches.match(request).then((cached) => {
       const network = fetch(request).then((response) => {
