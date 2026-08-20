@@ -8,6 +8,8 @@
 
   <link rel="icon" type="image/png" href="assets/avatar.png">
   <link rel="apple-touch-icon" href="assets/avatar.png">
+  <link rel="preconnect" href="https://5a2b083e9f360.streamlock.net" crossorigin>
+  <link rel="dns-prefetch" href="//5a2b083e9f360.streamlock.net">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
@@ -201,7 +203,8 @@
 
     .play:active,.social:active{transform:scale(.95)}
 
-    .play svg{width:31px;height:36px}
+    .play svg{width:31px;height:36px;display:block}
+    .play-triangle{transform:translateX(2.5px)}
     .pause{display:none}
     .playing .play-triangle{display:none}
     .playing .pause{display:block}
@@ -272,7 +275,7 @@
       </a>
     </nav>
 
-    <audio id="audio" preload="none"></audio>
+    <audio id="audio" preload="auto" playsinline></audio>
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/hls.js@1"></script>
@@ -286,35 +289,52 @@
       let ready = false;
       let pendingPlay = false;
 
-      // Remove qualquer PWA/service worker antigo das versões anteriores.
-      if ("serviceWorker" in navigator) {
-        navigator.serviceWorker.getRegistrations()
-          .then(registrations => registrations.forEach(registration => registration.unregister()))
-          .catch(() => {});
-      }
-      if ("caches" in window) {
-        caches.keys()
-          .then(keys => Promise.all(keys.map(key => caches.delete(key))))
-          .catch(() => {});
-      }
-
       function setPlaying(value) {
         app.classList.toggle("playing", value);
         button.setAttribute("aria-label", value ? "Pausar Rádio Amizade" : "Ouvir Rádio Amizade");
       }
 
+      function seekToLiveEdge() {
+        if (hls && Number.isFinite(hls.liveSyncPosition) && hls.liveSyncPosition > 0) {
+          try { audio.currentTime = hls.liveSyncPosition; } catch (_) {}
+          return;
+        }
+
+        if (audio.seekable && audio.seekable.length) {
+          const last = audio.seekable.length - 1;
+          const end = audio.seekable.end(last);
+          const start = audio.seekable.start(last);
+          const target = Math.max(start, end - 0.15);
+          if (Number.isFinite(target)) {
+            try { audio.currentTime = target; } catch (_) {}
+          }
+        }
+      }
+
       function play() {
+        seekToLiveEdge();
         audio.play().catch(() => setPlaying(false));
       }
 
-      // Safari/iPhone/iPad/macOS: HLS nativo.
+      // Safari/iPhone/iPad/macOS: HLS nativo e pré-carregado.
       if (audio.canPlayType("application/vnd.apple.mpegurl")) {
+        audio.preload = "auto";
         audio.src = STREAM;
+        audio.load();
         ready = true;
       }
-      // Chrome/Android/desktop: hls.js.
+      // Chrome/Android/desktop: hls.js começa a carregar assim que a página abre.
       else if (window.Hls && Hls.isSupported()) {
-        hls = new Hls();
+        hls = new Hls({
+          lowLatencyMode: false,
+          liveSyncDurationCount: 1,
+          liveMaxLatencyDurationCount: 3,
+          initialLiveManifestSize: 1,
+          maxBufferLength: 4,
+          maxMaxBufferLength: 8,
+          backBufferLength: 0,
+          startFragPrefetch: true
+        });
         hls.loadSource(STREAM);
         hls.attachMedia(audio);
         hls.on(Hls.Events.MANIFEST_PARSED, () => {
@@ -322,6 +342,14 @@
           if (pendingPlay) {
             pendingPlay = false;
             play();
+          }
+        });
+        hls.on(Hls.Events.ERROR, (_, data) => {
+          if (!data.fatal) return;
+          if (data.type === Hls.ErrorTypes.NETWORK_ERROR) {
+            hls.startLoad();
+          } else if (data.type === Hls.ErrorTypes.MEDIA_ERROR) {
+            hls.recoverMediaError();
           }
         });
       } else {
@@ -332,6 +360,7 @@
       button.addEventListener("click", () => {
         if (!audio.paused) {
           audio.pause();
+          pendingPlay = false;
           return;
         }
 
@@ -339,6 +368,14 @@
         else pendingPlay = true;
       });
 
+      audio.addEventListener("loadedmetadata", seekToLiveEdge);
+      audio.addEventListener("canplay", () => {
+        ready = true;
+        if (pendingPlay) {
+          pendingPlay = false;
+          play();
+        }
+      }, { once: true });
       audio.addEventListener("playing", () => setPlaying(true));
       audio.addEventListener("pause", () => setPlaying(false));
       audio.addEventListener("ended", () => setPlaying(false));
