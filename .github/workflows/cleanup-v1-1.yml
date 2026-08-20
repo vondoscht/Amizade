@@ -1,0 +1,136 @@
+name: Limpeza v1.1
+
+on:
+  push:
+    paths:
+      - '.github/workflows/cleanup-v1-1.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Remover código e arquivos obsoletos
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          def remove_at_rule(text, signature):
+              start = text.find(signature)
+              if start == -1:
+                  return text
+              brace = text.find('{', start)
+              depth = 0
+              quote = None
+              escaped = False
+              i = brace
+              while i < len(text):
+                  ch = text[i]
+                  if quote:
+                      if escaped:
+                          escaped = False
+                      elif ch == '\\':
+                          escaped = True
+                      elif ch == quote:
+                          quote = None
+                  else:
+                      if ch in ('"', "'"):
+                          quote = ch
+                      elif ch == '{':
+                          depth += 1
+                      elif ch == '}':
+                          depth -= 1
+                          if depth == 0:
+                              end = i + 1
+                              while end < len(text) and text[end] in ' \t':
+                                  end += 1
+                              if end < len(text) and text[end] == '\n':
+                                  end += 1
+                              return text[:start] + text[end:]
+                  i += 1
+              raise RuntimeError(f'Bloco CSS não fechado: {signature}')
+
+          # desktop.html passa a conter somente código necessário ao desktop (>900 px).
+          p = Path('desktop.html')
+          s = p.read_text(encoding='utf-8')
+          for signature in (
+              '@media (max-width:900px)',
+              '@media (max-width:560px)',
+              '@media (max-width:380px)',
+          ):
+              s = remove_at_rule(s, signature)
+
+          s = s.replace(
+              '          <source media="(max-width:900px)" srcset="assets/logo-amizade-vertical.png">\n',
+              '',
+              1,
+          )
+          s = s.replace('    let touchStartX = 0;\n', '', 1)
+          touch_block = '''\n    slides.addEventListener("touchstart", e => {\n      touchStartX = e.touches[0].clientX;\n    }, { passive: true });\n\n    slides.addEventListener("touchend", e => {\n      const delta = e.changedTouches[0].clientX - touchStartX;\n      if (Math.abs(delta) > 45) {\n        goToSlide(currentSlide + (delta < 0 ? 1 : -1));\n      }\n    }, { passive: true });\n'''
+          s = s.replace(touch_block, '\n', 1)
+          s = s.replace(
+              '<title>Rádio Amizade 98.7 FM</title>',
+              '<title>Rádio Amizade 98.7 FM — v1.1</title>',
+              1,
+          )
+          p.write_text(s, encoding='utf-8')
+
+          # Versão principal exibida no título da aba.
+          p = Path('index2.html')
+          s = p.read_text(encoding='utf-8')
+          s = s.replace('— v1.0</title>', '— v1.1</title>', 1)
+          p.write_text(s, encoding='utf-8')
+
+          # Mantém a versão também ao abrir o app.html diretamente.
+          p = Path('app.html')
+          s = p.read_text(encoding='utf-8')
+          s = s.replace(
+              '<title>Rádio Amizade</title>',
+              '<title>Rádio Amizade — v1.1</title>',
+              1,
+          )
+          p.write_text(s, encoding='utf-8')
+          PY
+
+          rm -f assets/logo-amizade-vertical.png
+          rm -f apple-touch-icon.png apple-touch-icon-precomposed.png
+          rm -f manifest-v6.webmanifest
+          rm -rf icons
+          rm -f .github/workflows/restructure-site.yml
+
+          cat > README.md <<'EOF'
+          # Rádio Amizade — v1.1
+
+          Site da Rádio Amizade 98.7 FM.
+
+          ## Estrutura atual
+
+          - `index2.html` — entrada única; escolhe automaticamente a versão conforme a largura da tela.
+          - `desktop.html` — site completo para telas acima de 900 px.
+          - `app.html` — interface compacta para telas de 900 px ou menos.
+          - `assets/` — imagens e ícones usados pelas duas interfaces.
+
+          ## Regra de exibição
+
+          - acima de 900 px: `desktop.html`
+          - 900 px ou menos: `app.html`
+
+          O projeto atual não usa manifest PWA, service worker ou os antigos pacotes de ícones PWA.
+          EOF
+
+          # Remove este workflow temporário após executar a limpeza.
+          rm -f .github/workflows/cleanup-v1-1.yml
+
+      - name: Commit da v1.1
+        run: |
+          git config user.name "ChatGPT"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          git commit -m "Limpa código e assets obsoletos — v1.1"
+          git push
