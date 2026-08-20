@@ -1,0 +1,274 @@
+name: Apply mobile carousel and actions
+
+on:
+  push:
+    paths:
+      - '.github/workflows/apply-mobile-carousel-actions.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch-mobile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Update mobile layout
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          p = Path('index2.html')
+          s = p.read_text()
+
+          def repl(old, new, label):
+              global s
+              if old not in s:
+                  raise SystemExit(f'{label} not found')
+              s = s.replace(old, new, 1)
+
+          repl('''    @media (max-width: 900px) {
+            body {
+              overflow: hidden;
+            }''','''    @media (max-width: 900px) {
+            body {
+              overflow-x: hidden;
+              overflow-y: auto;
+            }''','mobile overflow')
+
+          repl('''        --app-menu-h: 76px;
+                --app-play: 98px;
+                --app-social: 42px;
+
+                position: relative;
+                display: block;
+                width: min(100%,480px);
+                height: 100vh;
+                height: 100svh;
+                margin: 0 auto;
+                overflow: hidden;''','''        --app-menu-h: 76px;
+                --app-play: 98px;
+                --app-social: 42px;
+                --app-menu-top: min(
+                  calc(
+                    var(--app-cover-y) + var(--app-cover) + var(--app-title-gap) +
+                    22px + var(--app-eq-gap) + 34px + var(--app-menu-gap)
+                  ),
+                  calc(100svh - var(--app-menu-h) - 24px - env(safe-area-inset-bottom))
+                );
+
+                position: relative;
+                display: block;
+                width: min(100%,480px);
+                min-height: 100vh;
+                min-height: 100svh;
+                height: auto;
+                margin: 0 auto;
+                overflow: visible;''','mobile shell')
+
+          repl('''      .mobile-app-shell .app-menu {
+                position: absolute;
+                top: min(
+                  calc(
+                    var(--app-cover-y) + var(--app-cover) + var(--app-title-gap) +
+                    22px + var(--app-eq-gap) + 34px + var(--app-menu-gap)
+                  ),
+                  calc(100% - var(--app-menu-h) - 24px - env(safe-area-inset-bottom))
+                );''','''      .mobile-app-shell .app-menu {
+                position: absolute;
+                top: var(--app-menu-top);''','mobile menu position')
+
+          marker = '''      .mobile-app-shell.playing .app-pause {
+                display: block;
+              }
+          '''
+          extra_css = '''
+
+              .mobile-app-shell .app-extra-content {
+                display: flex;
+                flex-direction: column;
+                gap: 16px;
+                margin: 0 22px;
+                padding-top: calc(var(--app-menu-top) + var(--app-menu-h) + 28px);
+                padding-bottom: calc(24px + env(safe-area-inset-bottom));
+              }
+
+              .mobile-app-shell .app-carousel {
+                position: relative;
+                width: 100%;
+                aspect-ratio: 2.5 / 1;
+                overflow: hidden;
+                border-radius: 16px;
+                background: #171920;
+                box-shadow: 0 16px 34px rgba(0,0,0,.22);
+              }
+
+              .mobile-app-shell .app-carousel-track {
+                display: flex;
+                width: 100%;
+                height: 100%;
+                transition: transform .55s cubic-bezier(.22,.61,.36,1);
+              }
+
+              .mobile-app-shell .app-carousel-slide {
+                flex: 0 0 100%;
+                height: 100%;
+              }
+
+              .mobile-app-shell .app-carousel-slide img {
+                display: block;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                object-position: center;
+                user-select: none;
+                -webkit-user-drag: none;
+              }
+
+              .mobile-app-shell .app-carousel-dots {
+                position: absolute;
+                left: 50%;
+                bottom: 10px;
+                transform: translateX(-50%);
+                display: flex;
+                gap: 7px;
+                z-index: 2;
+              }
+
+              .mobile-app-shell .app-carousel-dot {
+                width: 7px;
+                height: 7px;
+                padding: 0;
+                border: 0;
+                border-radius: 999px;
+                background: rgba(255,255,255,.58);
+                box-shadow: 0 2px 8px rgba(0,0,0,.18);
+              }
+
+              .mobile-app-shell .app-carousel-dot.active {
+                width: 22px;
+                background: #fff;
+              }
+
+              .mobile-app-shell .app-actions {
+                display: grid;
+                grid-template-columns: repeat(2,minmax(0,1fr));
+                gap: 12px;
+                width: 100%;
+              }
+
+              .mobile-app-shell .app-action-image {
+                display: block;
+                min-width: 0;
+                overflow: hidden;
+                border-radius: 12px;
+                background: #23262e;
+                box-shadow: 0 12px 26px rgba(0,0,0,.14);
+                text-decoration: none;
+              }
+
+              .mobile-app-shell .app-action-image img {
+                display: block;
+                width: 100%;
+                height: auto;
+                user-select: none;
+                -webkit-user-drag: none;
+              }
+          '''
+          repl(marker, marker + extra_css, 'mobile extra styles')
+
+          repl('''    @media (max-width: 380px) {
+              .mobile-app-shell .app-menu {
+                left: 14px;
+                right: 14px;
+              }''','''    @media (max-width: 380px) {
+              .mobile-app-shell .app-menu {
+                left: 14px;
+                right: 14px;
+              }
+
+              .mobile-app-shell .app-extra-content {
+                margin-left: 14px;
+                margin-right: 14px;
+              }''','small mobile margins')
+
+          repl('''    </nav>
+
+              <audio id="mobileAudio" preload="auto" playsinline></audio>''','''    </nav>
+
+              <div class="app-extra-content">
+                <section class="app-carousel" aria-label="Destaques da Rádio Amizade">
+                  <div class="app-carousel-track" id="mobileSlides">
+                    <div class="app-carousel-slide"><img src="assets/banner-01.png" alt="Banner de destaque 1"></div>
+                    <div class="app-carousel-slide"><img src="assets/banner-02.png" alt="Banner de destaque 2"></div>
+                    <div class="app-carousel-slide"><img src="assets/banner-03.png" alt="Banner de destaque 3"></div>
+                  </div>
+
+                  <div class="app-carousel-dots" id="mobileDots" aria-label="Navegação dos banners">
+                    <button class="app-carousel-dot active" type="button" aria-label="Banner 1"></button>
+                    <button class="app-carousel-dot" type="button" aria-label="Banner 2"></button>
+                    <button class="app-carousel-dot" type="button" aria-label="Banner 3"></button>
+                  </div>
+                </section>
+
+                <div class="app-actions" aria-label="Acessos rápidos">
+                  <a class="app-action-image" href="https://wa.me/5551998770145" target="_blank" rel="noopener noreferrer" aria-label="Enviar uma mensagem para a Rádio Amizade">
+                    <img src="assets/botao-whatsapp.png" alt="Enviar uma mensagem para a Rádio Amizade">
+                  </a>
+                  <a class="app-action-image" href="https://wa.me/555180527460" target="_blank" rel="noopener noreferrer" aria-label="Anuncie na Rádio Amizade">
+                    <img src="assets/botao-anuncie.png" alt="Anuncie na Rádio Amizade">
+                  </a>
+                </div>
+              </div>
+
+              <audio id="mobileAudio" preload="auto" playsinline></audio>''','mobile carousel and actions markup')
+
+          repl('''    audio.addEventListener("playing", () => setPlaying(true));
+              audio.addEventListener("pause", () => setPlaying(false));
+              audio.addEventListener("ended", () => setPlaying(false));
+              audio.addEventListener("error", () => setPlaying(false));
+            })();
+          </script>''','''    audio.addEventListener("playing", () => setPlaying(true));
+              audio.addEventListener("pause", () => setPlaying(false));
+              audio.addEventListener("ended", () => setPlaying(false));
+              audio.addEventListener("error", () => setPlaying(false));
+
+              const mobileSlides = document.getElementById("mobileSlides");
+              const mobileDots = [...document.querySelectorAll(".app-carousel-dot")];
+              let mobileSlide = 0;
+              let mobileCarouselTimer = null;
+              let mobileTouchStartX = 0;
+
+              function goToMobileSlide(index) {
+                mobileSlide = (index + mobileDots.length) % mobileDots.length;
+                mobileSlides.style.transform = `translateX(-${mobileSlide * 100}%)`;
+                mobileDots.forEach((dot, i) => dot.classList.toggle("active", i === mobileSlide));
+                clearInterval(mobileCarouselTimer);
+                mobileCarouselTimer = setInterval(() => goToMobileSlide(mobileSlide + 1), 5500);
+              }
+
+              mobileDots.forEach((dot, i) => dot.addEventListener("click", () => goToMobileSlide(i)));
+              mobileSlides.addEventListener("touchstart", event => {
+                mobileTouchStartX = event.touches[0].clientX;
+              }, { passive: true });
+              mobileSlides.addEventListener("touchend", event => {
+                const delta = event.changedTouches[0].clientX - mobileTouchStartX;
+                if (Math.abs(delta) > 45) goToMobileSlide(mobileSlide + (delta < 0 ? 1 : -1));
+              }, { passive: true });
+              mobileCarouselTimer = setInterval(() => goToMobileSlide(mobileSlide + 1), 5500);
+            })();
+          </script>''','mobile carousel behavior')
+
+          p.write_text(s)
+          PY
+
+      - name: Commit changes
+        shell: bash
+        run: |
+          git config user.name "OpenAI"
+          git config user.email "openai@users.noreply.github.com"
+          git add index2.html
+          git commit -m "Adiciona carrossel e acessos ao app mobile"
+          git push
