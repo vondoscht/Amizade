@@ -96,7 +96,7 @@
       --gray-700: #2a2d36;
       --yellow: #ffd91a;
       --red: #ef2347;
-      --radius-container: 12px;
+      --radius-container: 16px;
       --radius-control: 14px;
       --radius-inner: 10px;
       --radius-pill: 999px;
@@ -954,6 +954,10 @@
         padding: 0 22px calc(28px + env(safe-area-inset-bottom));
       }
 
+      footer {
+        display: none;
+      }
+
       .topbar {
         display: none !important;
       }
@@ -965,7 +969,7 @@
         --app-red: #a9001a;
         --app-cover: min(64vw,255px);
         --app-top: 7svh;
-        --app-cover-y: 22svh;
+        --app-cover-y: 19svh;
         --app-title-gap: 22px;
         --app-eq-gap: 16px;
         --app-menu-gap: 48px;
@@ -983,7 +987,7 @@
         position: relative;
         display: block;
         width: calc(100% + 44px);
-        height: calc(var(--app-menu-top) + var(--app-menu-h) + 28px);
+        height: calc(var(--app-menu-top) + var(--app-menu-h) + 54px);
         margin-left: -22px;
         overflow: visible;
         color: #fff;
@@ -1018,7 +1022,7 @@
         width: var(--app-cover);
         aspect-ratio: 1;
         overflow: hidden;
-        border-radius: 16px;
+        border-radius: var(--radius-container);
         background: var(--app-yellow);
         box-shadow: 0 24px 40px rgba(255,217,26,.18);
       }
@@ -1098,7 +1102,7 @@
         justify-content: space-evenly;
         overflow: visible;
         border: 1px solid rgba(255,255,255,.08);
-        border-radius: 16px;
+        border-radius: var(--radius-container);
         background: var(--app-panel);
         box-shadow:
           0 16px 34px rgba(0,0,0,.24),
@@ -1187,7 +1191,7 @@
         gap: 12px;
         padding: 10px;
         border: 1px solid rgba(255,255,255,.10);
-        border-radius: 16px;
+        border-radius: var(--radius-container);
         color: #fff;
         background: rgba(29,32,39,.94);
         box-shadow:
@@ -1364,7 +1368,7 @@
       .hero {
         margin-top: 0;
         width: 100%;
-        border-radius: 16px;
+        border-radius: var(--radius-container);
         overflow: hidden;
         isolation: isolate;
       }
@@ -1406,7 +1410,7 @@
 
       .quick-image {
         width: 100%;
-        border-radius: 16px;
+        border-radius: var(--radius-container);
         overflow: hidden;
         transform: none;
       }
@@ -1420,7 +1424,7 @@
         order: 2;
         width: 100%;
         padding: 18px;
-        border-radius: 16px;
+        border-radius: var(--radius-container);
         overflow: hidden;
       }
 
@@ -1443,14 +1447,51 @@
       }
 
       .program {
-        grid-template-columns: 76px minmax(0,1fr);
-        gap: 12px;
-        min-height: 58px;
+        grid-template-columns: 64px minmax(0,1fr);
+        gap: 8px;
+        min-height: 54px;
+        padding: 7px;
       }
 
       .program-time {
-        min-height: 40px;
-        font-size: 14px;
+        min-height: 38px;
+        font-size: 12px;
+        white-space: nowrap;
+      }
+
+      .program-main {
+        min-width: 0;
+        display: flex;
+        align-items: center;
+        flex-wrap: nowrap;
+        gap: 6px;
+        overflow: hidden;
+      }
+
+      .program-name {
+        flex: 1 1 auto;
+        min-width: 0;
+        color: #30343c;
+        font-size: clamp(9px, 3vw, 12px);
+        line-height: 1;
+        letter-spacing: -.2px;
+        white-space: nowrap;
+      }
+
+      .on-air {
+        flex: 0 0 auto;
+        padding: 6px 7px;
+        font-size: 0;
+        line-height: 1;
+        letter-spacing: 0;
+        white-space: nowrap;
+      }
+
+      .on-air::after {
+        content: "NO AR";
+        font-size: 8px;
+        line-height: 1;
+        letter-spacing: .2px;
       }
 
       .sponsor-wrap {
@@ -1593,10 +1634,6 @@
        ========================================================= */
 
     @media (min-width: 901px) {
-      :root {
-        --radius-container: 20px;
-      }
-
       .brand {
         justify-self: start;
         width: fit-content;
@@ -2051,6 +2088,9 @@
 
     </div>
 
+    <footer>
+      <span>© 2026 Rádio Amizade</span>
+    </footer>
 
   </main>
 
