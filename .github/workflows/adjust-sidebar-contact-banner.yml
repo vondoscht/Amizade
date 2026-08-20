@@ -1,0 +1,240 @@
+name: Adjust desktop sidebar
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/adjust-sidebar-contact-banner.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Ajustar banner e mover contato para coluna lateral
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('index2.html')
+          s = p.read_text()
+
+          s = s.replace('''    .sponsor-wrap {
+      width: var(--side-column);
+      min-width: var(--side-column);
+      height: auto;
+    }
+''', '''    .sponsor-wrap {
+      width: var(--side-column);
+      min-width: var(--side-column);
+      height: 300px;
+    }
+''', 1)
+
+          s = s.replace('''    .sponsor-card {
+      display: block;
+      width: var(--side-column);
+      height: auto;
+''', '''    .sponsor-card {
+      display: block;
+      width: var(--side-column);
+      height: 300px;
+''', 1)
+
+          s = s.replace('''    .sponsor-card img {
+      display: block;
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+''', '''    .sponsor-card img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+''', 1)
+
+          old = '''    <div class="main-content-grid" aria-label="Acessos, programação e patrocinador">
+
+      <div class="left-main">
+
+        <section class="schedule-wrap" id="programacao">
+          <div class="section-heading">
+            <h2>Programação</h2>
+          </div>
+
+          <div class="day-tabs" id="dayTabs"></div>
+          <div class="program-list" id="programList"></div>
+        </section>
+
+      </div>
+
+      <aside class="side-rail" aria-label="Contatos e patrocinador">
+        <div class="quick-row" aria-label="Acessos rápidos" style="grid-template-columns:1fr; gap:var(--section-gap)">
+          <a class="quick-image" href="https://wa.me/5551998770145" target="_blank" rel="noopener noreferrer" aria-label="Fale com a Rádio Amizade pelo WhatsApp">
+            <img src="assets/botao-whatsapp.png" alt="Botão de WhatsApp">
+          </a>
+
+          <a class="quick-image" href="https://wa.me/555180527460" target="_blank" rel="noopener noreferrer" aria-label="Anuncie na Rádio Amizade pelo WhatsApp">
+            <img src="assets/botao-anuncie.png" alt="Botão Anuncie na Amizade">
+          </a>
+        </div>
+
+        <div class="sponsor-wrap">
+          <div class="sponsor-card" aria-label="Espaço do patrocinador">
+            <img src="assets/banner-patrocinador.png" alt="Banner patrocinador provisório">
+          </div>
+        </div>
+      </aside>
+
+    </div>
+
+    <section class="about-grid">
+      <article class="about-card">
+        <h2>A Rádio Amizade</h2>
+
+        <p>
+          <strong>Há mais de 35 anos, a Rádio Amizade faz parte da vida do Vale do Paranhana</strong>,
+          levando música, informação e entretenimento para uma das regiões mais importantes do Rio Grande do Sul.
+        </p>
+
+        <p>
+          Com uma programação popular, de forte audiência e próxima dos seus ouvintes, a Amizade acompanha
+          de perto os principais acontecimentos locais e construiu, ao longo de sua história, uma relação
+          de confiança e credibilidade com o público.
+        </p>
+
+        <p>
+          Essa presença hoje vai muito além do rádio. A emissora também está nas plataformas digitais,
+          ampliando seu alcance com notícias, vídeos e diferentes formas de interação. A combinação entre
+          a força do rádio e a presença na internet permite à Amizade manter uma comunicação constante,
+          ampliar a visibilidade das marcas e aproximar empresas de um público presente em mais de 40 cidades.
+        </p>
+      </article>
+
+      <article class="contact-card">
+        <h2>Contato</h2>
+
+        <div class="contact-details">
+
+          <div class="contact-item">
+            <span class="contact-label">E-mail</span>
+            <a class="contact-value contact-link" href="mailto:amizade@amizade.fm.br">amizade@amizade.fm.br</a>
+          </div>
+
+          <div class="contact-item">
+            <span class="contact-label">Telefone</span>
+            <a class="contact-value contact-link" href="tel:+555135452300">(51) 3545-2300</a>
+          </div>
+
+          <div class="contact-item">
+            <span class="contact-label">Endereço</span>
+            <span class="contact-value">Rua Ernesto Dorneles, 693<br>
+              Igrejinha - RS</span>
+          </div>
+
+        </div>
+      </article>
+
+    </section>
+'''
+
+          new = '''    <div class="main-content-grid" aria-label="Acessos, programação, patrocinador e contato">
+
+      <div class="left-main">
+
+        <section class="schedule-wrap" id="programacao">
+          <div class="section-heading">
+            <h2>Programação</h2>
+          </div>
+
+          <div class="day-tabs" id="dayTabs"></div>
+          <div class="program-list" id="programList"></div>
+        </section>
+
+        <article class="about-card">
+          <h2>A Rádio Amizade</h2>
+
+          <p>
+            <strong>Há mais de 35 anos, a Rádio Amizade faz parte da vida do Vale do Paranhana</strong>,
+            levando música, informação e entretenimento para uma das regiões mais importantes do Rio Grande do Sul.
+          </p>
+
+          <p>
+            Com uma programação popular, de forte audiência e próxima dos seus ouvintes, a Amizade acompanha
+            de perto os principais acontecimentos locais e construiu, ao longo de sua história, uma relação
+            de confiança e credibilidade com o público.
+          </p>
+
+          <p>
+            Essa presença hoje vai muito além do rádio. A emissora também está nas plataformas digitais,
+            ampliando seu alcance com notícias, vídeos e diferentes formas de interação. A combinação entre
+            a força do rádio e a presença na internet permite à Amizade manter uma comunicação constante,
+            ampliar a visibilidade das marcas e aproximar empresas de um público presente em mais de 40 cidades.
+          </p>
+        </article>
+
+      </div>
+
+      <aside class="side-rail" aria-label="Contatos e patrocinador">
+        <div class="quick-row" aria-label="Acessos rápidos" style="grid-template-columns:1fr; gap:var(--section-gap)">
+          <a class="quick-image" href="https://wa.me/5551998770145" target="_blank" rel="noopener noreferrer" aria-label="Fale com a Rádio Amizade pelo WhatsApp">
+            <img src="assets/botao-whatsapp.png" alt="Botão de WhatsApp">
+          </a>
+
+          <a class="quick-image" href="https://wa.me/555180527460" target="_blank" rel="noopener noreferrer" aria-label="Anuncie na Rádio Amizade pelo WhatsApp">
+            <img src="assets/botao-anuncie.png" alt="Botão Anuncie na Amizade">
+          </a>
+        </div>
+
+        <div class="sponsor-wrap">
+          <div class="sponsor-card" aria-label="Espaço do patrocinador">
+            <img src="assets/banner-patrocinador.png" alt="Banner patrocinador provisório">
+          </div>
+        </div>
+
+        <article class="contact-card">
+          <h2>Contato</h2>
+
+          <div class="contact-details">
+
+            <div class="contact-item">
+              <span class="contact-label">E-mail</span>
+              <a class="contact-value contact-link" href="mailto:amizade@amizade.fm.br">amizade@amizade.fm.br</a>
+            </div>
+
+            <div class="contact-item">
+              <span class="contact-label">Telefone</span>
+              <a class="contact-value contact-link" href="tel:+555135452300">(51) 3545-2300</a>
+            </div>
+
+            <div class="contact-item">
+              <span class="contact-label">Endereço</span>
+              <span class="contact-value">Rua Ernesto Dorneles, 693<br>
+                Igrejinha - RS</span>
+            </div>
+
+          </div>
+        </article>
+      </aside>
+
+    </div>
+'''
+
+          if old not in s:
+              raise SystemExit('Bloco principal esperado não encontrado')
+          s = s.replace(old, new, 1)
+
+          p.write_text(s)
+          PY
+
+      - name: Commitar ajuste e remover workflow temporário
+        run: |
+          rm .github/workflows/adjust-sidebar-contact-banner.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Ajusta banner e move contato para coluna lateral desktop"
+          git push
