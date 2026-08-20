@@ -569,6 +569,11 @@
       align-self: start;
     }
 
+    .side-rail .quick-row {
+      grid-template-columns: 1fr;
+      gap: var(--section-gap);
+    }
+
     .sponsor-wrap {
       width: var(--side-column);
       min-width: var(--side-column);
@@ -924,16 +929,32 @@
       font-weight: 700;
     }
 
+    /* =========================================================
+       MODO APP — exibido somente até 900px
+       O desktop acima de 900px permanece visualmente inalterado.
+       ========================================================= */
+
     .mobile-app-shell {
+      display: none;
+    }
+
+    .app-mini-player {
       display: none;
     }
 
     @media (max-width: 900px) {
       body {
-        overflow: hidden;
+        overflow-x: hidden;
+        overflow-y: auto;
       }
 
       .site {
+        width: min(100%, 480px);
+        margin: 0 auto;
+        padding: 0 22px calc(28px + env(safe-area-inset-bottom));
+      }
+
+      .topbar {
         display: none !important;
       }
 
@@ -951,14 +972,20 @@
         --app-menu-h: 76px;
         --app-play: 98px;
         --app-social: 42px;
+        --app-menu-top: min(
+          calc(
+            var(--app-cover-y) + var(--app-cover) + var(--app-title-gap) +
+            22px + var(--app-eq-gap) + 34px + var(--app-menu-gap)
+          ),
+          calc(100svh - var(--app-menu-h) - 24px - env(safe-area-inset-bottom))
+        );
 
         position: relative;
         display: block;
-        width: min(100%,480px);
-        height: 100vh;
-        height: 100svh;
-        margin: 0 auto;
-        overflow: hidden;
+        width: calc(100% + 44px);
+        height: calc(var(--app-menu-top) + var(--app-menu-h) + 28px);
+        margin-left: -22px;
+        overflow: visible;
         color: #fff;
         background: transparent;
       }
@@ -991,7 +1018,7 @@
         width: var(--app-cover);
         aspect-ratio: 1;
         overflow: hidden;
-        border-radius: 28px;
+        border-radius: 16px;
         background: var(--app-yellow);
         box-shadow: 0 24px 40px rgba(255,217,26,.18);
       }
@@ -1062,13 +1089,7 @@
 
       .mobile-app-shell .app-menu {
         position: absolute;
-        top: min(
-          calc(
-            var(--app-cover-y) + var(--app-cover) + var(--app-title-gap) +
-            22px + var(--app-eq-gap) + 34px + var(--app-menu-gap)
-          ),
-          calc(100% - var(--app-menu-h) - 24px - env(safe-area-inset-bottom))
-        );
+        top: var(--app-menu-top);
         left: 22px;
         right: 22px;
         height: var(--app-menu-h);
@@ -1077,7 +1098,7 @@
         justify-content: space-evenly;
         overflow: visible;
         border: 1px solid rgba(255,255,255,.08);
-        border-radius: 22px;
+        border-radius: 16px;
         background: var(--app-panel);
         box-shadow:
           0 16px 34px rgba(0,0,0,.24),
@@ -1152,9 +1173,372 @@
       .mobile-app-shell.playing .app-pause {
         display: block;
       }
+
+      .app-mini-player {
+        position: fixed;
+        z-index: 120;
+        left: 50%;
+        bottom: calc(12px + env(safe-area-inset-bottom));
+        width: min(calc(100% - 28px), 436px);
+        height: 72px;
+        display: grid;
+        grid-template-columns: 50px minmax(0,1fr) 50px;
+        align-items: center;
+        gap: 12px;
+        padding: 10px;
+        border: 1px solid rgba(255,255,255,.10);
+        border-radius: 16px;
+        color: #fff;
+        background: rgba(29,32,39,.94);
+        box-shadow:
+          0 18px 42px rgba(0,0,0,.34),
+          inset 0 1px 0 rgba(255,255,255,.05);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transform: translate(-50%, calc(100% + 28px));
+        transition:
+          transform .28s cubic-bezier(.22,.61,.36,1),
+          opacity .22s ease,
+          visibility 0s linear .28s;
+      }
+
+      .app-mini-player.visible {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transform: translate(-50%, 0);
+        transition:
+          transform .28s cubic-bezier(.22,.61,.36,1),
+          opacity .22s ease,
+          visibility 0s linear 0s;
+      }
+
+      .app-mini-cover {
+        width: 50px;
+        height: 50px;
+        align-self: center;
+        overflow: hidden;
+        border-radius: 13px;
+        background: rgba(255,255,255,.10);
+        box-shadow: inset 0 0 0 1px rgba(255,255,255,.10);
+      }
+
+      .app-mini-cover img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        user-select: none;
+        -webkit-user-drag: none;
+      }
+
+      .app-mini-copy {
+        min-width: 0;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        align-self: center;
+      }
+
+      .app-mini-title-row {
+        min-width: 0;
+        width: 100%;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 10px;
+      }
+
+      .app-mini-title {
+        min-width: 0;
+        overflow: hidden;
+        color: #fff;
+        font-size: 14px;
+        font-weight: 800;
+        line-height: 1.15;
+        letter-spacing: -.25px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .app-mini-eq {
+        flex: 0 0 auto;
+        height: 20px;
+        display: flex;
+        align-items: center;
+        gap: 3px;
+        opacity: 0;
+        visibility: hidden;
+        width: 0;
+        overflow: hidden;
+        pointer-events: none;
+        transition: opacity .18s ease, width .18s ease, visibility 0s linear .18s;
+      }
+
+      .app-mini-eq i {
+        display: block;
+        width: 3px;
+        border-radius: 999px;
+        background: var(--yellow);
+        animation: app-mini-eq-wave .8s infinite ease-in-out;
+        animation-play-state: paused;
+      }
+
+      .app-mini-eq i:nth-child(1) { height: 9px; }
+      .app-mini-eq i:nth-child(2) { height: 16px; animation-delay: .1s; }
+      .app-mini-eq i:nth-child(3) { height: 12px; animation-delay: .2s; }
+      .app-mini-eq i:nth-child(4) { height: 18px; animation-delay: .3s; }
+      .app-mini-eq i:nth-child(5) { height: 10px; animation-delay: .4s; }
+
+      .app-mini-player.playing .app-mini-eq {
+        opacity: 1;
+        visibility: visible;
+        width: 27px;
+        transition: opacity .18s ease, width .18s ease, visibility 0s linear 0s;
+      }
+
+      .app-mini-player.playing .app-mini-eq i {
+        animation-play-state: running;
+      }
+
+      @keyframes app-mini-eq-wave {
+        50% {
+          transform: scaleY(.45);
+          opacity: .62;
+        }
+      }
+
+      .app-mini-play {
+        width: 50px;
+        height: 50px;
+        display: grid;
+        place-items: center;
+        align-self: center;
+        padding: 0;
+        border: 1px solid rgba(255,255,255,.08);
+        border-radius: 50%;
+        color: var(--yellow);
+        background: linear-gradient(180deg,#d61b43 0%,#a9001a 100%);
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.10);
+        cursor: pointer;
+        -webkit-appearance: none;
+        appearance: none;
+      }
+
+      .app-mini-play:active {
+        transform: scale(.95);
+      }
+
+      .app-mini-play svg {
+        display: block;
+        width: 22px;
+        height: 25px;
+        margin: 0;
+      }
+
+      .app-mini-play .app-mini-play-triangle {
+        transform: translate(1.8px, 0);
+      }
+
+      .app-mini-play .app-mini-pause {
+        display: none;
+      }
+
+      .app-mini-player.playing .app-mini-play-triangle {
+        display: none;
+      }
+
+      .app-mini-player.playing .app-mini-pause {
+        display: block;
+      }
+
+      body.mini-player-active .site {
+        padding-bottom: calc(112px + env(safe-area-inset-bottom));
+      }
+
+      .hero {
+        margin-top: 0;
+        width: 100%;
+        border-radius: 16px;
+        overflow: hidden;
+        isolation: isolate;
+      }
+
+      .dots {
+        bottom: 10px;
+        gap: 7px;
+      }
+
+      .dot {
+        width: 7px;
+        height: 7px;
+      }
+
+      .dot.active {
+        width: 22px;
+      }
+
+      .main-content-grid {
+        margin-top: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        width: 100%;
+      }
+
+      .left-main,
+      .side-rail {
+        display: contents;
+      }
+
+      .side-rail .quick-row {
+        order: 1;
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0,1fr));
+        gap: 12px;
+      }
+
+      .quick-image {
+        width: 100%;
+        border-radius: 16px;
+        overflow: hidden;
+        transform: none;
+      }
+
+      .quick-image:hover,
+      .quick-image:active {
+        transform: none;
+      }
+
+      .schedule-wrap {
+        order: 2;
+        width: 100%;
+        padding: 18px;
+        border-radius: 16px;
+        overflow: hidden;
+      }
+
+      .day-tabs {
+        grid-template-columns: repeat(7,minmax(0,1fr));
+        gap: 5px;
+        padding-bottom: 10px;
+      }
+
+      .day-tab {
+        min-height: 42px;
+        padding: 8px 3px;
+        font-size: 0;
+      }
+
+      .day-tab::after {
+        content: attr(data-short);
+        font-size: 11px;
+        letter-spacing: 0;
+      }
+
+      .program {
+        grid-template-columns: 76px minmax(0,1fr);
+        gap: 12px;
+        min-height: 58px;
+      }
+
+      .program-time {
+        min-height: 40px;
+        font-size: 14px;
+      }
+
+      .sponsor-wrap {
+        display: none !important;
+      }
+
+      .about-card,
+      .contact-card {
+        display: none !important;
+      }
+
+      .sponsor-card {
+        width: 100%;
+        height: auto;
+        border-radius: var(--app-main-radius);
+      }
+
+      .sponsor-card img {
+        width: 100%;
+        height: auto;
+      }
+
+      .about-card {
+        order: 4;
+      }
+
+      .contact-card {
+        order: 5;
+        width: 100%;
+        min-width: 0;
+        position: relative;
+        overflow: hidden;
+        background: linear-gradient(135deg,#5a1038 0%,#741747 48%,#9a1f5a 100%);
+        border-color: rgba(255,255,255,.18);
+        color: #fff;
+        box-shadow: 0 18px 38px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.10);
+      }
+
+      .about-card,
+      .contact-card {
+        width: 100%;
+        min-width: 0;
+        padding: 22px;
+        border-radius: var(--app-main-radius);
+      }
+
+      .contact-card h2 {
+        color: #fff;
+        text-shadow: 0 1px 3px rgba(37,0,22,.20);
+      }
+
+      .contact-item + .contact-item {
+        border-top: 1px solid rgba(255,255,255,.22);
+      }
+
+      .contact-card .contact-label {
+        color: rgba(255,255,255,.82);
+        text-shadow: 0 1px 2px rgba(37,0,22,.16);
+      }
+
+      .contact-card .contact-value,
+      .contact-card .contact-link {
+        color: #fff;
+        text-shadow: 0 1px 2px rgba(37,0,22,.18);
+      }
+
+      .contact-card h2::after {
+        background: var(--yellow);
+        box-shadow: 0 2px 8px rgba(255,217,26,.22);
+      }
+
+      footer {
+        margin-top: 16px;
+        padding: 22px 8px 4px;
+      }
     }
 
     @media (max-width: 380px) {
+      .site {
+        padding-left: 14px;
+        padding-right: 14px;
+      }
+
+      .mobile-app-shell {
+        width: calc(100% + 28px);
+        margin-left: -14px;
+      }
+
       .mobile-app-shell .app-menu {
         left: 14px;
         right: 14px;
@@ -1195,10 +1579,18 @@
     }
 
     @media (max-width: 900px) and (prefers-reduced-motion: reduce) {
-      .mobile-app-shell .app-waves i {
+      .mobile-app-shell .app-waves i,
+      .app-mini-eq i {
         animation: none;
       }
     }
+
+
+
+    /* =========================================================
+       AJUSTES DA VERSÃO UNIFICADA
+       Desktop preserva o visual aprovado; mobile usa o player app.
+       ========================================================= */
 
     @media (min-width: 901px) {
       .brand {
@@ -1475,6 +1867,75 @@
       <audio id="radioStream" preload="none" playsinline></audio>
     </header>
 
+  <section class="mobile-app-shell" id="mobileApp" aria-label="Rádio Amizade">
+    <button class="app-install-btn" id="installButton" type="button" hidden>Instalar app</button>
+
+    <div class="app-cover">
+      <img src="assets/avatar.png" alt="Rádio Amizade">
+    </div>
+
+    <h1 class="app-title">Rádio Amizade 98.7 FM</h1>
+
+    <div class="app-waves" aria-hidden="true">
+      <i></i><i></i><i></i><i></i><i></i>
+    </div>
+
+    <nav class="app-menu" aria-label="Rádio Amizade">
+      <a class="app-social" href="https://www.instagram.com/radioamizade/" target="_blank" rel="noopener" aria-label="Instagram">
+        <img src="assets/icone-instagram.svg" alt="">
+      </a>
+
+      <a class="app-social" href="https://www.facebook.com/RadioAmizadeFM98.7" target="_blank" rel="noopener" aria-label="Facebook">
+        <img src="assets/icone-facebook.svg" alt="">
+      </a>
+
+      <button class="app-play" id="mobilePlay" type="button" aria-label="Ouvir Rádio Amizade">
+        <svg class="app-play-triangle" viewBox="0 0 36 38" aria-hidden="true">
+          <path fill="currentColor" d="M5 2Q3 1 3 5v28q0 4 4 2l24-14q3-2 0-4L7 3Q6 2 5 2Z"/>
+        </svg>
+        <svg class="app-pause" viewBox="0 0 36 38" aria-hidden="true">
+          <rect x="7" y="5" width="8" height="28" rx="3" fill="currentColor"/>
+          <rect x="21" y="5" width="8" height="28" rx="3" fill="currentColor"/>
+        </svg>
+      </button>
+
+      <a class="app-social" href="https://www.youtube.com/@RadioAmizade98.7" target="_blank" rel="noopener" aria-label="YouTube">
+        <img src="assets/icone-youtube.svg" alt="">
+      </a>
+
+      <a class="app-social" href="https://wa.me/5551998770145" target="_blank" rel="noopener" aria-label="WhatsApp">
+        <img src="assets/icone-whatsapp.svg" alt="">
+      </a>
+    </nav>
+
+    <audio id="mobileAudio" preload="auto" playsinline></audio>
+  </section>
+
+  <aside class="app-mini-player" id="mobileMiniPlayer" aria-label="Player compacto da Rádio Amizade" aria-hidden="true">
+    <div class="app-mini-cover">
+      <img src="assets/avatar.png" alt="">
+    </div>
+
+    <div class="app-mini-copy">
+      <div class="app-mini-title-row">
+        <span class="app-mini-title">Rádio Amizade 98.7 FM</span>
+        <span class="app-mini-eq" aria-hidden="true">
+          <i></i><i></i><i></i><i></i><i></i>
+        </span>
+      </div>
+    </div>
+
+    <button class="app-mini-play" id="mobileMiniPlay" type="button" aria-label="Ouvir Rádio Amizade">
+      <svg class="app-mini-play-triangle" viewBox="0 0 36 38" aria-hidden="true">
+        <path fill="currentColor" d="M5 2Q3 1 3 5v28q0 4 4 2l24-14q3-2 0-4L7 3Q6 2 5 2Z"/>
+      </svg>
+      <svg class="app-mini-pause" viewBox="0 0 36 38" aria-hidden="true">
+        <rect x="7" y="5" width="8" height="28" rx="3" fill="currentColor"/>
+        <rect x="21" y="5" width="8" height="28" rx="3" fill="currentColor"/>
+      </svg>
+    </button>
+  </aside>
+
     <section class="hero" aria-label="Destaques">
       <div class="slides" id="slides">
 
@@ -1543,7 +2004,7 @@
       </div>
 
       <aside class="side-rail" aria-label="Contatos e patrocinador">
-        <div class="quick-row" aria-label="Acessos rápidos" style="grid-template-columns:1fr; gap:var(--section-gap)">
+        <div class="quick-row" aria-label="Acessos rápidos">
           <a class="quick-image" href="https://wa.me/5551998770145" target="_blank" rel="noopener noreferrer" aria-label="Fale com a Rádio Amizade pelo WhatsApp">
             <img src="assets/botao-whatsapp.png" alt="Botão de WhatsApp">
           </a>
@@ -1586,55 +2047,9 @@
 
     </div>
 
-    <footer>
-      <span>© 2026 Rádio Amizade</span>
-    </footer>
 
   </main>
 
-  <section class="mobile-app-shell" id="mobileApp" aria-label="Rádio Amizade">
-    <button class="app-install-btn" id="installButton" type="button" hidden>Instalar app</button>
-
-    <div class="app-cover">
-      <img src="assets/avatar.png" alt="Rádio Amizade">
-    </div>
-
-    <h1 class="app-title">Rádio Amizade 98.7 FM</h1>
-
-    <div class="app-waves" aria-hidden="true">
-      <i></i><i></i><i></i><i></i><i></i>
-    </div>
-
-    <nav class="app-menu" aria-label="Rádio Amizade">
-      <a class="app-social" href="https://www.instagram.com/radioamizade/" target="_blank" rel="noopener" aria-label="Instagram">
-        <img src="assets/icone-instagram.svg" alt="">
-      </a>
-
-      <a class="app-social" href="https://www.facebook.com/RadioAmizadeFM98.7" target="_blank" rel="noopener" aria-label="Facebook">
-        <img src="assets/icone-facebook.svg" alt="">
-      </a>
-
-      <button class="app-play" id="mobilePlay" type="button" aria-label="Ouvir Rádio Amizade">
-        <svg class="app-play-triangle" viewBox="0 0 36 38" aria-hidden="true">
-          <path fill="currentColor" d="M5 2Q3 1 3 5v28q0 4 4 2l24-14q3-2 0-4L7 3Q6 2 5 2Z"/>
-        </svg>
-        <svg class="app-pause" viewBox="0 0 36 38" aria-hidden="true">
-          <rect x="7" y="5" width="8" height="28" rx="3" fill="currentColor"/>
-          <rect x="21" y="5" width="8" height="28" rx="3" fill="currentColor"/>
-        </svg>
-      </button>
-
-      <a class="app-social" href="https://www.youtube.com/@RadioAmizade98.7" target="_blank" rel="noopener" aria-label="YouTube">
-        <img src="assets/icone-youtube.svg" alt="">
-      </a>
-
-      <a class="app-social" href="https://wa.me/5551998770145" target="_blank" rel="noopener" aria-label="WhatsApp">
-        <img src="assets/icone-whatsapp.svg" alt="">
-      </a>
-    </nav>
-
-    <audio id="mobileAudio" preload="auto" playsinline></audio>
-  </section>
 
   <div
     class="install-sheet"
@@ -1675,17 +2090,24 @@
     const RADIO_STREAM_URL = "https://5a2b083e9f360.streamlock.net/amizadefm/amizadefm.stream/playlist.m3u8";
   </script>
   <script>
+
     const topbar = document.querySelector(".topbar");
+
     function updateHeaderOnScroll() {
       topbar.classList.toggle("scrolled", window.scrollY > 28);
     }
+
     updateHeaderOnScroll();
-    window.addEventListener("scroll", updateHeaderOnScroll, { passive: true });
+
+    window.addEventListener("scroll", updateHeaderOnScroll, {
+      passive: true
+    });
 
     const streamUrl = RADIO_STREAM_URL;
     const audio = document.getElementById("radioStream");
     const livePlayer = document.getElementById("livePlayer");
     const liveButton = document.getElementById("liveButton");
+
     let hls = null;
     let hlsReady = false;
     let pendingPlay = false;
@@ -1693,210 +2115,586 @@
 
     function setPlaying(isPlaying) {
       livePlayer.classList.toggle("playing", isPlaying);
-      liveButton.setAttribute("aria-label", isPlaying ? "Pausar Rádio Amizade" : "Ouvir Rádio Amizade ao vivo");
+      liveButton.setAttribute(
+        "aria-label",
+        isPlaying ? "Pausar Rádio Amizade" : "Ouvir Rádio Amizade ao vivo"
+      );
     }
+
     function seekToLiveEdge() {
       if (hls) {
         const liveSyncPosition = hls.liveSyncPosition;
+
         if (Number.isFinite(liveSyncPosition) && liveSyncPosition > 0) {
           audio.currentTime = liveSyncPosition;
           return true;
         }
       }
+
       if (audio.seekable && audio.seekable.length) {
         const lastRange = audio.seekable.length - 1;
         const rangeStart = audio.seekable.start(lastRange);
         const rangeEnd = audio.seekable.end(lastRange);
         const liveTarget = Math.max(rangeStart, rangeEnd - 0.5);
+
         if (Number.isFinite(liveTarget)) {
           audio.currentTime = liveTarget;
           return true;
         }
       }
+
       return false;
     }
+
     function playRadio() {
-      if (hasStartedPlayback) seekToLiveEdge();
-      audio.play().catch(error => {
-        console.error("Erro ao reproduzir a rádio:", error);
-        setPlaying(false);
-      });
-    }
-    function setupStream() {
-      if (window.Hls && Hls.isSupported()) {
-        hls = new Hls({ lowLatencyMode: false, liveSyncDurationCount: 3, initialLiveManifestSize: 3 });
-        hls.loadSource(streamUrl);
-        hls.attachMedia(audio);
-        hls.on(Hls.Events.MANIFEST_PARSED, () => {
-          hlsReady = true;
-          if (pendingPlay) { pendingPlay = false; playRadio(); }
-        });
-        hls.on(Hls.Events.ERROR, (_, data) => {
-          console.error("HLS:", data);
-          if (!data.fatal) return;
-          if (data.type === Hls.ErrorTypes.NETWORK_ERROR) { hls.startLoad(); return; }
-          if (data.type === Hls.ErrorTypes.MEDIA_ERROR) { hls.recoverMediaError(); return; }
+      if (hasStartedPlayback) {
+        seekToLiveEdge();
+      }
+
+      audio.play()
+        .catch(error => {
+          console.error("Erro ao reproduzir a rádio:", error);
           setPlaying(false);
         });
+    }
+
+    function setupStream() {
+      if (window.Hls && Hls.isSupported()) {
+        hls = new Hls({
+          lowLatencyMode: false,
+          liveSyncDurationCount: 3,
+          initialLiveManifestSize: 3
+        });
+
+        hls.loadSource(streamUrl);
+        hls.attachMedia(audio);
+
+        hls.on(Hls.Events.MANIFEST_PARSED, () => {
+          hlsReady = true;
+
+          if (pendingPlay) {
+            pendingPlay = false;
+            playRadio();
+          }
+        });
+
+        hls.on(Hls.Events.ERROR, (_, data) => {
+          console.error("HLS:", data);
+
+          if (!data.fatal) return;
+
+          if (data.type === Hls.ErrorTypes.NETWORK_ERROR) {
+            hls.startLoad();
+            return;
+          }
+
+          if (data.type === Hls.ErrorTypes.MEDIA_ERROR) {
+            hls.recoverMediaError();
+            return;
+          }
+
+          setPlaying(false);
+        });
+
         return;
       }
+
       if (audio.canPlayType("application/vnd.apple.mpegurl")) {
         audio.src = streamUrl;
         return;
       }
+
       console.error("Este navegador não oferece suporte a HLS.");
     }
+
     liveButton.addEventListener("click", () => {
-      if (!audio.paused) { audio.pause(); pendingPlay = false; return; }
-      if (hls && !hlsReady) { pendingPlay = true; return; }
+      if (!audio.paused) {
+        audio.pause();
+        pendingPlay = false;
+        return;
+      }
+
+      if (hls && !hlsReady) {
+        pendingPlay = true;
+        return;
+      }
+
       playRadio();
     });
-    audio.addEventListener("playing", () => { hasStartedPlayback = true; setPlaying(true); });
-    audio.addEventListener("pause", () => { if (!audio.ended) setPlaying(false); });
+
+    audio.addEventListener("playing", () => {
+      hasStartedPlayback = true;
+      setPlaying(true);
+    });
+    audio.addEventListener("pause", () => {
+      if (!audio.ended) setPlaying(false);
+    });
     audio.addEventListener("ended", () => setPlaying(false));
     audio.addEventListener("error", () => setPlaying(false));
-    if (window.matchMedia("(min-width: 901px)").matches) setupStream();
+
+    if (window.matchMedia("(min-width: 901px)").matches) {
+      setupStream();
+    }
 
     const slides = document.getElementById("slides");
     const dots = [...document.querySelectorAll(".dot")];
     let currentSlide = 0;
     let carouselTimer = null;
     let touchStartX = 0;
+
     function goToSlide(index) {
       currentSlide = (index + dots.length) % dots.length;
       slides.style.transform = `translateX(-${currentSlide * 100}%)`;
-      dots.forEach((dot, i) => dot.classList.toggle("active", i === currentSlide));
+
+      dots.forEach((dot, i) => {
+        dot.classList.toggle("active", i === currentSlide);
+      });
+
       restartCarousel();
     }
+
     function restartCarousel() {
       clearInterval(carouselTimer);
-      carouselTimer = setInterval(() => goToSlide(currentSlide + 1), 5500);
+      carouselTimer = setInterval(() => {
+        goToSlide(currentSlide + 1);
+      }, 5500);
     }
+
     dots.forEach((dot, i) => dot.addEventListener("click", () => goToSlide(i)));
-    slides.addEventListener("touchstart", e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+
+    slides.addEventListener("touchstart", e => {
+      touchStartX = e.touches[0].clientX;
+    }, { passive: true });
+
     slides.addEventListener("touchend", e => {
       const delta = e.changedTouches[0].clientX - touchStartX;
-      if (Math.abs(delta) > 45) goToSlide(currentSlide + (delta < 0 ? 1 : -1));
+      if (Math.abs(delta) > 45) {
+        goToSlide(currentSlide + (delta < 0 ? 1 : -1));
+      }
     }, { passive: true });
+
     restartCarousel();
 
     const schedule = {
-      1: [["01:00","Show da Madrugada"],["05:00","Bom Dia Amizade"],["07:00","Girando com a Notícia"],["08:00","Sintonia 98 - Manhã"],["10:00","Conexão 98"],["14:00","Sintonia 98 - Tarde"],["18:00","Hora Extra"],["19:00","A Voz do Brasil"],["20:00","Expresso 98"]],
-      2: [["01:00","Show da Madrugada"],["05:00","Bom Dia Amizade"],["07:00","Girando com a Notícia"],["08:00","Sintonia 98 - Manhã"],["10:00","Conexão 98"],["14:00","Sintonia 98 - Tarde"],["18:00","Hora Extra"],["19:00","A Voz do Brasil"],["20:00","Expresso 98"]],
-      3: [["01:00","Show da Madrugada"],["05:00","Bom Dia Amizade"],["07:00","Girando com a Notícia"],["08:00","Sintonia 98 - Manhã"],["10:00","Conexão 98"],["14:00","Sintonia 98 - Tarde"],["18:00","Hora Extra"],["19:00","A Voz do Brasil"],["20:00","Expresso 98"]],
-      4: [["01:00","Show da Madrugada"],["05:00","Bom Dia Amizade"],["07:00","Girando com a Notícia"],["08:00","Sintonia 98 - Manhã"],["10:00","Conexão 98"],["14:00","Sintonia 98 - Tarde"],["18:00","Hora Extra"],["19:00","A Voz do Brasil"],["20:00","Expresso 98"]],
-      5: [["01:00","Show da Madrugada"],["05:00","Bom Dia Amizade"],["07:00","Girando com a Notícia"],["08:00","Sintonia 98 - Manhã"],["10:00","Conexão 98"],["14:00","Sintonia 98 - Tarde"],["18:00","Hora Extra"],["19:00","A Voz do Brasil"],["20:00","Show Clube & Cia"]],
-      6: [["01:00","Show da Madrugada"],["05:00","Bom Dia Amizade"],["06:00","Amizade em Foco"],["07:00","Amizade Total"],["12:00","As Melhores da Semana"],["14:00","Sintonia Quente"],["20:00","Show Clube & Cia"]],
-      0: [["01:00","Show da Madrugada"],["05:00","Amizade em Foco"],["06:00","Bom Dia Amizade"],["08:00","Ritmo de Kerb"],["11:00","Tempero Bom Demais"],["15:00","Domingo Especial"]]
+      1: [
+        ["01:00", "Show da Madrugada"],
+        ["05:00", "Bom Dia Amizade"],
+        ["07:00", "Girando com a Notícia"],
+        ["08:00", "Sintonia 98 - Manhã"],
+        ["10:00", "Conexão 98"],
+        ["14:00", "Sintonia 98 - Tarde"],
+        ["18:00", "Hora Extra"],
+        ["19:00", "A Voz do Brasil"],
+        ["20:00", "Expresso 98"]
+      ],
+      2: [
+        ["01:00", "Show da Madrugada"],
+        ["05:00", "Bom Dia Amizade"],
+        ["07:00", "Girando com a Notícia"],
+        ["08:00", "Sintonia 98 - Manhã"],
+        ["10:00", "Conexão 98"],
+        ["14:00", "Sintonia 98 - Tarde"],
+        ["18:00", "Hora Extra"],
+        ["19:00", "A Voz do Brasil"],
+        ["20:00", "Expresso 98"]
+      ],
+      3: [
+        ["01:00", "Show da Madrugada"],
+        ["05:00", "Bom Dia Amizade"],
+        ["07:00", "Girando com a Notícia"],
+        ["08:00", "Sintonia 98 - Manhã"],
+        ["10:00", "Conexão 98"],
+        ["14:00", "Sintonia 98 - Tarde"],
+        ["18:00", "Hora Extra"],
+        ["19:00", "A Voz do Brasil"],
+        ["20:00", "Expresso 98"]
+      ],
+      4: [
+        ["01:00", "Show da Madrugada"],
+        ["05:00", "Bom Dia Amizade"],
+        ["07:00", "Girando com a Notícia"],
+        ["08:00", "Sintonia 98 - Manhã"],
+        ["10:00", "Conexão 98"],
+        ["14:00", "Sintonia 98 - Tarde"],
+        ["18:00", "Hora Extra"],
+        ["19:00", "A Voz do Brasil"],
+        ["20:00", "Expresso 98"]
+      ],
+      5: [
+        ["01:00", "Show da Madrugada"],
+        ["05:00", "Bom Dia Amizade"],
+        ["07:00", "Girando com a Notícia"],
+        ["08:00", "Sintonia 98 - Manhã"],
+        ["10:00", "Conexão 98"],
+        ["14:00", "Sintonia 98 - Tarde"],
+        ["18:00", "Hora Extra"],
+        ["19:00", "A Voz do Brasil"],
+        ["20:00", "Show Clube & Cia"]
+      ],
+      6: [
+        ["01:00", "Show da Madrugada"],
+        ["05:00", "Bom Dia Amizade"],
+        ["06:00", "Amizade em Foco"],
+        ["07:00", "Amizade Total"],
+        ["12:00", "As Melhores da Semana"],
+        ["14:00", "Sintonia Quente"],
+        ["20:00", "Show Clube & Cia"]
+      ],
+      0: [
+        ["01:00", "Show da Madrugada"],
+        ["05:00", "Amizade em Foco"],
+        ["06:00", "Bom Dia Amizade"],
+        ["08:00", "Ritmo de Kerb"],
+        ["11:00", "Tempero Bom Demais"],
+        ["15:00", "Domingo Especial"]
+      ]
     };
-    const dayNames = [["Segunda",1],["Terça",2],["Quarta",3],["Quinta",4],["Sexta",5],["Sábado",6],["Domingo",0]];
+
+    const dayNames = [
+      ["Segunda", 1],["Terça", 2],["Quarta", 3],["Quinta", 4],
+      ["Sexta", 5],["Sábado", 6],["Domingo", 0]
+    ];
+
     const dayTabs = document.getElementById("dayTabs");
     const programList = document.getElementById("programList");
-    function mins(time) { const [h,m] = time.split(":").map(Number); return h*60+m; }
-    function broadcastDay(date = new Date()) { const calendarDay=date.getDay(); return date.getHours()<1 ? (calendarDay+6)%7 : calendarDay; }
+
+    function mins(time) {
+      const [h, m] = time.split(":").map(Number);
+      return h * 60 + m;
+    }
+
+    function broadcastDay(date = new Date()) {
+      const calendarDay = date.getDay();
+
+      return date.getHours() < 1 ? (calendarDay + 6) % 7 : calendarDay;
+    }
+
     function currentProgramIndex(items) {
       if (!items.length) return -1;
-      const now=new Date(); const current=now.getHours()*60+now.getMinutes(); const firstStart=mins(items[0][0]);
-      if (current<firstStart) return items.length-1;
-      for (let i=0;i<items.length;i++) {
-        const start=mins(items[i][0]); const end=i<items.length-1?mins(items[i+1][0]):24*60;
-        if (current>=start && current<end) return i;
+
+      const now = new Date();
+      const current = now.getHours() * 60 + now.getMinutes();
+      const firstStart = mins(items[0][0]);
+
+      if (current < firstStart) return items.length - 1;
+
+      for (let i = 0; i < items.length; i++) {
+        const start = mins(items[i][0]);
+        const end = i < items.length - 1 ? mins(items[i + 1][0]) : 24 * 60;
+
+        if (current >= start && current < end) return i;
       }
+
       return -1;
     }
+
     function renderDay(day) {
-      const today=broadcastDay(); const items=schedule[day]||[]; const onAirIndex=day===today?currentProgramIndex(items):-1;
-      [...dayTabs.children].forEach(btn => btn.classList.toggle("active", Number(btn.dataset.day)===day));
-      programList.innerHTML=items.map((item,i)=>`<article class="program ${i===onAirIndex?"current":""}"><div class="program-time">${item[0]}</div><div class="program-main"><div class="program-name">${item[1]}</div><div class="on-air">NO AR AGORA</div></div></article>`).join("");
+      const today = broadcastDay();
+      const items = schedule[day] || [];
+      const onAirIndex = day === today ? currentProgramIndex(items) : -1;
+
+      [...dayTabs.children].forEach(btn => {
+        btn.classList.toggle("active", Number(btn.dataset.day) === day);
+      });
+
+      programList.innerHTML = items.map((item, i) => `
+        <article class="program ${i === onAirIndex ? "current" : ""}">
+          <div class="program-time">${item[0]}</div>
+          <div class="program-main">
+            <div class="program-name">${item[1]}</div>
+            <div class="on-air">NO AR AGORA</div>
+          </div>
+        </article>
+      `).join("");
     }
-    const shortDayNames={"Segunda":"SEG","Terça":"TER","Quarta":"QUA","Quinta":"QUI","Sexta":"SEX","Sábado":"SÁB","Domingo":"DOM"};
-    dayNames.forEach(([label,day])=>{
-      const btn=document.createElement("button"); btn.type="button"; btn.className="day-tab"; btn.dataset.day=day; btn.dataset.short=shortDayNames[label]||label; btn.textContent=label; btn.setAttribute("aria-label",label); btn.addEventListener("click",()=>renderDay(day)); dayTabs.appendChild(btn);
+
+    const shortDayNames = {
+      "Segunda": "SEG",
+      "Terça": "TER",
+      "Quarta": "QUA",
+      "Quinta": "QUI",
+      "Sexta": "SEX",
+      "Sábado": "SAB",
+      "Domingo": "DOM"
+    };
+
+    dayNames.forEach(([label, day]) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "day-tab";
+      btn.dataset.day = day;
+      btn.dataset.short = shortDayNames[label] || label;
+      btn.textContent = label;
+      btn.setAttribute("aria-label", label);
+      btn.addEventListener("click", () => renderDay(day));
+      dayTabs.appendChild(btn);
     });
+
     renderDay(broadcastDay());
-  </script>
+</script>
 
-  <script>
-    (() => {
-      const mobileMedia = window.matchMedia("(max-width: 900px)");
-      const handleBreakpointChange = () => window.location.reload();
-      if (mobileMedia.addEventListener) mobileMedia.addEventListener("change", handleBreakpointChange);
-      else if (mobileMedia.addListener) mobileMedia.addListener(handleBreakpointChange);
-      if (!mobileMedia.matches) return;
+<script>
+  (() => {
+    const mobileMedia = window.matchMedia("(max-width: 900px)");
 
-      const STREAM = RADIO_STREAM_URL;
-      const app = document.getElementById("mobileApp");
-      const audio = document.getElementById("mobileAudio");
-      const button = document.getElementById("mobilePlay");
-      let hls = null;
-      let ready = false;
-      let pendingPlay = false;
-      function setPlaying(value) {
-        app.classList.toggle("playing", value);
-        button.setAttribute("aria-label", value ? "Pausar Rádio Amizade" : "Ouvir Rádio Amizade");
+    // Se o visitante redimensionar cruzando o breakpoint,
+    // recarrega para ativar apenas o player apropriado.
+    const handleBreakpointChange = () => window.location.reload();
+    if (mobileMedia.addEventListener) {
+      mobileMedia.addEventListener("change", handleBreakpointChange);
+    } else if (mobileMedia.addListener) {
+      mobileMedia.addListener(handleBreakpointChange);
+    }
+
+    if (!mobileMedia.matches) return;
+
+    const STREAM = RADIO_STREAM_URL;
+    const app = document.getElementById("mobileApp");
+    const audio = document.getElementById("mobileAudio");
+    const button = document.getElementById("mobilePlay");
+    const miniPlayer = document.getElementById("mobileMiniPlayer");
+    const miniButton = document.getElementById("mobileMiniPlay");
+
+    let hls = null;
+    let ready = false;
+    let pendingPlay = false;
+
+    function setPlaying(value) {
+      app.classList.toggle("playing", value);
+      miniPlayer.classList.toggle("playing", value);
+
+      const label = value ? "Pausar Rádio Amizade" : "Ouvir Rádio Amizade";
+      button.setAttribute("aria-label", label);
+      miniButton.setAttribute("aria-label", label);
+    }
+
+    function seekToLiveEdge() {
+      if (
+        hls &&
+        Number.isFinite(hls.liveSyncPosition) &&
+        hls.liveSyncPosition > 0
+      ) {
+        try { audio.currentTime = hls.liveSyncPosition; } catch (_) {}
+        return;
       }
-      function seekToLiveEdge() {
-        if (hls && Number.isFinite(hls.liveSyncPosition) && hls.liveSyncPosition > 0) {
-          try { audio.currentTime = hls.liveSyncPosition; } catch (_) {}
-          return;
+
+      if (audio.seekable && audio.seekable.length) {
+        const last = audio.seekable.length - 1;
+        const end = audio.seekable.end(last);
+        const start = audio.seekable.start(last);
+        const target = Math.max(start, end - 0.15);
+
+        if (Number.isFinite(target)) {
+          try { audio.currentTime = target; } catch (_) {}
         }
-        if (audio.seekable && audio.seekable.length) {
-          const last=audio.seekable.length-1; const end=audio.seekable.end(last); const start=audio.seekable.start(last); const target=Math.max(start,end-0.15);
-          if (Number.isFinite(target)) { try { audio.currentTime=target; } catch (_) {} }
-        }
       }
-      function playRadioMobile() { seekToLiveEdge(); audio.play().catch(()=>setPlaying(false)); }
-      if (audio.canPlayType("application/vnd.apple.mpegurl")) {
-        audio.preload="auto"; audio.src=STREAM; audio.load(); ready=true;
-      } else if (window.Hls && Hls.isSupported()) {
-        hls=new Hls({lowLatencyMode:false,liveSyncDurationCount:1,liveMaxLatencyDurationCount:3,initialLiveManifestSize:1,maxBufferLength:4,maxMaxBufferLength:8,backBufferLength:0,startFragPrefetch:true});
-        hls.loadSource(STREAM); hls.attachMedia(audio);
-        hls.on(Hls.Events.MANIFEST_PARSED,()=>{ready=true;if(pendingPlay){pendingPlay=false;playRadioMobile();}});
-        hls.on(Hls.Events.ERROR,(_,data)=>{if(!data.fatal)return;if(data.type===Hls.ErrorTypes.NETWORK_ERROR)hls.startLoad();else if(data.type===Hls.ErrorTypes.MEDIA_ERROR)hls.recoverMediaError();});
-      } else {
-        button.disabled=true; button.setAttribute("aria-label","Áudio indisponível neste navegador");
-      }
-      button.addEventListener("click",()=>{if(!audio.paused){audio.pause();pendingPlay=false;return;}if(ready)playRadioMobile();else pendingPlay=true;});
-      audio.addEventListener("loadedmetadata",seekToLiveEdge);
-      audio.addEventListener("canplay",()=>{ready=true;if(pendingPlay){pendingPlay=false;playRadioMobile();}},{once:true});
-      audio.addEventListener("playing",()=>setPlaying(true));
-      audio.addEventListener("pause",()=>setPlaying(false));
-      audio.addEventListener("ended",()=>setPlaying(false));
-      audio.addEventListener("error",()=>setPlaying(false));
-    })();
-  </script>
+    }
 
-  <script>
-    (() => {
-      const mobileMedia = window.matchMedia("(max-width: 900px)");
-      if (!mobileMedia.matches) return;
-      const installButton=document.getElementById("installButton");
-      const installSheet=document.getElementById("installSheet");
-      const installSheetClose=document.getElementById("installSheetClose");
-      let deferredPrompt=null;
-      const isStandalone=()=>window.matchMedia("(display-mode: standalone)").matches||window.navigator.standalone===true;
-      const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);
-      function updateInstallButton(){if(isStandalone()){installButton.hidden=true;return;}installButton.hidden=!isIOS;}
-      updateInstallButton();
-      window.addEventListener("beforeinstallprompt",event=>{event.preventDefault();deferredPrompt=event;if(!isStandalone())installButton.hidden=false;});
-      installButton.addEventListener("click",async()=>{
-        if(isStandalone()){installButton.hidden=true;return;}
-        if(deferredPrompt){deferredPrompt.prompt();const choice=await deferredPrompt.userChoice;deferredPrompt=null;if(choice.outcome==="accepted")installButton.hidden=true;return;}
-        if(isIOS){installSheet.hidden=false;installSheetClose.focus();}
+    function playRadioMobile() {
+      seekToLiveEdge();
+      audio.play().catch(() => setPlaying(false));
+    }
+
+    // Safari / iPhone / iPad / macOS: HLS nativo.
+    if (audio.canPlayType("application/vnd.apple.mpegurl")) {
+      audio.preload = "auto";
+      audio.src = STREAM;
+      audio.load();
+      ready = true;
+    }
+    // Chrome / Android / demais navegadores: hls.js.
+    else if (window.Hls && Hls.isSupported()) {
+      hls = new Hls({
+        lowLatencyMode: false,
+        liveSyncDurationCount: 1,
+        liveMaxLatencyDurationCount: 3,
+        initialLiveManifestSize: 1,
+        maxBufferLength: 4,
+        maxMaxBufferLength: 8,
+        backBufferLength: 0,
+        startFragPrefetch: true
       });
-      installSheetClose.addEventListener("click",()=>{installSheet.hidden=true;});
-      installSheet.addEventListener("click",event=>{if(event.target===installSheet)installSheet.hidden=true;});
-      document.addEventListener("keydown",event=>{if(event.key==="Escape"&&!installSheet.hidden)installSheet.hidden=true;});
-      window.addEventListener("appinstalled",()=>{deferredPrompt=null;installButton.hidden=true;installSheet.hidden=true;});
-    })();
-  </script>
 
-  <script>
-    if ("serviceWorker" in navigator && window.matchMedia("(max-width: 900px)").matches) {
-      window.addEventListener("load",()=>{
-        navigator.serviceWorker.register("./service-worker.js",{scope:"./index2.html",updateViaCache:"none"}).then(registration=>registration.update()).catch(()=>{});
+      hls.loadSource(STREAM);
+      hls.attachMedia(audio);
+
+      hls.on(Hls.Events.MANIFEST_PARSED, () => {
+        ready = true;
+
+        if (pendingPlay) {
+          pendingPlay = false;
+          playRadioMobile();
+        }
+      });
+
+      hls.on(Hls.Events.ERROR, (_, data) => {
+        if (!data.fatal) return;
+
+        if (data.type === Hls.ErrorTypes.NETWORK_ERROR) {
+          hls.startLoad();
+        } else if (data.type === Hls.ErrorTypes.MEDIA_ERROR) {
+          hls.recoverMediaError();
+        }
+      });
+    } else {
+      button.disabled = true;
+      miniButton.disabled = true;
+      button.setAttribute(
+        "aria-label",
+        "Áudio indisponível neste navegador"
+      );
+      miniButton.setAttribute(
+        "aria-label",
+        "Áudio indisponível neste navegador"
+      );
+    }
+
+    function toggleRadioMobile() {
+      if (!audio.paused) {
+        audio.pause();
+        pendingPlay = false;
+        return;
+      }
+
+      if (ready) {
+        playRadioMobile();
+      } else {
+        pendingPlay = true;
+      }
+    }
+
+    button.addEventListener("click", toggleRadioMobile);
+    miniButton.addEventListener("click", toggleRadioMobile);
+
+    let miniScrollTicking = false;
+
+    function updateMiniPlayerVisibility() {
+      const largePlayerBottom = app.getBoundingClientRect().bottom;
+      const shouldShow = largePlayerBottom <= 0;
+
+      miniPlayer.classList.toggle("visible", shouldShow);
+      miniPlayer.setAttribute("aria-hidden", shouldShow ? "false" : "true");
+      document.body.classList.toggle("mini-player-active", shouldShow);
+    }
+
+    function requestMiniPlayerUpdate() {
+      if (miniScrollTicking) return;
+      miniScrollTicking = true;
+
+      requestAnimationFrame(() => {
+        updateMiniPlayerVisibility();
+        miniScrollTicking = false;
       });
     }
-  </script>
+
+    updateMiniPlayerVisibility();
+    window.addEventListener("scroll", requestMiniPlayerUpdate, { passive: true });
+    window.addEventListener("resize", requestMiniPlayerUpdate, { passive: true });
+
+    audio.addEventListener("loadedmetadata", seekToLiveEdge);
+
+    audio.addEventListener("canplay", () => {
+      ready = true;
+
+      if (pendingPlay) {
+        pendingPlay = false;
+        playRadioMobile();
+      }
+    }, { once: true });
+
+    audio.addEventListener("playing", () => setPlaying(true));
+    audio.addEventListener("pause", () => setPlaying(false));
+    audio.addEventListener("ended", () => setPlaying(false));
+    audio.addEventListener("error", () => setPlaying(false));
+  })();
+</script>
+
+
+<script>
+  (() => {
+    const mobileMedia = window.matchMedia("(max-width: 900px)");
+    if (!mobileMedia.matches) return;
+
+    const installButton = document.getElementById("installButton");
+    const installSheet = document.getElementById("installSheet");
+    const installSheetClose = document.getElementById("installSheetClose");
+    let deferredPrompt = null;
+
+    const isStandalone = () =>
+      window.matchMedia("(display-mode: standalone)").matches ||
+      window.navigator.standalone === true;
+
+    const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+
+    function updateInstallButton() {
+      if (isStandalone()) {
+        installButton.hidden = true;
+        return;
+      }
+      installButton.hidden = !isIOS;
+    }
+
+    updateInstallButton();
+
+    window.addEventListener("beforeinstallprompt", (event) => {
+      event.preventDefault();
+      deferredPrompt = event;
+      if (!isStandalone()) installButton.hidden = false;
+    });
+
+    installButton.addEventListener("click", async () => {
+      if (isStandalone()) {
+        installButton.hidden = true;
+        return;
+      }
+
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const choice = await deferredPrompt.userChoice;
+        deferredPrompt = null;
+        if (choice.outcome === "accepted") installButton.hidden = true;
+        return;
+      }
+
+      if (isIOS) {
+        installSheet.hidden = false;
+        installSheetClose.focus();
+      }
+    });
+
+    installSheetClose.addEventListener("click", () => {
+      installSheet.hidden = true;
+    });
+
+    installSheet.addEventListener("click", (event) => {
+      if (event.target === installSheet) installSheet.hidden = true;
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && !installSheet.hidden) installSheet.hidden = true;
+    });
+
+    window.addEventListener("appinstalled", () => {
+      deferredPrompt = null;
+      installButton.hidden = true;
+      installSheet.hidden = true;
+    });
+  })();
+</script>
+
+<script>
+  if (
+    "serviceWorker" in navigator &&
+    window.matchMedia("(max-width: 900px)").matches
+  ) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("./service-worker.js", {
+        scope: "./index2.html",
+        updateViaCache: "none"
+      }).then((registration) => registration.update()).catch(() => {});
+    });
+  }
+</script>
+
 </body>
 </html>
