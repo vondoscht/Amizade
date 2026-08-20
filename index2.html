@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
-  <title>Amz v1.20</title>
+  <title>Amz v1.21</title>
   <meta name="description" content="Ouça a Rádio Amizade 98.7 FM ao vivo e acompanhe música, informação, entretenimento e os principais acontecimentos do Vale do Paranhana.">
   <meta name="author" content="Gabriel Von Doscht">
   <meta name="application-name" content="Rádio Amizade 98.7 FM">
@@ -20,9 +20,9 @@
   <link rel="canonical" href="https://amizade.fm.br/">
 
   <link rel="icon" type="image/png" href="assets/favicon.png">
-  <link rel="apple-touch-icon" href="assets/avatar.png?v=1.10">
-  <link rel="apple-touch-icon-precomposed" href="assets/avatar.png?v=1.10">
-  <link rel="manifest" href="manifest.webmanifest?v=1.10">
+  <link rel="apple-touch-icon" href="assets/avatar.png?v=1.21">
+  <link rel="apple-touch-icon-precomposed" href="assets/avatar.png?v=1.21">
+  <link rel="manifest" href="manifest.webmanifest?v=1.21">
 
   <meta property="og:type" content="website">
   <meta property="og:locale" content="pt_BR">
@@ -88,6 +88,7 @@
   </script>
 
   <style>
+    /* ========== TOKENS / BASE ========== */
     :root {
       --gray-900: #111319;
       --gray-850: #171920;
@@ -134,6 +135,7 @@
       padding: 14px 0 42px;
     }
 
+    /* ========== CABEÇALHO DESKTOP ========== */
     .topbar {
       position: sticky;
       top: 14px;
@@ -170,11 +172,6 @@
       color: #fff;
       text-decoration: none;
       min-width: 0;
-    }
-
-    .brand-picture {
-      display: block;
-      line-height: 0;
     }
 
     .brand-image {
@@ -430,6 +427,7 @@
       }
     }
 
+    /* ========== CARROSSEL ========== */
     .hero {
       margin-top: 14px;
       position: relative;
@@ -509,17 +507,11 @@
       overflow: hidden;
       box-shadow: 0 12px 26px rgba(0,0,0,.10);
       background: var(--gray-700);
-      transition: transform .20s ease, box-shadow .22s ease;
-      transform: none;
+      transition: box-shadow .22s ease;
     }
 
     .quick-image:hover {
-      transform: translateY(-3px);
       box-shadow: 0 12px 26px rgba(0,0,0,.10), 0 0 18px rgba(255,255,255,.09);
-    }
-
-    .quick-image:active {
-      transform: translateY(-1px);
     }
 
     .quick-image:hover img {
@@ -536,6 +528,7 @@
       transition: filter .22s ease;
     }
 
+    /* ========== CONTEÚDO / PROGRAMAÇÃO ========== */
     .main-content-grid {
       margin-top: var(--section-gap);
       display: grid;
@@ -601,10 +594,6 @@
       -webkit-user-drag: none;
       filter: brightness(1) saturate(1);
       transition: filter .22s ease;
-    }
-
-    .sponsor-card:hover {
-      transform: none;
     }
 
     .sponsor-card:hover img {
@@ -805,14 +794,7 @@
       display: block;
     }
 
-    .about-grid {
-      margin-top: var(--section-gap);
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) var(--side-column);
-      gap: var(--section-gap);
-      align-items: stretch;
-    }
-
+    /* ========== INSTITUCIONAL / CONTATO ========== */
     .about-card, .contact-card {
       border-radius: var(--radius-container);
       padding: 30px;
@@ -905,21 +887,6 @@
       font: var(--font-meta) 12px/1.4 "Manrope",sans-serif;
     }
 
-    @media (min-width:901px) {
-      .socials {
-        margin-right: 10px;
-      }
-
-      .side-rail footer {
-        width: 100%;
-        margin: 0;
-        padding: 0 8px 8px;
-        justify-content: center;
-        text-align: center;
-        color: rgba(255,255,255,.38);
-      }
-    }
-
     .about-card p + p {
       margin-top: 10px;
     }
@@ -972,9 +939,7 @@
       }
 
       .mobile-app-shell {
-        --app-bg: #111319;
         --app-panel: rgba(29,32,39,.90);
-        --app-yellow: #ffd91a;
         --app-red: #a9001a;
         --app-cover: min(64vw,255px);
         --app-top: 7svh;
@@ -1003,26 +968,6 @@
         background: transparent;
       }
 
-      .mobile-app-shell .app-site-link {
-        position: absolute;
-        z-index: 20;
-        top: var(--app-top);
-        left: 50%;
-        transform: translateX(-50%);
-        padding: 8px 16px;
-        border-radius: 999px;
-        color: rgba(255,255,255,.82);
-        background: rgba(29,32,39,.82);
-        box-shadow: 0 10px 24px rgba(0,0,0,.18);
-        font-size: 14px;
-        font-weight: 700;
-        line-height: 1;
-        text-decoration: none;
-        white-space: nowrap;
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-      }
-
       .mobile-app-shell .app-cover {
         position: absolute;
         top: var(--app-cover-y);
@@ -1032,7 +977,7 @@
         aspect-ratio: 1;
         overflow: hidden;
         border-radius: var(--radius-container);
-        background: var(--app-yellow);
+        background: var(--yellow);
         box-shadow: 0 24px 40px rgba(255,217,26,.18);
       }
 
@@ -1086,7 +1031,7 @@
         display: block;
         width: 5px;
         border-radius: 999px;
-        background: var(--app-yellow);
+        background: var(--yellow);
         animation: app-wave .9s infinite ease-in-out;
       }
 
@@ -1150,7 +1095,7 @@
         border: 0;
         padding: 0;
         border-radius: 50%;
-        color: var(--app-yellow);
+        color: var(--yellow);
         background: linear-gradient(180deg,#d61b43,var(--app-red));
         box-shadow:
           0 20px 38px rgba(239,35,71,.32),
@@ -1517,10 +1462,6 @@
       }
 
       .quick-image:hover,
-      .quick-image:active {
-        transform: none;
-      }
-
       .schedule-wrap {
         order: 2;
         width: 100%;
@@ -1606,70 +1547,6 @@
         display: none !important;
       }
 
-      .sponsor-card {
-        width: 100%;
-        height: auto;
-        border-radius: var(--app-main-radius);
-      }
-
-      .sponsor-card img {
-        width: 100%;
-        height: auto;
-      }
-
-      .about-card {
-        order: 4;
-      }
-
-      .contact-card {
-        order: 5;
-        width: 100%;
-        min-width: 0;
-        position: relative;
-        overflow: hidden;
-        background: linear-gradient(135deg,#5a1038 0%,#741747 48%,#9a1f5a 100%);
-        border-color: rgba(255,255,255,.18);
-        color: #fff;
-        box-shadow: 0 18px 38px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.10);
-      }
-
-      .about-card,
-      .contact-card {
-        width: 100%;
-        min-width: 0;
-        padding: 22px;
-        border-radius: var(--app-main-radius);
-      }
-
-      .contact-card h2 {
-        color: #fff;
-        text-shadow: 0 1px 3px rgba(37,0,22,.20);
-      }
-
-      .contact-item + .contact-item {
-        border-top: 1px solid rgba(255,255,255,.22);
-      }
-
-      .contact-card .contact-label {
-        color: rgba(255,255,255,.82);
-        text-shadow: 0 1px 2px rgba(37,0,22,.16);
-      }
-
-      .contact-card .contact-value,
-      .contact-card .contact-link {
-        color: #fff;
-        text-shadow: 0 1px 2px rgba(37,0,22,.18);
-      }
-
-      .contact-card h2::after {
-        background: var(--yellow);
-        box-shadow: 0 2px 8px rgba(255,217,26,.22);
-      }
-
-      footer {
-        margin-top: 16px;
-        padding: 22px 8px 4px;
-      }
     }
 
     @media (max-width: 380px) {
@@ -1734,13 +1611,25 @@
     }
 
 
-
     /* =========================================================
        AJUSTES DA VERSÃO UNIFICADA
        Desktop preserva o visual aprovado; mobile usa o player app.
        ========================================================= */
 
     @media (min-width: 901px) {
+      .socials {
+        margin-right: 10px;
+      }
+
+      .side-rail footer {
+        width: 100%;
+        margin: 0;
+        padding: 0 8px 8px;
+        justify-content: center;
+        text-align: center;
+        color: rgba(255,255,255,.38);
+      }
+
       .brand {
         justify-self: start;
         width: fit-content;
@@ -1756,17 +1645,11 @@
       .quick-image {
         border: 1px solid transparent;
         transition: border-color .22s ease, box-shadow .22s ease;
-        transform: none;
       }
 
       .quick-image:hover {
-        transform: none;
         border-color: rgba(255,255,255,.22);
         box-shadow: 0 12px 26px rgba(0,0,0,.10), 0 0 18px rgba(255,255,255,.10);
-      }
-
-      .quick-image:active {
-        transform: none;
       }
 
       .sponsor-wrap {
@@ -1779,7 +1662,6 @@
         width: var(--side-column);
         height: 300px;
         border: 1px solid transparent;
-        transform: none;
         transition: border-color .22s ease, box-shadow .22s ease;
       }
 
@@ -1791,13 +1673,8 @@
       }
 
       .sponsor-card:hover {
-        transform: none;
         border-color: rgba(255,255,255,.22);
         box-shadow: var(--shadow), inset 0 0 0 1px rgba(255,255,255,.07), 0 0 18px rgba(255,255,255,.10);
-      }
-
-      .sponsor-card:active {
-        transform: none;
       }
 
       .sponsor-card:hover img {
@@ -1970,13 +1847,11 @@
 
     <header class="topbar">
       <a class="brand" href="#top" aria-label="Voltar ao início da página">
-        <picture class="brand-picture">
-          <img
-            class="brand-image"
-            src="assets/logo-amizade.png"
-            alt="Rádio Amizade"
-          >
-        </picture>
+        <img
+          class="brand-image"
+          src="assets/logo-amizade.png"
+          alt="Rádio Amizade"
+        >
       </a>
 
       <nav class="socials" aria-label="Redes sociais">
@@ -2242,909 +2117,860 @@
 
   <script src="https://cdn.jsdelivr.net/npm/hls.js@1"></script>
   <script>
-    const RADIO_STREAM_URL = "https://5a2b083e9f360.streamlock.net/amizadefm/amizadefm.stream/playlist.m3u8";
-  </script>
-  <script>
+    (() => {
+      "use strict";
 
-    const topbar = document.querySelector(".topbar");
+      const RADIO_STREAM_URL = "https://5a2b083e9f360.streamlock.net/amizadefm/amizadefm.stream/playlist.m3u8";
+      const DESKTOP_MEDIA = window.matchMedia("(min-width: 901px)");
+      const MOBILE_MEDIA = window.matchMedia("(max-width: 900px)");
 
-    function updateHeaderOnScroll() {
-      topbar.classList.toggle("scrolled", window.scrollY > 28);
-    }
+      /* ======================================================
+         BREAKPOINT
+         Recarrega apenas quando a janela cruza desktop/mobile,
+         garantindo que somente o player correto fique ativo.
+         ====================================================== */
+      const reloadOnBreakpointChange = () => window.location.reload();
 
-    updateHeaderOnScroll();
+      if (MOBILE_MEDIA.addEventListener) {
+        MOBILE_MEDIA.addEventListener("change", reloadOnBreakpointChange);
+      } else if (MOBILE_MEDIA.addListener) {
+        MOBILE_MEDIA.addListener(reloadOnBreakpointChange);
+      }
 
-    window.addEventListener("scroll", updateHeaderOnScroll, {
-      passive: true
-    });
+      /* ======================================================
+         DESKTOP — CABEÇALHO + PLAYER
+         ====================================================== */
+      function initDesktopPlayer() {
+        if (!DESKTOP_MEDIA.matches) return;
 
-    const streamUrl = RADIO_STREAM_URL;
-    const audio = document.getElementById("radioStream");
-    const livePlayer = document.getElementById("livePlayer");
-    const liveButton = document.getElementById("liveButton");
+        const topbar = document.querySelector(".topbar");
+        const audio = document.getElementById("radioStream");
+        const livePlayer = document.getElementById("livePlayer");
+        const liveButton = document.getElementById("liveButton");
 
-    let hls = null;
-    let hlsReady = false;
-    let pendingPlay = false;
-    let hasStartedPlayback = false;
+        let hls = null;
+        let hlsReady = false;
+        let pendingPlay = false;
+        let hasStartedPlayback = false;
 
-    function setPlaying(isPlaying) {
-      livePlayer.classList.toggle("playing", isPlaying);
-      liveButton.setAttribute(
-        "aria-label",
-        isPlaying ? "Pausar Rádio Amizade" : "Ouvir Rádio Amizade ao vivo"
-      );
-    }
-
-    function seekToLiveEdge() {
-      if (hls) {
-        const liveSyncPosition = hls.liveSyncPosition;
-
-        if (Number.isFinite(liveSyncPosition) && liveSyncPosition > 0) {
-          audio.currentTime = liveSyncPosition;
-          return true;
+        function updateHeaderOnScroll() {
+          topbar.classList.toggle("scrolled", window.scrollY > 28);
         }
-      }
 
-      if (audio.seekable && audio.seekable.length) {
-        const lastRange = audio.seekable.length - 1;
-        const rangeStart = audio.seekable.start(lastRange);
-        const rangeEnd = audio.seekable.end(lastRange);
-        const liveTarget = Math.max(rangeStart, rangeEnd - 0.5);
-
-        if (Number.isFinite(liveTarget)) {
-          audio.currentTime = liveTarget;
-          return true;
+        function setPlaying(isPlaying) {
+          livePlayer.classList.toggle("playing", isPlaying);
+          liveButton.setAttribute(
+            "aria-label",
+            isPlaying ? "Pausar Rádio Amizade" : "Ouvir Rádio Amizade ao vivo"
+          );
         }
-      }
 
-      return false;
-    }
+        function seekToLiveEdge() {
+          if (hls) {
+            const liveSyncPosition = hls.liveSyncPosition;
 
-    function playRadio() {
-      if (hasStartedPlayback) {
-        seekToLiveEdge();
-      }
+            if (Number.isFinite(liveSyncPosition) && liveSyncPosition > 0) {
+              audio.currentTime = liveSyncPosition;
+              return true;
+            }
+          }
 
-      audio.play()
-        .catch(error => {
-          console.error("Erro ao reproduzir a rádio:", error);
-          setPlaying(false);
-        });
-    }
+          if (audio.seekable && audio.seekable.length) {
+            const lastRange = audio.seekable.length - 1;
+            const rangeStart = audio.seekable.start(lastRange);
+            const rangeEnd = audio.seekable.end(lastRange);
+            const liveTarget = Math.max(rangeStart, rangeEnd - 0.5);
 
-    function setupStream() {
-      if (window.Hls && Hls.isSupported()) {
-        hls = new Hls({
-          lowLatencyMode: false,
-          liveSyncDurationCount: 3,
-          initialLiveManifestSize: 3
-        });
+            if (Number.isFinite(liveTarget)) {
+              audio.currentTime = liveTarget;
+              return true;
+            }
+          }
 
-        hls.loadSource(streamUrl);
-        hls.attachMedia(audio);
+          return false;
+        }
 
-        hls.on(Hls.Events.MANIFEST_PARSED, () => {
-          hlsReady = true;
+        function playRadio() {
+          if (hasStartedPlayback) seekToLiveEdge();
 
-          if (pendingPlay) {
+          audio.play().catch(error => {
+            console.error("Erro ao reproduzir a rádio:", error);
+            setPlaying(false);
+          });
+        }
+
+        function setupStream() {
+          if (window.Hls && Hls.isSupported()) {
+            hls = new Hls({
+              lowLatencyMode: false,
+              liveSyncDurationCount: 3,
+              initialLiveManifestSize: 3
+            });
+
+            hls.loadSource(RADIO_STREAM_URL);
+            hls.attachMedia(audio);
+
+            hls.on(Hls.Events.MANIFEST_PARSED, () => {
+              hlsReady = true;
+
+              if (pendingPlay) {
+                pendingPlay = false;
+                playRadio();
+              }
+            });
+
+            hls.on(Hls.Events.ERROR, (_, data) => {
+              console.error("HLS:", data);
+              if (!data.fatal) return;
+
+              if (data.type === Hls.ErrorTypes.NETWORK_ERROR) {
+                hls.startLoad();
+                return;
+              }
+
+              if (data.type === Hls.ErrorTypes.MEDIA_ERROR) {
+                hls.recoverMediaError();
+                return;
+              }
+
+              setPlaying(false);
+            });
+
+            return;
+          }
+
+          if (audio.canPlayType("application/vnd.apple.mpegurl")) {
+            audio.src = RADIO_STREAM_URL;
+            return;
+          }
+
+          console.error("Este navegador não oferece suporte a HLS.");
+        }
+
+        updateHeaderOnScroll();
+        window.addEventListener("scroll", updateHeaderOnScroll, { passive: true });
+
+        liveButton.addEventListener("click", () => {
+          if (!audio.paused) {
+            audio.pause();
             pendingPlay = false;
-            playRadio();
+            return;
           }
+
+          if (hls && !hlsReady) {
+            pendingPlay = true;
+            return;
+          }
+
+          playRadio();
         });
 
-        hls.on(Hls.Events.ERROR, (_, data) => {
-          console.error("HLS:", data);
-
-          if (!data.fatal) return;
-
-          if (data.type === Hls.ErrorTypes.NETWORK_ERROR) {
-            hls.startLoad();
-            return;
-          }
-
-          if (data.type === Hls.ErrorTypes.MEDIA_ERROR) {
-            hls.recoverMediaError();
-            return;
-          }
-
-          setPlaying(false);
+        audio.addEventListener("playing", () => {
+          hasStartedPlayback = true;
+          setPlaying(true);
         });
+        audio.addEventListener("pause", () => {
+          if (!audio.ended) setPlaying(false);
+        });
+        audio.addEventListener("ended", () => setPlaying(false));
+        audio.addEventListener("error", () => setPlaying(false));
 
-        return;
+        setupStream();
       }
 
-      if (audio.canPlayType("application/vnd.apple.mpegurl")) {
-        audio.src = streamUrl;
-        return;
-      }
+      /* ======================================================
+         CARROSSEL
+         ====================================================== */
+      function initCarousel() {
+        const slides = document.getElementById("slides");
+        const dots = [...document.querySelectorAll(".dot")];
+        const carouselTouchArea = slides.closest(".hero");
 
-      console.error("Este navegador não oferece suporte a HLS.");
-    }
+        let currentSlide = 0;
+        let carouselTimer = null;
 
-    liveButton.addEventListener("click", () => {
-      if (!audio.paused) {
-        audio.pause();
-        pendingPlay = false;
-        return;
-      }
-
-      if (hls && !hlsReady) {
-        pendingPlay = true;
-        return;
-      }
-
-      playRadio();
-    });
-
-    audio.addEventListener("playing", () => {
-      hasStartedPlayback = true;
-      setPlaying(true);
-    });
-    audio.addEventListener("pause", () => {
-      if (!audio.ended) setPlaying(false);
-    });
-    audio.addEventListener("ended", () => setPlaying(false));
-    audio.addEventListener("error", () => setPlaying(false));
-
-    if (window.matchMedia("(min-width: 901px)").matches) {
-      setupStream();
-    }
-
-    const slides = document.getElementById("slides");
-    const dots = [...document.querySelectorAll(".dot")];
-    let currentSlide = 0;
-    let carouselTimer = null;
-
-    function goToSlide(index) {
-      currentSlide = (index + dots.length) % dots.length;
-      slides.style.transform = `translateX(-${currentSlide * 100}%)`;
-
-      dots.forEach((dot, i) => {
-        dot.classList.toggle("active", i === currentSlide);
-      });
-
-      restartCarousel();
-    }
-
-    function restartCarousel() {
-      clearInterval(carouselTimer);
-      carouselTimer = setInterval(() => {
-        goToSlide(currentSlide + 1);
-      }, 5500);
-    }
-
-    dots.forEach((dot, i) => dot.addEventListener("click", () => goToSlide(i)));
-
-    // Swipe/arraste real no aplicativo:
-    // os eventos ficam presos ao quadro fixo (.hero), não ao trilho (.slides).
-    // Assim o gesto continua funcionando depois que o trilho é deslocado
-    // para a segunda, terceira ou qualquer outra imagem.
-    if (window.matchMedia("(max-width: 900px)").matches) {
-      const carouselTouchArea = slides.closest(".hero");
-
-      let touchStartX = 0;
-      let touchStartY = 0;
-      let touchDeltaX = 0;
-      let isDraggingCarousel = false;
-      let horizontalGesture = false;
-
-      carouselTouchArea.addEventListener("touchstart", e => {
-        if (e.touches.length !== 1) return;
-
-        clearInterval(carouselTimer);
-
-        touchStartX = e.touches[0].clientX;
-        touchStartY = e.touches[0].clientY;
-        touchDeltaX = 0;
-        isDraggingCarousel = true;
-        horizontalGesture = false;
-
-        slides.classList.add("dragging");
-      }, { passive: true });
-
-      carouselTouchArea.addEventListener("touchmove", e => {
-        if (!isDraggingCarousel || e.touches.length !== 1) return;
-
-        const x = e.touches[0].clientX;
-        const y = e.touches[0].clientY;
-        const deltaX = x - touchStartX;
-        const deltaY = y - touchStartY;
-
-        if (!horizontalGesture) {
-          if (Math.abs(deltaX) < 6 && Math.abs(deltaY) < 6) return;
-
-          if (Math.abs(deltaY) > Math.abs(deltaX)) {
-            isDraggingCarousel = false;
-            slides.classList.remove("dragging");
-            restartCarousel();
-            return;
-          }
-
-          horizontalGesture = true;
+        function restartCarousel() {
+          clearInterval(carouselTimer);
+          carouselTimer = setInterval(() => {
+            goToSlide(currentSlide + 1);
+          }, 5500);
         }
 
-        touchDeltaX = deltaX;
-        e.preventDefault();
-
-        slides.style.transform =
-          `translate3d(calc(-${currentSlide * 100}% + ${touchDeltaX}px), 0, 0)`;
-      }, { passive: false });
-
-      function finishCarouselSwipe() {
-        if (!isDraggingCarousel) return;
-
-        isDraggingCarousel = false;
-        slides.classList.remove("dragging");
-
-        const threshold = Math.min(56, carouselTouchArea.clientWidth * 0.16);
-
-        if (horizontalGesture && Math.abs(touchDeltaX) >= threshold) {
-          goToSlide(currentSlide + (touchDeltaX < 0 ? 1 : -1));
-        } else {
+        function goToSlide(index) {
+          currentSlide = (index + dots.length) % dots.length;
           slides.style.transform = `translateX(-${currentSlide * 100}%)`;
+
+          dots.forEach((dot, i) => {
+            dot.classList.toggle("active", i === currentSlide);
+          });
+
           restartCarousel();
         }
 
-        touchDeltaX = 0;
-        horizontalGesture = false;
+        dots.forEach((dot, i) => {
+          dot.addEventListener("click", () => goToSlide(i));
+        });
+
+        if (MOBILE_MEDIA.matches) {
+          let touchStartX = 0;
+          let touchStartY = 0;
+          let touchDeltaX = 0;
+          let isDraggingCarousel = false;
+          let horizontalGesture = false;
+
+          carouselTouchArea.addEventListener("touchstart", event => {
+            if (event.touches.length !== 1) return;
+
+            clearInterval(carouselTimer);
+            touchStartX = event.touches[0].clientX;
+            touchStartY = event.touches[0].clientY;
+            touchDeltaX = 0;
+            isDraggingCarousel = true;
+            horizontalGesture = false;
+            slides.classList.add("dragging");
+          }, { passive: true });
+
+          carouselTouchArea.addEventListener("touchmove", event => {
+            if (!isDraggingCarousel || event.touches.length !== 1) return;
+
+            const x = event.touches[0].clientX;
+            const y = event.touches[0].clientY;
+            const deltaX = x - touchStartX;
+            const deltaY = y - touchStartY;
+
+            if (!horizontalGesture) {
+              if (Math.abs(deltaX) < 6 && Math.abs(deltaY) < 6) return;
+
+              if (Math.abs(deltaY) > Math.abs(deltaX)) {
+                isDraggingCarousel = false;
+                slides.classList.remove("dragging");
+                restartCarousel();
+                return;
+              }
+
+              horizontalGesture = true;
+            }
+
+            touchDeltaX = deltaX;
+            event.preventDefault();
+            slides.style.transform =
+              `translate3d(calc(-${currentSlide * 100}% + ${touchDeltaX}px), 0, 0)`;
+          }, { passive: false });
+
+          function finishCarouselSwipe() {
+            if (!isDraggingCarousel) return;
+
+            isDraggingCarousel = false;
+            slides.classList.remove("dragging");
+
+            const threshold = Math.min(56, carouselTouchArea.clientWidth * 0.16);
+
+            if (horizontalGesture && Math.abs(touchDeltaX) >= threshold) {
+              goToSlide(currentSlide + (touchDeltaX < 0 ? 1 : -1));
+            } else {
+              slides.style.transform = `translateX(-${currentSlide * 100}%)`;
+              restartCarousel();
+            }
+
+            touchDeltaX = 0;
+            horizontalGesture = false;
+          }
+
+          carouselTouchArea.addEventListener("touchend", finishCarouselSwipe, { passive: true });
+          carouselTouchArea.addEventListener("touchcancel", finishCarouselSwipe, { passive: true });
+        }
+
+        restartCarousel();
       }
 
-      carouselTouchArea.addEventListener("touchend", finishCarouselSwipe, { passive: true });
-      carouselTouchArea.addEventListener("touchcancel", finishCarouselSwipe, { passive: true });
-    }
+      /* ======================================================
+         PROGRAMAÇÃO
+         ====================================================== */
+      function initSchedule() {
+        const mondayToThursday = [
+          ["01:00", "Show da Madrugada"],
+          ["05:00", "Bom Dia Amizade"],
+          ["07:00", "Girando com a Notícia"],
+          ["08:00", "Sintonia 98 - Manhã"],
+          ["10:00", "Conexão 98"],
+          ["14:00", "Sintonia 98 - Tarde"],
+          ["18:00", "Hora Extra"],
+          ["19:00", "A Voz do Brasil"],
+          ["20:00", "Expresso 98"]
+        ];
 
-    restartCarousel();
+        const schedule = {
+          1: mondayToThursday,
+          2: mondayToThursday,
+          3: mondayToThursday,
+          4: mondayToThursday,
+          5: [
+            ["01:00", "Show da Madrugada"],
+            ["05:00", "Bom Dia Amizade"],
+            ["07:00", "Girando com a Notícia"],
+            ["08:00", "Sintonia 98 - Manhã"],
+            ["10:00", "Conexão 98"],
+            ["14:00", "Sintonia 98 - Tarde"],
+            ["18:00", "Hora Extra"],
+            ["19:00", "A Voz do Brasil"],
+            ["20:00", "Show Clube & Cia"]
+          ],
+          6: [
+            ["01:00", "Show da Madrugada"],
+            ["05:00", "Bom Dia Amizade"],
+            ["06:00", "Amizade em Foco"],
+            ["07:00", "Amizade Total"],
+            ["12:00", "As Melhores da Semana"],
+            ["14:00", "Sintonia Quente"],
+            ["20:00", "Show Clube & Cia"]
+          ],
+          0: [
+            ["01:00", "Show da Madrugada"],
+            ["05:00", "Amizade em Foco"],
+            ["06:00", "Bom Dia Amizade"],
+            ["08:00", "Ritmo de Kerb"],
+            ["11:00", "Tempero Bom Demais"],
+            ["15:00", "Domingo Especial"]
+          ]
+        };
 
-    const schedule = {
-      1: [
-        ["01:00", "Show da Madrugada"],
-        ["05:00", "Bom Dia Amizade"],
-        ["07:00", "Girando com a Notícia"],
-        ["08:00", "Sintonia 98 - Manhã"],
-        ["10:00", "Conexão 98"],
-        ["14:00", "Sintonia 98 - Tarde"],
-        ["18:00", "Hora Extra"],
-        ["19:00", "A Voz do Brasil"],
-        ["20:00", "Expresso 98"]
-      ],
-      2: [
-        ["01:00", "Show da Madrugada"],
-        ["05:00", "Bom Dia Amizade"],
-        ["07:00", "Girando com a Notícia"],
-        ["08:00", "Sintonia 98 - Manhã"],
-        ["10:00", "Conexão 98"],
-        ["14:00", "Sintonia 98 - Tarde"],
-        ["18:00", "Hora Extra"],
-        ["19:00", "A Voz do Brasil"],
-        ["20:00", "Expresso 98"]
-      ],
-      3: [
-        ["01:00", "Show da Madrugada"],
-        ["05:00", "Bom Dia Amizade"],
-        ["07:00", "Girando com a Notícia"],
-        ["08:00", "Sintonia 98 - Manhã"],
-        ["10:00", "Conexão 98"],
-        ["14:00", "Sintonia 98 - Tarde"],
-        ["18:00", "Hora Extra"],
-        ["19:00", "A Voz do Brasil"],
-        ["20:00", "Expresso 98"]
-      ],
-      4: [
-        ["01:00", "Show da Madrugada"],
-        ["05:00", "Bom Dia Amizade"],
-        ["07:00", "Girando com a Notícia"],
-        ["08:00", "Sintonia 98 - Manhã"],
-        ["10:00", "Conexão 98"],
-        ["14:00", "Sintonia 98 - Tarde"],
-        ["18:00", "Hora Extra"],
-        ["19:00", "A Voz do Brasil"],
-        ["20:00", "Expresso 98"]
-      ],
-      5: [
-        ["01:00", "Show da Madrugada"],
-        ["05:00", "Bom Dia Amizade"],
-        ["07:00", "Girando com a Notícia"],
-        ["08:00", "Sintonia 98 - Manhã"],
-        ["10:00", "Conexão 98"],
-        ["14:00", "Sintonia 98 - Tarde"],
-        ["18:00", "Hora Extra"],
-        ["19:00", "A Voz do Brasil"],
-        ["20:00", "Show Clube & Cia"]
-      ],
-      6: [
-        ["01:00", "Show da Madrugada"],
-        ["05:00", "Bom Dia Amizade"],
-        ["06:00", "Amizade em Foco"],
-        ["07:00", "Amizade Total"],
-        ["12:00", "As Melhores da Semana"],
-        ["14:00", "Sintonia Quente"],
-        ["20:00", "Show Clube & Cia"]
-      ],
-      0: [
-        ["01:00", "Show da Madrugada"],
-        ["05:00", "Amizade em Foco"],
-        ["06:00", "Bom Dia Amizade"],
-        ["08:00", "Ritmo de Kerb"],
-        ["11:00", "Tempero Bom Demais"],
-        ["15:00", "Domingo Especial"]
-      ]
-    };
+        const days = [
+          { label: "Segunda", short: "SEG", value: 1 },
+          { label: "Terça", short: "TER", value: 2 },
+          { label: "Quarta", short: "QUA", value: 3 },
+          { label: "Quinta", short: "QUI", value: 4 },
+          { label: "Sexta", short: "SEX", value: 5 },
+          { label: "Sábado", short: "SAB", value: 6 },
+          { label: "Domingo", short: "DOM", value: 0 }
+        ];
 
-    const dayNames = [
-      ["Segunda", 1],["Terça", 2],["Quarta", 3],["Quinta", 4],
-      ["Sexta", 5],["Sábado", 6],["Domingo", 0]
-    ];
+        const dayTabs = document.getElementById("dayTabs");
+        const programList = document.getElementById("programList");
 
-    const dayTabs = document.getElementById("dayTabs");
-    const programList = document.getElementById("programList");
+        function minutes(time) {
+          const [hours, mins] = time.split(":").map(Number);
+          return hours * 60 + mins;
+        }
 
-    function mins(time) {
-      const [h, m] = time.split(":").map(Number);
-      return h * 60 + m;
-    }
+        function broadcastDay(date) {
+          const calendarDay = date.getDay();
+          return date.getHours() < 1 ? (calendarDay + 6) % 7 : calendarDay;
+        }
 
-    function broadcastDay(date = new Date()) {
-      const calendarDay = date.getDay();
+        function currentProgramIndex(items, date) {
+          if (!items.length) return -1;
 
-      return date.getHours() < 1 ? (calendarDay + 6) % 7 : calendarDay;
-    }
+          const current = date.getHours() * 60 + date.getMinutes();
+          const firstStart = minutes(items[0][0]);
 
-    function currentProgramIndex(items) {
-      if (!items.length) return -1;
+          if (current < firstStart) return items.length - 1;
 
-      const now = new Date();
-      const current = now.getHours() * 60 + now.getMinutes();
-      const firstStart = mins(items[0][0]);
+          for (let i = 0; i < items.length; i++) {
+            const start = minutes(items[i][0]);
+            const end = i < items.length - 1
+              ? minutes(items[i + 1][0])
+              : 24 * 60;
 
-      if (current < firstStart) return items.length - 1;
+            if (current >= start && current < end) return i;
+          }
 
-      for (let i = 0; i < items.length; i++) {
-        const start = mins(items[i][0]);
-        const end = i < items.length - 1 ? mins(items[i + 1][0]) : 24 * 60;
+          return -1;
+        }
 
-        if (current >= start && current < end) return i;
+        function renderDay(day) {
+          const now = new Date();
+          const today = broadcastDay(now);
+          const items = schedule[day] || [];
+          const onAirIndex = day === today
+            ? currentProgramIndex(items, now)
+            : -1;
+
+          [...dayTabs.children].forEach(button => {
+            button.classList.toggle("active", Number(button.dataset.day) === day);
+          });
+
+          programList.innerHTML = items.map((item, index) => `
+            <article class="program ${index === onAirIndex ? "current" : ""}">
+              <div class="program-time">${item[0]}</div>
+              <div class="program-main">
+                <div class="program-name">${item[1]}</div>
+                <div class="on-air">NO AR AGORA</div>
+              </div>
+            </article>
+          `).join("");
+        }
+
+        days.forEach(day => {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = "day-tab";
+          button.dataset.day = day.value;
+          button.dataset.short = day.short;
+          button.textContent = day.label;
+          button.setAttribute("aria-label", day.label);
+          button.addEventListener("click", () => renderDay(day.value));
+          dayTabs.appendChild(button);
+        });
+
+        renderDay(broadcastDay(new Date()));
       }
 
-      return -1;
-    }
+      /* ======================================================
+         MOBILE — PLAYER PRINCIPAL + MINI PLAYER
+         ====================================================== */
+      function initMobilePlayer() {
+        if (!MOBILE_MEDIA.matches) return;
 
-    function renderDay(day) {
-      const today = broadcastDay();
-      const items = schedule[day] || [];
-      const onAirIndex = day === today ? currentProgramIndex(items) : -1;
+        const app = document.getElementById("mobileApp");
+        const audio = document.getElementById("mobileAudio");
+        const button = document.getElementById("mobilePlay");
+        const miniPlayer = document.getElementById("mobileMiniPlayer");
+        const miniButton = document.getElementById("mobileMiniPlay");
+        const nativeHls = Boolean(audio.canPlayType("application/vnd.apple.mpegurl"));
 
-      [...dayTabs.children].forEach(btn => {
-        btn.classList.toggle("active", Number(btn.dataset.day) === day);
-      });
+        let hls = null;
+        let ready = false;
+        let userWantsPlayback = false;
+        let needsLiveReconnect = false;
+        let loadingTimer = null;
+        let miniScrollTicking = false;
+        let miniPlayerVisible = false;
 
-      programList.innerHTML = items.map((item, i) => `
-        <article class="program ${i === onAirIndex ? "current" : ""}">
-          <div class="program-time">${item[0]}</div>
-          <div class="program-main">
-            <div class="program-name">${item[1]}</div>
-            <div class="on-air">NO AR AGORA</div>
-          </div>
-        </article>
-      `).join("");
-    }
+        const mobileHlsConfig = {
+          lowLatencyMode: false,
+          liveSyncDurationCount: 1,
+          liveMaxLatencyDurationCount: 3,
+          initialLiveManifestSize: 1,
+          maxBufferLength: 4,
+          maxMaxBufferLength: 8,
+          backBufferLength: 0,
+          startFragPrefetch: true
+        };
 
-    const shortDayNames = {
-      "Segunda": "SEG",
-      "Terça": "TER",
-      "Quarta": "QUA",
-      "Quinta": "QUI",
-      "Sexta": "SEX",
-      "Sábado": "SAB",
-      "Domingo": "DOM"
-    };
+        function updateControlLabels() {
+          const isLoading = app.classList.contains("loading");
+          const isPlaying = app.classList.contains("playing");
+          const label = isLoading
+            ? "Carregando Rádio Amizade"
+            : isPlaying
+              ? "Pausar Rádio Amizade"
+              : "Ouvir Rádio Amizade";
 
-    dayNames.forEach(([label, day]) => {
-      const btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "day-tab";
-      btn.dataset.day = day;
-      btn.dataset.short = shortDayNames[label] || label;
-      btn.textContent = label;
-      btn.setAttribute("aria-label", label);
-      btn.addEventListener("click", () => renderDay(day));
-      dayTabs.appendChild(btn);
-    });
+          button.setAttribute("aria-label", label);
+          miniButton.setAttribute("aria-label", label);
+          button.setAttribute("aria-busy", isLoading ? "true" : "false");
+          miniButton.setAttribute("aria-busy", isLoading ? "true" : "false");
+        }
 
-    renderDay(broadcastDay());
-</script>
+        function setLoading(value) {
+          app.classList.toggle("loading", value);
+          miniPlayer.classList.toggle("loading", value);
 
-<script>
-  (() => {
-    const mobileMedia = window.matchMedia("(max-width: 900px)");
+          clearTimeout(loadingTimer);
+          loadingTimer = null;
 
-    // Se o visitante redimensionar cruzando o breakpoint,
-    // recarrega para ativar apenas o player apropriado.
-    const handleBreakpointChange = () => window.location.reload();
-    if (mobileMedia.addEventListener) {
-      mobileMedia.addEventListener("change", handleBreakpointChange);
-    } else if (mobileMedia.addListener) {
-      mobileMedia.addListener(handleBreakpointChange);
-    }
+          if (value) {
+            loadingTimer = setTimeout(() => {
+              if (!app.classList.contains("loading")) return;
 
-    if (!mobileMedia.matches) return;
+              userWantsPlayback = false;
+              try { audio.pause(); } catch (_) {}
+              setLoading(false);
+              setPlaying(false);
+            }, 15000);
+          }
 
-    const STREAM = RADIO_STREAM_URL;
-    const app = document.getElementById("mobileApp");
-    const audio = document.getElementById("mobileAudio");
-    const button = document.getElementById("mobilePlay");
-    const miniPlayer = document.getElementById("mobileMiniPlayer");
-    const miniButton = document.getElementById("mobileMiniPlay");
+          updateControlLabels();
+        }
 
-    let hls = null;
-    let ready = false;
-    let userWantsPlayback = false;
-    let needsLiveReconnect = false;
-    let loadingTimer = null;
-    const nativeHls = !!audio.canPlayType("application/vnd.apple.mpegurl");
+        function setPlaying(value) {
+          app.classList.toggle("playing", value);
+          miniPlayer.classList.toggle("playing", value);
 
-    const MOBILE_HLS_CONFIG = {
-      lowLatencyMode: false,
-      liveSyncDurationCount: 1,
-      liveMaxLatencyDurationCount: 3,
-      initialLiveManifestSize: 1,
-      maxBufferLength: 4,
-      maxMaxBufferLength: 8,
-      backBufferLength: 0,
-      startFragPrefetch: true
-    };
+          if (value) setLoading(false);
+          updateControlLabels();
+        }
 
-    function updateControlLabels() {
-      const isLoading = app.classList.contains("loading");
-      const isPlaying = app.classList.contains("playing");
-      const label = isLoading
-        ? "Carregando Rádio Amizade"
-        : isPlaying
-          ? "Pausar Rádio Amizade"
-          : "Ouvir Rádio Amizade";
+        function seekToLiveEdge() {
+          if (
+            hls &&
+            Number.isFinite(hls.liveSyncPosition) &&
+            hls.liveSyncPosition > 0
+          ) {
+            try { audio.currentTime = hls.liveSyncPosition; } catch (_) {}
+            return true;
+          }
 
-      button.setAttribute("aria-label", label);
-      miniButton.setAttribute("aria-label", label);
-      button.setAttribute("aria-busy", isLoading ? "true" : "false");
-      miniButton.setAttribute("aria-busy", isLoading ? "true" : "false");
-    }
+          if (audio.seekable && audio.seekable.length) {
+            const last = audio.seekable.length - 1;
+            const end = audio.seekable.end(last);
+            const start = audio.seekable.start(last);
+            const target = Math.max(start, end - 0.15);
 
-    function setLoading(value) {
-      app.classList.toggle("loading", value);
-      miniPlayer.classList.toggle("loading", value);
+            if (Number.isFinite(target)) {
+              try { audio.currentTime = target; } catch (_) {}
+              return true;
+            }
+          }
 
-      clearTimeout(loadingTimer);
-      loadingTimer = null;
+          return false;
+        }
 
-      if (value) {
-        loadingTimer = setTimeout(() => {
-          if (!app.classList.contains("loading")) return;
+        function handlePlayFailure(error) {
+          console.error("Erro ao reproduzir a rádio:", error);
+
+          if (error && error.name === "AbortError" && userWantsPlayback) return;
+          if (!ready && hls && userWantsPlayback) return;
+
           userWantsPlayback = false;
-          try { audio.pause(); } catch (_) {}
           setLoading(false);
           setPlaying(false);
-        }, 15000);
-      }
-
-      updateControlLabels();
-    }
-
-    function setPlaying(value) {
-      app.classList.toggle("playing", value);
-      miniPlayer.classList.toggle("playing", value);
-
-      if (value) setLoading(false);
-      updateControlLabels();
-    }
-
-    function seekToLiveEdge() {
-      if (
-        hls &&
-        Number.isFinite(hls.liveSyncPosition) &&
-        hls.liveSyncPosition > 0
-      ) {
-        try { audio.currentTime = hls.liveSyncPosition; } catch (_) {}
-        return true;
-      }
-
-      if (audio.seekable && audio.seekable.length) {
-        const last = audio.seekable.length - 1;
-        const end = audio.seekable.end(last);
-        const start = audio.seekable.start(last);
-        const target = Math.max(start, end - 0.15);
-
-        if (Number.isFinite(target)) {
-          try { audio.currentTime = target; } catch (_) {}
-          return true;
         }
-      }
 
-      return false;
-    }
+        function createMobileHls() {
+          if (hls) {
+            try { hls.destroy(); } catch (_) {}
+            hls = null;
+          }
 
-    function handlePlayFailure(error) {
-      console.error("Erro ao reproduzir a rádio:", error);
+          ready = false;
+          hls = new Hls(mobileHlsConfig);
+          hls.loadSource(RADIO_STREAM_URL);
+          hls.attachMedia(audio);
 
-      // AbortError pode acontecer quando a mídia ainda está trocando de estado.
-      // Mantemos o pedido ativo para o canplay/manifest concluir a partida.
-      if (error && error.name === "AbortError" && userWantsPlayback) return;
+          hls.on(Hls.Events.MANIFEST_PARSED, () => {
+            ready = true;
+            if (!userWantsPlayback) return;
 
-      // Se o manifesto ainda não chegou, deixa o loader ativo; o callback
-      // MANIFEST_PARSED fará uma tentativa de recuperação.
-      if (!ready && hls && userWantsPlayback) return;
+            seekToLiveEdge();
 
-      userWantsPlayback = false;
-      setLoading(false);
-      setPlaying(false);
-    }
+            if (audio.paused) {
+              const retry = audio.play();
+              if (retry && typeof retry.catch === "function") {
+                retry.catch(handlePlayFailure);
+              }
+            }
+          });
 
-    function requestNativeLivePlayback() {
-      if (needsLiveReconnect) {
-        // Recarregar a playlist nativa dentro do próprio clique garante
-        // uma nova janela AO VIVO em Safari/iPhone/iPad.
-        ready = false;
-        audio.src = STREAM;
-        audio.load();
-        needsLiveReconnect = false;
-      } else {
-        seekToLiveEdge();
-      }
+          hls.on(Hls.Events.ERROR, (_, data) => {
+            if (!data.fatal) return;
 
-      const playPromise = audio.play();
-      if (playPromise && typeof playPromise.catch === "function") {
-        playPromise.catch(handlePlayFailure);
-      }
-    }
+            if (data.type === Hls.ErrorTypes.NETWORK_ERROR) {
+              try { hls.startLoad(-1); } catch (_) {}
+              return;
+            }
 
-    function requestHlsJsLivePlayback() {
-      if (!hls) createMobileHls();
+            if (data.type === Hls.ErrorTypes.MEDIA_ERROR) {
+              try { hls.recoverMediaError(); } catch (_) {}
+              return;
+            }
 
-      if (needsLiveReconnect) {
-        // Reinicia o carregamento no live edge sem destruir o MediaSource.
-        // Isso mantém o play dentro do gesto do usuário e evita voltar ao buffer antigo.
-        try { hls.startLoad(-1); } catch (_) {}
-        needsLiveReconnect = false;
-      } else if (!ready) {
-        try { hls.startLoad(-1); } catch (_) {}
-      }
+            userWantsPlayback = false;
+            setLoading(false);
+            setPlaying(false);
+          });
+        }
 
-      seekToLiveEdge();
+        function requestNativeLivePlayback() {
+          if (needsLiveReconnect) {
+            ready = false;
+            audio.src = RADIO_STREAM_URL;
+            audio.load();
+            needsLiveReconnect = false;
+          } else {
+            seekToLiveEdge();
+          }
 
-      // Importante: play() é chamado diretamente dentro do clique.
-      // Em mobile isso preserva a autorização do gesto do usuário.
-      const playPromise = audio.play();
-      if (playPromise && typeof playPromise.catch === "function") {
-        playPromise.catch(handlePlayFailure);
-      }
-    }
-
-    function playRadioMobile() {
-      userWantsPlayback = true;
-      setPlaying(false);
-      setLoading(true);
-
-      if (nativeHls) {
-        requestNativeLivePlayback();
-        return;
-      }
-
-      if (window.Hls && Hls.isSupported()) {
-        requestHlsJsLivePlayback();
-        return;
-      }
-
-      userWantsPlayback = false;
-      setLoading(false);
-    }
-
-    function createMobileHls() {
-      if (hls) {
-        try { hls.destroy(); } catch (_) {}
-        hls = null;
-      }
-
-      ready = false;
-      hls = new Hls(MOBILE_HLS_CONFIG);
-      hls.loadSource(STREAM);
-      hls.attachMedia(audio);
-
-      hls.on(Hls.Events.MANIFEST_PARSED, () => {
-        ready = true;
-
-        if (!userWantsPlayback) return;
-
-        seekToLiveEdge();
-
-        // Normalmente o play() chamado no clique já está pendente e começa aqui.
-        // Esta chamada é apenas uma recuperação para navegadores que o abortaram.
-        if (audio.paused) {
-          const retry = audio.play();
-          if (retry && typeof retry.catch === "function") {
-            retry.catch(handlePlayFailure);
+          const playPromise = audio.play();
+          if (playPromise && typeof playPromise.catch === "function") {
+            playPromise.catch(handlePlayFailure);
           }
         }
-      });
 
-      hls.on(Hls.Events.ERROR, (_, data) => {
-        if (!data.fatal) return;
+        function requestHlsJsLivePlayback() {
+          if (!hls) createMobileHls();
 
-        if (data.type === Hls.ErrorTypes.NETWORK_ERROR) {
-          try { hls.startLoad(-1); } catch (_) {}
-          return;
+          if (needsLiveReconnect) {
+            try { hls.startLoad(-1); } catch (_) {}
+            needsLiveReconnect = false;
+          } else if (!ready) {
+            try { hls.startLoad(-1); } catch (_) {}
+          }
+
+          seekToLiveEdge();
+
+          const playPromise = audio.play();
+          if (playPromise && typeof playPromise.catch === "function") {
+            playPromise.catch(handlePlayFailure);
+          }
         }
 
-        if (data.type === Hls.ErrorTypes.MEDIA_ERROR) {
-          try { hls.recoverMediaError(); } catch (_) {}
-          return;
+        function playRadioMobile() {
+          userWantsPlayback = true;
+          setPlaying(false);
+          setLoading(true);
+
+          if (nativeHls) {
+            requestNativeLivePlayback();
+            return;
+          }
+
+          if (window.Hls && Hls.isSupported()) {
+            requestHlsJsLivePlayback();
+            return;
+          }
+
+          userWantsPlayback = false;
+          setLoading(false);
         }
 
-        userWantsPlayback = false;
-        setLoading(false);
-        setPlaying(false);
-      });
-    }
+        function pauseRadioMobile() {
+          userWantsPlayback = false;
+          needsLiveReconnect = true;
+          setLoading(false);
 
-    // Prepara a transmissão antes do primeiro clique para reduzir a espera.
-    if (nativeHls) {
-      audio.preload = "auto";
-      audio.src = STREAM;
-      audio.load();
-    } else if (window.Hls && Hls.isSupported()) {
-      createMobileHls();
-    } else {
-      button.disabled = true;
-      miniButton.disabled = true;
-      button.setAttribute("aria-label", "Áudio indisponível neste navegador");
-      miniButton.setAttribute("aria-label", "Áudio indisponível neste navegador");
-    }
+          try { audio.pause(); } catch (_) {}
+          if (hls) {
+            try { hls.stopLoad(); } catch (_) {}
+          }
 
-    function pauseRadioMobile() {
-      userWantsPlayback = false;
-      needsLiveReconnect = true;
-      setLoading(false);
+          setPlaying(false);
+        }
 
-      try { audio.pause(); } catch (_) {}
+        function toggleRadioMobile() {
+          if (app.classList.contains("loading")) return;
 
-      // Ao parar o download em hls.js, não acumulamos áudio antigo enquanto pausado.
-      if (hls) {
-        try { hls.stopLoad(); } catch (_) {}
-      }
+          if (userWantsPlayback || !audio.paused) {
+            pauseRadioMobile();
+            return;
+          }
 
-      setPlaying(false);
-    }
+          playRadioMobile();
+        }
 
-    function toggleRadioMobile() {
-      // Durante a partida, um segundo toque não dispara sessões concorrentes.
-      if (app.classList.contains("loading")) return;
+        function applyMiniPlayerVisibility(visible) {
+          if (visible === miniPlayerVisible) return;
 
-      if (userWantsPlayback || !audio.paused) {
-        pauseRadioMobile();
-        return;
-      }
+          miniPlayerVisible = visible;
+          miniPlayer.classList.toggle("visible", visible);
+          miniPlayer.setAttribute("aria-hidden", visible ? "false" : "true");
+          document.body.classList.toggle("mini-player-active", visible);
+        }
 
-      playRadioMobile();
-    }
+        function updateMiniPlayerVisibility() {
+          const largePlayerBottom = app.getBoundingClientRect().bottom;
 
-    button.addEventListener("click", toggleRadioMobile);
+          if (!miniPlayerVisible && largePlayerBottom <= -18) {
+            applyMiniPlayerVisibility(true);
+            return;
+          }
 
-    miniButton.addEventListener("click", (event) => {
-      event.stopPropagation();
-      toggleRadioMobile();
-    });
+          if (miniPlayerVisible && largePlayerBottom >= 32) {
+            applyMiniPlayerVisibility(false);
+          }
+        }
 
-    miniPlayer.addEventListener("click", (event) => {
-      if (event.target.closest("#mobileMiniPlay")) return;
-      toggleRadioMobile();
-    });
+        function requestMiniPlayerUpdate() {
+          if (miniScrollTicking) return;
+          miniScrollTicking = true;
 
-    let miniScrollTicking = false;
-    let miniPlayerVisible = false;
+          requestAnimationFrame(() => {
+            updateMiniPlayerVisibility();
+            miniScrollTicking = false;
+          });
+        }
 
-    function applyMiniPlayerVisibility(visible) {
-      if (visible === miniPlayerVisible) return;
+        function markReadyAndSeek() {
+          ready = true;
+          if (userWantsPlayback) seekToLiveEdge();
+        }
 
-      miniPlayerVisible = visible;
-      miniPlayer.classList.toggle("visible", visible);
-      miniPlayer.setAttribute("aria-hidden", visible ? "false" : "true");
-      document.body.classList.toggle("mini-player-active", visible);
-    }
+        // Pré-carrega a transmissão antes do primeiro toque.
+        if (nativeHls) {
+          audio.preload = "auto";
+          audio.src = RADIO_STREAM_URL;
+          audio.load();
+        } else if (window.Hls && Hls.isSupported()) {
+          createMobileHls();
+        } else {
+          button.disabled = true;
+          miniButton.disabled = true;
+          button.setAttribute("aria-label", "Áudio indisponível neste navegador");
+          miniButton.setAttribute("aria-label", "Áudio indisponível neste navegador");
+        }
 
-    function updateMiniPlayerVisibility() {
-      const largePlayerBottom = app.getBoundingClientRect().bottom;
+        button.addEventListener("click", toggleRadioMobile);
 
-      // Pequena histerese evita que o Safari alterne o estado várias vezes
-      // quando o limite do player grande fica exatamente junto ao topo.
-      if (!miniPlayerVisible && largePlayerBottom <= -18) {
-        applyMiniPlayerVisibility(true);
-        return;
-      }
+        miniButton.addEventListener("click", event => {
+          event.stopPropagation();
+          toggleRadioMobile();
+        });
 
-      if (miniPlayerVisible && largePlayerBottom >= 32) {
-        applyMiniPlayerVisibility(false);
-      }
-    }
+        miniPlayer.addEventListener("click", toggleRadioMobile);
 
-    function requestMiniPlayerUpdate() {
-      if (miniScrollTicking) return;
-      miniScrollTicking = true;
+        const initialLargePlayerBottom = app.getBoundingClientRect().bottom;
+        if (initialLargePlayerBottom <= -18) {
+          miniPlayerVisible = true;
+          miniPlayer.classList.add("visible");
+          miniPlayer.setAttribute("aria-hidden", "false");
+          document.body.classList.add("mini-player-active");
+        }
 
-      requestAnimationFrame(() => {
         updateMiniPlayerVisibility();
-        miniScrollTicking = false;
-      });
-    }
+        window.addEventListener("scroll", requestMiniPlayerUpdate, { passive: true });
+        window.addEventListener("resize", requestMiniPlayerUpdate, { passive: true });
 
-    // Estado inicial sem animação desnecessária.
-    const initialLargePlayerBottom = app.getBoundingClientRect().bottom;
-    if (initialLargePlayerBottom <= -18) {
-      miniPlayerVisible = true;
-      miniPlayer.classList.add("visible");
-      miniPlayer.setAttribute("aria-hidden", "false");
-      document.body.classList.add("mini-player-active");
-    }
+        audio.addEventListener("loadedmetadata", markReadyAndSeek);
+        audio.addEventListener("canplay", markReadyAndSeek);
 
-    updateMiniPlayerVisibility();
-    window.addEventListener("scroll", requestMiniPlayerUpdate, { passive: true });
-    window.addEventListener("resize", requestMiniPlayerUpdate, { passive: true });
+        audio.addEventListener("playing", () => {
+          if (userWantsPlayback) setPlaying(true);
+        });
 
-    audio.addEventListener("loadedmetadata", () => {
-      ready = true;
-      if (userWantsPlayback) seekToLiveEdge();
-    });
+        audio.addEventListener("timeupdate", () => {
+          if (!userWantsPlayback || audio.paused || audio.ended) return;
 
-    audio.addEventListener("canplay", () => {
-      ready = true;
-      if (userWantsPlayback) seekToLiveEdge();
-    });
+          if (audio.currentTime > 0 && !app.classList.contains("playing")) {
+            setPlaying(true);
+          }
+        });
 
-    audio.addEventListener("playing", () => {
-      if (!userWantsPlayback) return;
+        function handleBufferWait() {
+          if (!userWantsPlayback) return;
 
-      // O live edge já é buscado antes do play/canplay.
-      // Não fazemos um novo seek aqui porque, especialmente no Safari/iPhone,
-      // isso pode disparar um novo estado "waiting" mesmo depois do áudio começar.
-      setPlaying(true);
-    });
+          if (audio.readyState < HTMLMediaElement.HAVE_FUTURE_DATA) {
+            setPlaying(false);
+            setLoading(true);
+          }
+        }
 
-    audio.addEventListener("timeupdate", () => {
-      if (!userWantsPlayback) return;
-      if (audio.paused || audio.ended) return;
+        audio.addEventListener("waiting", handleBufferWait);
+        audio.addEventListener("stalled", handleBufferWait);
 
-      // Se o tempo do áudio está avançando, a transmissão está de fato tocando.
-      // Isso também limpa loaders que alguns navegadores móveis deixam presos
-      // após um evento waiting/stalled transitório.
-      if (audio.currentTime > 0) {
-        setPlaying(true);
-      }
-    });
+        audio.addEventListener("pause", () => {
+          if (!userWantsPlayback) {
+            setLoading(false);
+            setPlaying(false);
+          }
+        });
 
-    audio.addEventListener("waiting", () => {
-      if (!userWantsPlayback) return;
+        audio.addEventListener("ended", () => {
+          userWantsPlayback = false;
+          setLoading(false);
+          setPlaying(false);
+        });
 
-      // Só mostra carregamento quando realmente não há dados suficientes
-      // para continuar a reprodução.
-      if (audio.readyState < HTMLMediaElement.HAVE_FUTURE_DATA) {
-        setPlaying(false);
-        setLoading(true);
-      }
-    });
-
-    audio.addEventListener("stalled", () => {
-      if (!userWantsPlayback) return;
-
-      if (audio.readyState < HTMLMediaElement.HAVE_FUTURE_DATA) {
-        setPlaying(false);
-        setLoading(true);
-      }
-    });
-
-    audio.addEventListener("pause", () => {
-      if (!userWantsPlayback) {
-        setLoading(false);
-        setPlaying(false);
-      }
-    });
-
-    audio.addEventListener("ended", () => {
-      userWantsPlayback = false;
-      setLoading(false);
-      setPlaying(false);
-    });
-
-    audio.addEventListener("error", () => {
-      userWantsPlayback = false;
-      setLoading(false);
-      setPlaying(false);
-    });
-  })();
-</script>
-
-
-<script>
-  (() => {
-    const mobileMedia = window.matchMedia("(max-width: 900px)");
-    if (!mobileMedia.matches) return;
-
-    const installButton = document.getElementById("installButton");
-    const installSheet = document.getElementById("installSheet");
-    const installSheetClose = document.getElementById("installSheetClose");
-    let deferredPrompt = null;
-
-    const isStandalone = () =>
-      window.matchMedia("(display-mode: standalone)").matches ||
-      window.navigator.standalone === true;
-
-    const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
-
-    function updateInstallButton() {
-      if (isStandalone()) {
-        installButton.hidden = true;
-        return;
-      }
-      installButton.hidden = !isIOS;
-    }
-
-    updateInstallButton();
-
-    window.addEventListener("beforeinstallprompt", (event) => {
-      event.preventDefault();
-      deferredPrompt = event;
-      if (!isStandalone()) installButton.hidden = false;
-    });
-
-    installButton.addEventListener("click", async () => {
-      if (isStandalone()) {
-        installButton.hidden = true;
-        return;
+        audio.addEventListener("error", () => {
+          userWantsPlayback = false;
+          setLoading(false);
+          setPlaying(false);
+        });
       }
 
-      if (deferredPrompt) {
-        deferredPrompt.prompt();
-        const choice = await deferredPrompt.userChoice;
-        deferredPrompt = null;
-        if (choice.outcome === "accepted") installButton.hidden = true;
-        return;
+      /* ======================================================
+         INSTALAÇÃO DO APP
+         ====================================================== */
+      function initInstallPrompt() {
+        if (!MOBILE_MEDIA.matches) return;
+
+        const installButton = document.getElementById("installButton");
+        const installSheet = document.getElementById("installSheet");
+        const installSheetClose = document.getElementById("installSheetClose");
+
+        let deferredPrompt = null;
+
+        const isStandalone = () =>
+          window.matchMedia("(display-mode: standalone)").matches ||
+          window.navigator.standalone === true;
+
+        const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+
+        function updateInstallButton() {
+          if (isStandalone()) {
+            installButton.hidden = true;
+            return;
+          }
+
+          installButton.hidden = !isIOS;
+        }
+
+        updateInstallButton();
+
+        window.addEventListener("beforeinstallprompt", event => {
+          event.preventDefault();
+          deferredPrompt = event;
+          if (!isStandalone()) installButton.hidden = false;
+        });
+
+        installButton.addEventListener("click", async () => {
+          if (isStandalone()) {
+            installButton.hidden = true;
+            return;
+          }
+
+          if (deferredPrompt) {
+            deferredPrompt.prompt();
+            const choice = await deferredPrompt.userChoice;
+            deferredPrompt = null;
+
+            if (choice.outcome === "accepted") {
+              installButton.hidden = true;
+            }
+            return;
+          }
+
+          if (isIOS) {
+            installSheet.hidden = false;
+            installSheetClose.focus();
+          }
+        });
+
+        installSheetClose.addEventListener("click", () => {
+          installSheet.hidden = true;
+        });
+
+        installSheet.addEventListener("click", event => {
+          if (event.target === installSheet) installSheet.hidden = true;
+        });
+
+        document.addEventListener("keydown", event => {
+          if (event.key === "Escape" && !installSheet.hidden) {
+            installSheet.hidden = true;
+          }
+        });
+
+        window.addEventListener("appinstalled", () => {
+          deferredPrompt = null;
+          installButton.hidden = true;
+          installSheet.hidden = true;
+        });
       }
 
-      if (isIOS) {
-        installSheet.hidden = false;
-        installSheetClose.focus();
+      /* ======================================================
+         SERVICE WORKER
+         Mantido com o mesmo escopo da versão anterior.
+         ====================================================== */
+      function registerServiceWorker() {
+        if (!("serviceWorker" in navigator) || !MOBILE_MEDIA.matches) return;
+
+        window.addEventListener("load", () => {
+          navigator.serviceWorker.register("./service-worker.js", {
+            scope: "./index2.html",
+            updateViaCache: "none"
+          })
+            .then(registration => registration.update())
+            .catch(() => {});
+        });
       }
-    });
 
-    installSheetClose.addEventListener("click", () => {
-      installSheet.hidden = true;
-    });
-
-    installSheet.addEventListener("click", (event) => {
-      if (event.target === installSheet) installSheet.hidden = true;
-    });
-
-    document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape" && !installSheet.hidden) installSheet.hidden = true;
-    });
-
-    window.addEventListener("appinstalled", () => {
-      deferredPrompt = null;
-      installButton.hidden = true;
-      installSheet.hidden = true;
-    });
-  })();
-</script>
-
-<script>
-  if (
-    "serviceWorker" in navigator &&
-    window.matchMedia("(max-width: 900px)").matches
-  ) {
-    window.addEventListener("load", () => {
-      navigator.serviceWorker.register("./service-worker.js", {
-        scope: "./index2.html",
-        updateViaCache: "none"
-      }).then((registration) => registration.update()).catch(() => {});
-    });
-  }
-</script>
+      initDesktopPlayer();
+      initCarousel();
+      initSchedule();
+      initMobilePlayer();
+      initInstallPrompt();
+      registerServiceWorker();
+    })();
+  </script>
 
 </body>
 </html>
