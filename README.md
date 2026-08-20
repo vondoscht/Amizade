@@ -1,9 +1,8 @@
-# Rádio Amizade — v1.3
+# Rádio Amizade — v1.4
 
-Estrutura atual:
-
-- `index2.html` — site desktop direto, sem iframe. Em telas de até 900 px redireciona imediatamente para `app.html`.
+- `index2.html` — desktop aprovado original, carregado diretamente, sem iframe.
+- telas de até 900 px são redirecionadas para `app.html`.
 - `app.html` — interface compacta para intermediário/mobile.
-- `assets/` — imagens e ícones usados pelas interfaces.
+- `assets/` — imagens e ícones.
 
-O iframe foi removido para preservar interação nativa do mouse, hover e cursor no desktop.
+Regra: o visual desktop não deve ser alterado sem solicitação explícita.
