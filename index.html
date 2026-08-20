@@ -201,15 +201,10 @@
 
     .waves {
       position: absolute;
-      top: calc(
-        var(--quadrado-y) +
-        var(--cover-size) +
-        var(--titulo-gap) +
-        22px +
-        var(--equalizador-gap)
-      );
+      top: calc(var(--menu-y) - 48px);
       left: 50%;
       transform: translateX(-50%) scaleX(.86);
+      z-index: 5;
 
       display: flex;
       justify-content: center;
