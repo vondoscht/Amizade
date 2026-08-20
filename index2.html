@@ -574,13 +574,13 @@
     .sponsor-wrap {
       width: var(--side-column);
       min-width: var(--side-column);
-      height: auto;
+      height: 300px;
     }
 
     .sponsor-card {
       display: block;
       width: var(--side-column);
-      height: auto;
+      height: 300px;
       overflow: hidden;
       border-radius: var(--radius-container);
       background: linear-gradient(180deg,var(--gray-700),var(--gray-750));
@@ -592,7 +592,7 @@
     .sponsor-card img {
       display: block;
       width: 100%;
-      height: auto;
+      height: 100%;
       object-fit: contain;
       user-select: none;
       -webkit-user-drag: none;
@@ -1007,7 +1007,7 @@
       </div>
     </section>
 
-    <div class="main-content-grid" aria-label="Acessos, programação e patrocinador">
+    <div class="main-content-grid" aria-label="Acessos, programação, patrocinador e contato">
 
       <div class="left-main">
 
@@ -1020,30 +1020,7 @@
           <div class="program-list" id="programList"></div>
         </section>
 
-      </div>
-
-      <aside class="side-rail" aria-label="Contatos e patrocinador">
-        <div class="quick-row" aria-label="Acessos rápidos" style="grid-template-columns:1fr; gap:var(--section-gap)">
-          <a class="quick-image" href="https://wa.me/5551998770145" target="_blank" rel="noopener noreferrer" aria-label="Fale com a Rádio Amizade pelo WhatsApp">
-            <img src="assets/botao-whatsapp.png" alt="Botão de WhatsApp">
-          </a>
-
-          <a class="quick-image" href="https://wa.me/555180527460" target="_blank" rel="noopener noreferrer" aria-label="Anuncie na Rádio Amizade pelo WhatsApp">
-            <img src="assets/botao-anuncie.png" alt="Botão Anuncie na Amizade">
-          </a>
-        </div>
-
-        <div class="sponsor-wrap">
-          <div class="sponsor-card" aria-label="Espaço do patrocinador">
-            <img src="assets/banner-patrocinador.png" alt="Banner patrocinador provisório">
-          </div>
-        </div>
-      </aside>
-
-    </div>
-
-    <section class="about-grid">
-      <article class="about-card">
+        <article class="about-card">
         <h2>A Rádio Amizade</h2>
 
         <p>
@@ -1065,7 +1042,27 @@
         </p>
       </article>
 
-      <article class="contact-card">
+      </div>
+
+      <aside class="side-rail" aria-label="Contatos e patrocinador">
+        <div class="quick-row" aria-label="Acessos rápidos" style="grid-template-columns:1fr; gap:var(--section-gap)">
+          <a class="quick-image" href="https://wa.me/5551998770145" target="_blank" rel="noopener noreferrer" aria-label="Fale com a Rádio Amizade pelo WhatsApp">
+            <img src="assets/botao-whatsapp.png" alt="Botão de WhatsApp">
+          </a>
+
+          <a class="quick-image" href="https://wa.me/555180527460" target="_blank" rel="noopener noreferrer" aria-label="Anuncie na Rádio Amizade pelo WhatsApp">
+            <img src="assets/botao-anuncie.png" alt="Botão Anuncie na Amizade">
+          </a>
+        </div>
+
+        <div class="sponsor-wrap">
+          <div class="sponsor-card" aria-label="Espaço do patrocinador">
+            <img src="assets/banner-patrocinador.png" alt="Banner patrocinador provisório">
+          </div>
+        </div>
+
+
+        <article class="contact-card">
         <h2>Contato</h2>
 
         <div class="contact-details">
@@ -1088,8 +1085,10 @@
 
         </div>
       </article>
+      </aside>
 
-    </section>
+    </div>
+
 
     <footer>
       <span>© 2026 Rádio Amizade</span>
