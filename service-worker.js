@@ -1,17 +1,19 @@
-const CACHE_NAME = "radio-amizade-pwa-v8";
+const CACHE_NAME = "radio-amizade-pwa-v9";
 
 const APP_SHELL = [
+  "./apple-touch-icon.png",
+  "./apple-touch-icon-precomposed.png",
   "./",
   "./index.html",
-  "./manifest.webmanifest?v=8",
-  "./assets/avatar.png?v=8",
+  "./manifest.webmanifest?v=9",
+  "./assets/avatar.png?v=9",
   "./assets/icone-instagram.svg",
   "./assets/icone-facebook.svg",
   "./assets/icone-youtube.svg",
   "./assets/icone-whatsapp.svg",
-  "./icons/icon-192.png?v=8",
-  "./icons/icon-512.png?v=8",
-  "./icons/icon-maskable-512.png?v=8"
+  "./icons/icon-192.png?v=9",
+  "./icons/icon-512.png?v=9",
+  "./icons/icon-maskable-512.png?v=9"
 ,
   "./icons/apple-touch-icon-radio-amizade-v8.png"];
 
