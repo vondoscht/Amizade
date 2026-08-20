@@ -148,6 +148,13 @@
       -webkit-backdrop-filter: blur(12px);
     }
 
+
+    .site-link.is-install {
+      color: #111319;
+      background: #ffd91a;
+      cursor: pointer;
+    }
+
     .station {
       position: relative;
       width: 100%;
@@ -481,39 +488,6 @@
       }
     }
   
-    /* Instalação PWA: aparece apenas quando útil e não altera o layout do player. */
-    .install-app {
-      position: fixed;
-      z-index: 100;
-      top: calc(14px + env(safe-area-inset-top));
-      right: 14px;
-
-      display: none;
-      align-items: center;
-      justify-content: center;
-
-      min-height: 38px;
-      padding: 0 13px;
-
-      border: 1px solid rgba(255, 255, 255, .10);
-      border-radius: 999px;
-
-      color: #fff;
-      background: rgba(29, 32, 39, .92);
-      box-shadow: 0 10px 24px rgba(0, 0, 0, .22);
-
-      font-size: 12px;
-      font-weight: 800;
-      line-height: 1;
-      cursor: pointer;
-
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-    }
-
-    .install-app.is-visible {
-      display: inline-flex;
-    }
 
     .install-sheet[hidden] {
       display: none;
@@ -577,11 +551,6 @@
       cursor: pointer;
     }
 
-    @media (display-mode: standalone) {
-      .install-app {
-        display: none !important;
-      }
-    }
 
   </style>
 </head>
@@ -590,6 +559,7 @@
   <main class="app" id="app">
     <a
       class="site-link"
+      id="siteLink"
       href="https://amizade.com.br/"
       target="_blank"
       rel="noopener noreferrer"
@@ -682,16 +652,6 @@
     </section>
   </main>
 
-
-  <button
-    class="install-app"
-    id="installAppButton"
-    type="button"
-    aria-label="Instalar Rádio Amizade"
-  >
-    Instalar app
-  </button>
-
   <div
     class="install-sheet"
     id="installSheet"
@@ -721,9 +681,12 @@
     (() => {
       "use strict";
 
-      const installButton = document.getElementById("installAppButton");
+      const siteLink = document.getElementById("siteLink");
       const installSheet = document.getElementById("installSheet");
       const installSheetClose = document.getElementById("installSheetClose");
+
+      const originalHref = siteLink.getAttribute("href");
+      const originalText = siteLink.textContent.trim();
 
       const isStandalone =
         window.matchMedia("(display-mode: standalone)").matches ||
@@ -734,6 +697,31 @@
         (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
 
       let deferredInstallPrompt = null;
+      let installMode = false;
+
+      function enableInstallMode() {
+        if (isStandalone) return;
+
+        installMode = true;
+        siteLink.textContent = "Instalar app";
+        siteLink.classList.add("is-install");
+        siteLink.setAttribute("aria-label", "Instalar Rádio Amizade");
+        siteLink.setAttribute("role", "button");
+        siteLink.removeAttribute("target");
+        siteLink.removeAttribute("rel");
+        siteLink.removeAttribute("href");
+      }
+
+      function disableInstallMode() {
+        installMode = false;
+        siteLink.textContent = originalText;
+        siteLink.classList.remove("is-install");
+        siteLink.removeAttribute("role");
+        siteLink.setAttribute("aria-label", "Abrir amizade.com.br");
+        siteLink.setAttribute("href", originalHref);
+        siteLink.setAttribute("target", "_blank");
+        siteLink.setAttribute("rel", "noopener noreferrer");
+      }
 
       if ("serviceWorker" in navigator) {
         window.addEventListener("load", () => {
@@ -745,20 +733,23 @@
         });
       }
 
+      // No iPhone, o fluxo é manual via Safari.
       if (!isStandalone && isIOS) {
-        installButton.classList.add("is-visible");
+        enableInstallMode();
       }
 
+      // No Android/Chrome, só troca o topo quando o navegador oferecer instalação.
       window.addEventListener("beforeinstallprompt", (event) => {
         event.preventDefault();
         deferredInstallPrompt = event;
-
-        if (!isStandalone) {
-          installButton.classList.add("is-visible");
-        }
+        enableInstallMode();
       });
 
-      installButton.addEventListener("click", async () => {
+      siteLink.addEventListener("click", async (event) => {
+        if (!installMode) return;
+
+        event.preventDefault();
+
         if (deferredInstallPrompt) {
           deferredInstallPrompt.prompt();
 
@@ -788,8 +779,8 @@
 
       window.addEventListener("appinstalled", () => {
         deferredInstallPrompt = null;
-        installButton.classList.remove("is-visible");
         installSheet.hidden = true;
+        disableInstallMode();
       });
     })();
   </script>
