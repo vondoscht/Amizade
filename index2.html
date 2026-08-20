@@ -817,6 +817,8 @@
     .contact-card {
       width: var(--side-column);
       min-width: var(--side-column);
+      background: linear-gradient(135deg,#ffd91a 0%,#ffb51a 100%);
+      border-color: rgba(255,255,255,.16);
     }
 
     .about-card h2 {
@@ -878,6 +880,11 @@
       overflow-wrap: anywhere;
     }
 
+    .contact-card .contact-label,
+    .contact-card .contact-value {
+      color: #20242c;
+    }
+
     .contact-link {
       text-decoration: none;
       transition: color .18s ease;
@@ -919,6 +926,10 @@
       margin-top: 9px;
       border-radius: 999px;
       background: var(--yellow);
+    }
+
+    .contact-card h2::after {
+      background: var(--red);
     }
 
     .about-card p strong {
