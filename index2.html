@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
-  <title>Amz v1.15</title>
+  <title>Amz v1.16</title>
   <meta name="description" content="Ouça a Rádio Amizade 98.7 FM ao vivo e acompanhe música, informação, entretenimento e os principais acontecimentos do Vale do Paranhana.">
   <meta name="author" content="Gabriel Von Doscht">
   <meta name="application-name" content="Rádio Amizade 98.7 FM">
@@ -2952,20 +2952,43 @@
 
     audio.addEventListener("playing", () => {
       if (!userWantsPlayback) return;
-      seekToLiveEdge();
+
+      // O live edge já é buscado antes do play/canplay.
+      // Não fazemos um novo seek aqui porque, especialmente no Safari/iPhone,
+      // isso pode disparar um novo estado "waiting" mesmo depois do áudio começar.
       setPlaying(true);
+    });
+
+    audio.addEventListener("timeupdate", () => {
+      if (!userWantsPlayback) return;
+      if (audio.paused || audio.ended) return;
+
+      // Se o tempo do áudio está avançando, a transmissão está de fato tocando.
+      // Isso também limpa loaders que alguns navegadores móveis deixam presos
+      // após um evento waiting/stalled transitório.
+      if (audio.currentTime > 0) {
+        setPlaying(true);
+      }
     });
 
     audio.addEventListener("waiting", () => {
       if (!userWantsPlayback) return;
-      setPlaying(false);
-      setLoading(true);
+
+      // Só mostra carregamento quando realmente não há dados suficientes
+      // para continuar a reprodução.
+      if (audio.readyState < HTMLMediaElement.HAVE_FUTURE_DATA) {
+        setPlaying(false);
+        setLoading(true);
+      }
     });
 
     audio.addEventListener("stalled", () => {
       if (!userWantsPlayback) return;
-      setPlaying(false);
-      setLoading(true);
+
+      if (audio.readyState < HTMLMediaElement.HAVE_FUTURE_DATA) {
+        setPlaying(false);
+        setLoading(true);
+      }
     });
 
     audio.addEventListener("pause", () => {
