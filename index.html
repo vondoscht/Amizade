@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
-  <title>Rádio Amizade 98.7 FM</title>
+  <title>Rádio Amizade</title>
 
   <meta name="theme-color" content="#111319">
   <meta name="mobile-web-app-capable" content="yes">
@@ -32,9 +32,10 @@
 
       --topo-y: 5svh;
       --quadrado-y: 24svh;
-      --menu-y: 80svh;
 
-      --titulo-y: 62svh;
+      --titulo-gap: 22px;
+      --equalizador-gap: 16px;
+      --menu-gap: 48px;
 
       --play-size: 98px;
       --play-slot: 116px;
@@ -96,12 +97,17 @@
     }
 
     /*
-      POSICIONAMENTO PRINCIPAL:
+      POSICIONAMENTO ROBUSTO PARA MOBILE:
       topo: 5% da altura visível
-      quadrado: 24% da altura visível
-      título: 62% da altura visível
-      equalizador: 65% da altura visível
-      menu: 80% da altura visível.
+      quadrado: começa em 24% da altura visível
+
+      A partir do quadrado:
+      título: 22px abaixo
+      equalizador: 16px abaixo do título
+      menu: 48px abaixo do equalizador
+
+      Assim os elementos não entram uns nos outros em iPhones
+      com alturas de viewport diferentes.
     */
 
     .app {
@@ -184,7 +190,7 @@
 
     .station-title {
       position: absolute;
-      top: var(--titulo-y);
+      top: calc(var(--quadrado-y) + var(--cover-size) + var(--titulo-gap));
       left: 50%;
       transform: translateX(-50%);
       margin: 0;
@@ -199,7 +205,13 @@
 
     .waves {
       position: absolute;
-      top: 65svh;
+      top: calc(
+        var(--quadrado-y) +
+        var(--cover-size) +
+        var(--titulo-gap) +
+        22px +
+        var(--equalizador-gap)
+      );
       left: 50%;
       transform: translateX(-50%) scaleX(.86);
       z-index: 5;
@@ -267,7 +279,18 @@
     */
     .menu {
       position: absolute;
-      top: var(--menu-y);
+      top: min(
+        calc(
+          var(--quadrado-y) +
+          var(--cover-size) +
+          var(--titulo-gap) +
+          22px +
+          var(--equalizador-gap) +
+          34px +
+          var(--menu-gap)
+        ),
+        calc(100% - var(--menu-height) - 24px - env(safe-area-inset-bottom))
+      );
       left: 22px;
       right: 22px;
 
@@ -457,6 +480,23 @@
       .pause-icon {
         width: 27px;
         height: 30px;
+      }
+    }
+
+    @media (max-height: 720px) {
+      :root {
+        --titulo-gap: 18px;
+        --equalizador-gap: 12px;
+        --menu-gap: 34px;
+      }
+    }
+
+    @media (max-height: 640px) {
+      :root {
+        --cover-size: min(58vw, 215px);
+        --titulo-gap: 16px;
+        --equalizador-gap: 10px;
+        --menu-gap: 26px;
       }
     }
 
