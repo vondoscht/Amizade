@@ -648,7 +648,7 @@
         </a>
       </nav>
 
-      <audio id="radioStream" preload="none" playsinline></audio>
+      <audio id="radioStream" preload="auto" playsinline></audio>
     </section>
   </main>
 
@@ -853,56 +853,87 @@
         });
       }
 
-      function setupStream() {
-        // iPhone/Safari: usa HLS nativo sempre que disponível.
-        if (audio.canPlayType("application/vnd.apple.mpegurl")) {
-          audio.src = STREAM_URL;
+      const isIOS =
+        /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+        (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+
+      function setupNativeHls() {
+        if (!audio.canPlayType("application/vnd.apple.mpegurl")) {
+          return false;
+        }
+
+        audio.preload = "auto";
+        audio.src = STREAM_URL;
+        audio.load();
+        hlsReady = true;
+        return true;
+      }
+
+      function setupHlsJs() {
+        if (!window.Hls || !window.Hls.isSupported()) {
+          return false;
+        }
+
+        hls = new window.Hls({
+          lowLatencyMode: false,
+          liveSyncDurationCount: 2,
+          initialLiveManifestSize: 2,
+          maxBufferLength: 6,
+          maxMaxBufferLength: 12
+        });
+
+        hls.loadSource(STREAM_URL);
+        hls.attachMedia(audio);
+
+        hls.on(window.Hls.Events.MANIFEST_PARSED, () => {
           hlsReady = true;
+
+          if (pendingPlay) {
+            pendingPlay = false;
+            playRadio();
+          }
+        });
+
+        hls.on(window.Hls.Events.ERROR, (_, data) => {
+          console.error("HLS:", data);
+
+          if (!data.fatal) return;
+
+          if (data.type === window.Hls.ErrorTypes.NETWORK_ERROR) {
+            hls.startLoad();
+            return;
+          }
+
+          if (data.type === window.Hls.ErrorTypes.MEDIA_ERROR) {
+            hls.recoverMediaError();
+            return;
+          }
+
+          setPlaying(false);
+        });
+
+        return true;
+      }
+
+      function setupStream() {
+        /*
+          iPhone/iPad:
+          prioriza o HLS nativo do Safari e começa a preparar o stream
+          assim que a página é carregada.
+
+          Mac/Android/Desktop:
+          mantém hls.js como primeira opção, pois foi a estratégia
+          mais estável nos testes anteriores.
+        */
+        if (isIOS && setupNativeHls()) {
           return;
         }
 
-        // Android/Chrome e demais navegadores: usa hls.js.
-        if (window.Hls && window.Hls.isSupported()) {
-          hls = new window.Hls({
-            lowLatencyMode: false,
-            liveSyncDurationCount: 3,
-            initialLiveManifestSize: 3
-          });
+        if (setupHlsJs()) {
+          return;
+        }
 
-          hls.loadSource(STREAM_URL);
-          hls.attachMedia(audio);
-
-          hls.on(window.Hls.Events.MANIFEST_PARSED, () => {
-            hlsReady = true;
-
-            if (pendingPlay) {
-              pendingPlay = false;
-              playRadio();
-            }
-          });
-
-          hls.on(window.Hls.Events.ERROR, (_, data) => {
-            console.error("HLS:", data);
-
-            if (!data.fatal) return;
-
-            if (data.type === window.Hls.ErrorTypes.NETWORK_ERROR) {
-              hls.startLoad();
-              return;
-            }
-
-            if (data.type === window.Hls.ErrorTypes.MEDIA_ERROR) {
-              hls.recoverMediaError();
-              return;
-            }
-
-            hls.destroy();
-            hls = null;
-            hlsReady = false;
-            pendingPlay = false;
-            setPlaying(false);
-          });
-
+        if (setupNativeHls()) {
           return;
         }
 
