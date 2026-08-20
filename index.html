@@ -12,6 +12,10 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
   <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+  <meta name="application-name" content="Rádio Amizade">
+  <meta name="apple-mobile-web-app-title" content="Rádio Amizade">
   <link rel="apple-touch-icon" href="assets/favicon.png">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -476,6 +480,109 @@
         animation: none !important;
       }
     }
+  
+    /* Instalação PWA: aparece apenas quando útil e não altera o layout do player. */
+    .install-app {
+      position: fixed;
+      z-index: 100;
+      top: calc(14px + env(safe-area-inset-top));
+      right: 14px;
+
+      display: none;
+      align-items: center;
+      justify-content: center;
+
+      min-height: 38px;
+      padding: 0 13px;
+
+      border: 1px solid rgba(255, 255, 255, .10);
+      border-radius: 999px;
+
+      color: #fff;
+      background: rgba(29, 32, 39, .92);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, .22);
+
+      font-size: 12px;
+      font-weight: 800;
+      line-height: 1;
+      cursor: pointer;
+
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    .install-app.is-visible {
+      display: inline-flex;
+    }
+
+    .install-sheet[hidden] {
+      display: none;
+    }
+
+    .install-sheet {
+      position: fixed;
+      z-index: 200;
+      inset: 0;
+
+      display: grid;
+      place-items: end center;
+
+      padding:
+        20px
+        16px
+        calc(16px + env(safe-area-inset-bottom));
+
+      background: rgba(0, 0, 0, .46);
+    }
+
+    .install-sheet__card {
+      width: min(100%, 430px);
+      padding: 20px;
+
+      border: 1px solid rgba(255, 255, 255, .10);
+      border-radius: 24px;
+
+      color: #fff;
+      background: #1d2027;
+      box-shadow: 0 24px 70px rgba(0, 0, 0, .42);
+    }
+
+    .install-sheet__card h2 {
+      margin: 0 0 10px;
+      font-size: 18px;
+      line-height: 1.2;
+    }
+
+    .install-sheet__card p {
+      margin: 0;
+      color: rgba(255, 255, 255, .78);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .install-sheet__card strong {
+      color: #ffd91a;
+    }
+
+    .install-sheet__close {
+      width: 100%;
+      min-height: 46px;
+      margin-top: 18px;
+
+      border-radius: 15px;
+      color: #111319;
+      background: #ffd91a;
+
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    @media (display-mode: standalone) {
+      .install-app {
+        display: none !important;
+      }
+    }
+
   </style>
 </head>
 
@@ -574,6 +681,118 @@
       <audio id="radioStream" preload="none" playsinline></audio>
     </section>
   </main>
+
+
+  <button
+    class="install-app"
+    id="installAppButton"
+    type="button"
+    aria-label="Instalar Rádio Amizade"
+  >
+    Instalar app
+  </button>
+
+  <div
+    class="install-sheet"
+    id="installSheet"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="installSheetTitle"
+    hidden
+  >
+    <div class="install-sheet__card">
+      <h2 id="installSheetTitle">Adicionar à Tela de Início</h2>
+      <p>
+        No iPhone, toque em <strong>Compartilhar</strong> no Safari e escolha
+        <strong>Adicionar à Tela de Início</strong>.
+      </p>
+      <button
+        class="install-sheet__close"
+        id="installSheetClose"
+        type="button"
+      >
+        Entendi
+      </button>
+    </div>
+  </div>
+
+
+  <script>
+    (() => {
+      "use strict";
+
+      const installButton = document.getElementById("installAppButton");
+      const installSheet = document.getElementById("installSheet");
+      const installSheetClose = document.getElementById("installSheetClose");
+
+      const isStandalone =
+        window.matchMedia("(display-mode: standalone)").matches ||
+        window.navigator.standalone === true;
+
+      const isIOS =
+        /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+        (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+
+      let deferredInstallPrompt = null;
+
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker
+            .register("./service-worker.js", { updateViaCache: "none" })
+            .catch((error) => {
+              console.error("Service Worker:", error);
+            });
+        });
+      }
+
+      if (!isStandalone && isIOS) {
+        installButton.classList.add("is-visible");
+      }
+
+      window.addEventListener("beforeinstallprompt", (event) => {
+        event.preventDefault();
+        deferredInstallPrompt = event;
+
+        if (!isStandalone) {
+          installButton.classList.add("is-visible");
+        }
+      });
+
+      installButton.addEventListener("click", async () => {
+        if (deferredInstallPrompt) {
+          deferredInstallPrompt.prompt();
+
+          try {
+            await deferredInstallPrompt.userChoice;
+          } finally {
+            deferredInstallPrompt = null;
+          }
+
+          return;
+        }
+
+        if (isIOS) {
+          installSheet.hidden = false;
+        }
+      });
+
+      installSheetClose.addEventListener("click", () => {
+        installSheet.hidden = true;
+      });
+
+      installSheet.addEventListener("click", (event) => {
+        if (event.target === installSheet) {
+          installSheet.hidden = true;
+        }
+      });
+
+      window.addEventListener("appinstalled", () => {
+        deferredInstallPrompt = null;
+        installButton.classList.remove("is-visible");
+        installSheet.hidden = true;
+      });
+    })();
+  </script>
 
   <script src="https://cdn.jsdelivr.net/npm/hls.js@1"></script>
 
