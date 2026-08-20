@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
-  <title>Rádio Amizade 98.7 FM</title>
+  <title>Rádio Amizade</title>
 
   <meta name="theme-color" content="#111319">
   <meta name="mobile-web-app-capable" content="yes">
@@ -111,6 +111,7 @@
     .app {
       position: relative;
       width: min(100%, 480px);
+      height: 100vh;
       height: 100svh;
       margin-inline: auto;
       overflow: hidden;
@@ -268,13 +269,7 @@
       }
     }
 
-    /*
-      O menu também está no fluxo normal da página.
-      Não existe regra decidindo sua posição vertical na tela.
-
-      O posicionamento interno dos ícones e do Play foi preservado,
-      pois ele faz parte do desenho do próprio componente.
-    */
+    /* Menu: acompanha o bloco central e respeita a área segura inferior. */
     .menu {
       position: absolute;
       top: min(
@@ -445,7 +440,7 @@
       :root {
         --play-size: 84px;
         --social-size: 38px;
-        }
+      }
 
       .social-button img {
         width: 18px;
@@ -649,10 +644,14 @@
       }
 
       function setupStream() {
-        /*
-          Safari/iPhone: HLS nativo.
-          Chrome/Android e demais navegadores compatíveis: hls.js.
-        */
+        // iPhone/Safari: usa HLS nativo sempre que disponível.
+        if (audio.canPlayType("application/vnd.apple.mpegurl")) {
+          audio.src = STREAM_URL;
+          hlsReady = true;
+          return;
+        }
+
+        // Android/Chrome e demais navegadores: usa hls.js.
         if (window.Hls && window.Hls.isSupported()) {
           hls = new window.Hls({
             lowLatencyMode: false,
@@ -687,19 +686,18 @@
               return;
             }
 
+            hls.destroy();
+            hls = null;
+            hlsReady = false;
+            pendingPlay = false;
             setPlaying(false);
           });
 
           return;
         }
 
-        if (audio.canPlayType("application/vnd.apple.mpegurl")) {
-          audio.src = STREAM_URL;
-          hlsReady = true;
-          return;
-        }
-
         console.error("Este navegador não oferece suporte a HLS.");
+        playButton.disabled = true;
         playButton.setAttribute(
           "aria-label",
           "Áudio indisponível neste navegador"
