@@ -32,9 +32,15 @@
 
       --topo-y: 8svh;
       --quadrado-y: 24svh;
-      --titulo-y: 58svh;
-      --equalizador-y: 63svh;
       --menu-y: 74svh;
+
+      --titulo-gap: 18px;
+      --equalizador-gap: 14px;
+
+      --play-size: 98px;
+      --play-slot: 116px;
+      --social-size: 42px;
+      --social-gap: 14px;
     }
 
     * {
@@ -91,14 +97,13 @@
     }
 
     /*
-      POSICIONAMENTO VERTICAL EM % DA ALTURA VISÍVEL:
-      topo: 8%
-      quadrado: 24%
-      título: 58%
-      equalizador: 63%
-      menu: 74%
+      POSICIONAMENTO PRINCIPAL:
+      topo: 8% da altura visível
+      quadrado: 24% da altura visível
+      menu: 74% da altura visível
 
-      Todos os valores ficam concentrados nas variáveis do :root.
+      Título e equalizador ficam ancorados abaixo do quadrado.
+      Isso evita sobreposição em iPhones com alturas de viewport diferentes.
     */
 
     .app {
@@ -181,7 +186,7 @@
 
     .station-title {
       position: absolute;
-      top: var(--titulo-y);
+      top: calc(var(--quadrado-y) + var(--cover-size) + var(--titulo-gap));
       left: 50%;
       transform: translateX(-50%);
       margin: 0;
@@ -196,7 +201,13 @@
 
     .waves {
       position: absolute;
-      top: var(--equalizador-y);
+      top: calc(
+        var(--quadrado-y) +
+        var(--cover-size) +
+        var(--titulo-gap) +
+        22px +
+        var(--equalizador-gap)
+      );
       left: 50%;
       transform: translateX(-50%) scaleX(.86);
 
@@ -209,7 +220,6 @@
 
       opacity: 0;
       visibility: hidden;
-      transform: scaleX(.86);
       transform-origin: center;
       transition:
         opacity .22s ease,
@@ -268,6 +278,13 @@
       left: 22px;
       right: 22px;
 
+      display: grid;
+      grid-template-columns:
+        minmax(0, 1fr)
+        var(--play-slot)
+        minmax(0, 1fr);
+      align-items: center;
+
       height: var(--menu-height);
 
       border: 1px solid rgba(255, 255, 255, .08);
@@ -282,27 +299,27 @@
     }
 
     .menu-side {
-      position: absolute;
-      top: 0;
-      bottom: 0;
+      position: static;
+      min-width: 0;
 
       display: flex;
       align-items: center;
-      gap: 18px;
+      justify-content: center;
+      gap: var(--social-gap);
     }
 
     .menu-side--left {
-      right: calc(50% + 72px);
+      grid-column: 1;
     }
 
     .menu-side--right {
-      left: calc(50% + 72px);
+      grid-column: 3;
     }
 
     .social-button {
-      width: 42px;
-      height: 42px;
-      flex: 0 0 42px;
+      width: var(--social-size);
+      height: var(--social-size);
+      flex: 0 0 var(--social-size);
 
       display: grid;
       place-items: center;
@@ -340,8 +357,8 @@
       left: 50%;
       transform: translate(-50%, -50%);
 
-      width: 98px;
-      height: 98px;
+      width: var(--play-size);
+      height: var(--play-size);
 
       display: grid;
       place-items: center;
@@ -425,30 +442,28 @@
         right: 14px;
       }
 
-      .menu-side {
-        gap: 12px;
-      }
-
-      .menu-side--left {
-        right: calc(50% + 62px);
-      }
-
-      .menu-side--right {
-        left: calc(50% + 62px);
-      }
-
       .station-title {
         font-size: 18px;
       }
     }
 
     @media (max-width: 340px) {
-      .menu-side--left {
-        right: calc(50% + 58px);
+      :root {
+        --play-size: 84px;
+        --play-slot: 96px;
+        --social-size: 38px;
+        --social-gap: 10px;
       }
 
-      .menu-side--right {
-        left: calc(50% + 58px);
+      .social-button img {
+        width: 18px;
+        height: 18px;
+      }
+
+      .play-icon,
+      .pause-icon {
+        width: 27px;
+        height: 30px;
       }
     }
 
