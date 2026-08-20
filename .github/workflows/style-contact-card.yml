@@ -1,0 +1,132 @@
+name: Style contact card
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/style-contact-card.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Aplicar novo gradiente e textos claros ao contato
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('index2.html')
+          s = p.read_text()
+
+          old = '''    .contact-card {
+      width: var(--side-column);
+      min-width: var(--side-column);
+      background: linear-gradient(135deg,#ffd91a 0%,#ffb51a 100%);
+      border-color: rgba(255,255,255,.16);
+    }
+'''
+          new = '''    .contact-card {
+      width: var(--side-column);
+      min-width: var(--side-column);
+      background:
+        radial-gradient(circle at 84% 10%, rgba(255,238,120,.34) 0%, rgba(255,238,120,0) 32%),
+        linear-gradient(135deg,#ff493c 0%,#ff8d32 48%,#f5cd24 100%);
+      border-color: rgba(255,255,255,.18);
+      color: #fff;
+    }
+'''
+          if old not in s:
+              raise SystemExit('Bloco .contact-card esperado não encontrado')
+          s = s.replace(old, new, 1)
+
+          old = '''    .contact-card h2 {
+      margin: 0 0 14px;
+      color: #20242c;
+      font: var(--font-title) 23px/1.2 "Manrope",sans-serif;
+      letter-spacing: -.5px;
+    }
+'''
+          new = '''    .contact-card h2 {
+      margin: 0 0 14px;
+      color: #ffffff;
+      font: var(--font-title) 23px/1.2 "Manrope",sans-serif;
+      letter-spacing: -.5px;
+      text-shadow: 0 1px 3px rgba(95,35,0,.20);
+    }
+'''
+          if old not in s:
+              raise SystemExit('Bloco de título do contato não encontrado')
+          s = s.replace(old, new, 1)
+
+          old = '''    .contact-item + .contact-item {
+      border-top: 1px solid rgba(17,19,25,.07);
+    }
+'''
+          new = '''    .contact-item + .contact-item {
+      border-top: 1px solid rgba(255,255,255,.22);
+    }
+'''
+          if old not in s:
+              raise SystemExit('Divisor de contato não encontrado')
+          s = s.replace(old, new, 1)
+
+          old = '''    .contact-card .contact-label,
+    .contact-card .contact-value {
+      color: #20242c;
+    }
+'''
+          new = '''    .contact-card .contact-label {
+      color: rgba(255,255,255,.82);
+      text-shadow: 0 1px 2px rgba(95,35,0,.16);
+    }
+
+    .contact-card .contact-value,
+    .contact-card .contact-link {
+      color: #ffffff;
+      text-shadow: 0 1px 2px rgba(95,35,0,.18);
+    }
+'''
+          if old not in s:
+              raise SystemExit('Cores atuais dos textos do contato não encontradas')
+          s = s.replace(old, new, 1)
+
+          old = '''    .contact-link:hover {
+      color: #20242c;
+    }
+'''
+          new = '''    .contact-link:hover {
+      color: #ffffff;
+    }
+'''
+          if old not in s:
+              raise SystemExit('Hover do link de contato não encontrado')
+          s = s.replace(old, new, 1)
+
+          old = '''    .contact-card h2::after {
+      background: var(--red);
+    }
+'''
+          new = '''    .contact-card h2::after {
+      background: rgba(255,255,255,.94);
+      box-shadow: 0 2px 8px rgba(95,35,0,.12);
+    }
+'''
+          if old not in s:
+              raise SystemExit('Barra do título do contato não encontrada')
+          s = s.replace(old, new, 1)
+
+          p.write_text(s)
+          PY
+
+      - name: Commitar ajuste e remover workflow temporário
+        run: |
+          rm .github/workflows/style-contact-card.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Atualiza visual do contato no desktop"
+          git push
