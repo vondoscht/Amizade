@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
-  <title>Amz v1.17</title>
+  <title>Amz v1.18</title>
   <meta name="description" content="Ouça a Rádio Amizade 98.7 FM ao vivo e acompanhe música, informação, entretenimento e os principais acontecimentos do Vale do Paranhana.">
   <meta name="author" content="Gabriel Von Doscht">
   <meta name="application-name" content="Rádio Amizade 98.7 FM">
@@ -1228,26 +1228,26 @@
         backdrop-filter: blur(18px);
         -webkit-backdrop-filter: blur(18px);
         isolation: isolate;
-        will-change: transform;
         opacity: 0;
-        visibility: hidden;
         pointer-events: none;
-        transform: translate(-50%, calc(100% + 28px));
+        transform: translate3d(-50%, calc(100% + 28px), 0);
+        -webkit-transform: translate3d(-50%, calc(100% + 28px), 0);
+        will-change: transform, opacity;
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
         transition:
-          transform .28s cubic-bezier(.22,.61,.36,1),
-          opacity .22s ease,
-          visibility 0s linear .28s;
+          transform .30s cubic-bezier(.22,.61,.36,1),
+          opacity .24s ease;
+        -webkit-transition:
+          -webkit-transform .30s cubic-bezier(.22,.61,.36,1),
+          opacity .24s ease;
       }
 
       .app-mini-player.visible {
         opacity: 1;
-        visibility: visible;
         pointer-events: auto;
-        transform: translate(-50%, 0);
-        transition:
-          transform .28s cubic-bezier(.22,.61,.36,1),
-          opacity .22s ease,
-          visibility 0s linear 0s;
+        transform: translate3d(-50%, 0, 0);
+        -webkit-transform: translate3d(-50%, 0, 0);
       }
 
       .app-mini-cover {
@@ -2926,14 +2926,30 @@
     });
 
     let miniScrollTicking = false;
+    let miniPlayerVisible = false;
+
+    function applyMiniPlayerVisibility(visible) {
+      if (visible === miniPlayerVisible) return;
+
+      miniPlayerVisible = visible;
+      miniPlayer.classList.toggle("visible", visible);
+      miniPlayer.setAttribute("aria-hidden", visible ? "false" : "true");
+      document.body.classList.toggle("mini-player-active", visible);
+    }
 
     function updateMiniPlayerVisibility() {
       const largePlayerBottom = app.getBoundingClientRect().bottom;
-      const shouldShow = largePlayerBottom <= 0;
 
-      miniPlayer.classList.toggle("visible", shouldShow);
-      miniPlayer.setAttribute("aria-hidden", shouldShow ? "false" : "true");
-      document.body.classList.toggle("mini-player-active", shouldShow);
+      // Pequena histerese evita que o Safari alterne o estado várias vezes
+      // quando o limite do player grande fica exatamente junto ao topo.
+      if (!miniPlayerVisible && largePlayerBottom <= -8) {
+        applyMiniPlayerVisibility(true);
+        return;
+      }
+
+      if (miniPlayerVisible && largePlayerBottom >= 16) {
+        applyMiniPlayerVisibility(false);
+      }
     }
 
     function requestMiniPlayerUpdate() {
@@ -2944,6 +2960,15 @@
         updateMiniPlayerVisibility();
         miniScrollTicking = false;
       });
+    }
+
+    // Estado inicial sem animação desnecessária.
+    const initialLargePlayerBottom = app.getBoundingClientRect().bottom;
+    if (initialLargePlayerBottom <= -8) {
+      miniPlayerVisible = true;
+      miniPlayer.classList.add("visible");
+      miniPlayer.setAttribute("aria-hidden", "false");
+      document.body.classList.add("mini-player-active");
     }
 
     updateMiniPlayerVisibility();
