@@ -239,19 +239,69 @@
     }
 
     .install-sheet__card h2{
-      margin:0 0 10px;
-      font-size:18px;
+      margin:0 0 8px;
+      font-size:20px;
       line-height:1.2;
+      letter-spacing:-.3px;
     }
 
-    .install-sheet__card p{
-      margin:0;
-      color:rgba(255,255,255,.78);
+    .install-sheet__intro{
+      margin:0 0 16px;
+      color:rgba(255,255,255,.68);
+      font-size:13px;
+      font-weight:600;
+      line-height:1.4;
+    }
+
+    .install-steps{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+
+    .install-step{
+      display:grid;
+      grid-template-columns:34px minmax(0,1fr);
+      gap:12px;
+      align-items:center;
+      min-height:54px;
+      padding:10px 12px;
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:16px;
+      background:rgba(255,255,255,.045);
+    }
+
+    .install-step__number{
+      width:34px;
+      height:34px;
+      display:grid;
+      place-items:center;
+      border-radius:50%;
+      color:#111319;
+      background:#ffd91a;
       font-size:14px;
-      line-height:1.5;
+      font-weight:800;
     }
 
-    .install-sheet__card strong{color:#ffd91a}
+    .install-step__text{
+      color:rgba(255,255,255,.82);
+      font-size:14px;
+      line-height:1.4;
+    }
+
+    .install-step__text strong{
+      color:#ffd91a;
+      font-weight:800;
+    }
+
+    .share-icon{
+      display:inline-block;
+      width:16px;
+      height:18px;
+      margin-left:5px;
+      vertical-align:-4px;
+      color:#ffd91a;
+    }
 
     .install-sheet__close{
       width:100%;
@@ -343,10 +393,27 @@
   >
     <div class="install-sheet__card">
       <h2 id="installSheetTitle">Instale o App</h2>
-      <p>
-        No Safari, toque em <strong>Compartilhar</strong> e depois em
-        <strong>&quot;Adicionar à Tela de Início&quot;</strong>
-      </p>
+      <p class="install-sheet__intro">No Safari:</p>
+
+      <div class="install-steps">
+        <div class="install-step">
+          <div class="install-step__number">1</div>
+          <div class="install-step__text">
+            Toque em <strong>Compartilhar</strong>
+            <svg class="share-icon" viewBox="0 0 24 26" aria-hidden="true">
+              <path d="M12 17V2M7 7l5-5 5 5M5 10H3.8A2.8 2.8 0 0 0 1 12.8v8.4A2.8 2.8 0 0 0 3.8 24h16.4a2.8 2.8 0 0 0 2.8-2.8v-8.4a2.8 2.8 0 0 0-2.8-2.8H19" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="install-step">
+          <div class="install-step__number">2</div>
+          <div class="install-step__text">
+            Escolha <strong>“Adicionar à Tela de Início”</strong>
+          </div>
+        </div>
+      </div>
+
       <button class="install-sheet__close" id="installSheetClose" type="button">Entendi</button>
     </div>
   </div>
