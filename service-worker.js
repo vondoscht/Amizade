@@ -1,7 +1,7 @@
-const CACHE_NAME = "radio-amizade-mobile-v1.10";
+const CACHE_NAME = "radio-amizade-unified-v1.10";
 
 const APP_SHELL = [
-  "./app.html",
+  "./index2.html",
   "./manifest.webmanifest?v=1.10",
   "./assets/avatar.png?v=1.10",
   "./assets/icone-instagram.svg",
@@ -23,7 +23,10 @@ self.addEventListener("activate", (event) => {
     caches.keys()
       .then((keys) => Promise.all(
         keys
-          .filter((key) => key.startsWith("radio-amizade-mobile-") && key !== CACHE_NAME)
+          .filter((key) =>
+            (key.startsWith("radio-amizade-mobile-") || key.startsWith("radio-amizade-unified-")) &&
+            key !== CACHE_NAME
+          )
           .map((key) => caches.delete(key))
       ))
       .then(() => self.clients.claim())
@@ -35,7 +38,6 @@ self.addEventListener("fetch", (event) => {
   if (request.method !== "GET") return;
 
   const url = new URL(request.url);
-
   if (url.origin !== self.location.origin) return;
 
   if (request.mode === "navigate") {
@@ -43,10 +45,10 @@ self.addEventListener("fetch", (event) => {
       fetch(request)
         .then((response) => {
           const copy = response.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put("./app.html", copy));
+          caches.open(CACHE_NAME).then((cache) => cache.put("./index2.html", copy));
           return response;
         })
-        .catch(() => caches.match("./app.html"))
+        .catch(() => caches.match("./index2.html"))
     );
     return;
   }
