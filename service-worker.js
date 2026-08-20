@@ -1,4 +1,4 @@
-const CACHE_NAME = "radio-amizade-pwa-v1";
+const CACHE_NAME = "radio-amizade-pwa-v5";
 
 const APP_SHELL = [
   "./",
