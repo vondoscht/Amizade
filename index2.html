@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
-  <title>Amz v1.21</title>
+  <title>Amz v1.22</title>
   <meta name="description" content="Ouça a Rádio Amizade 98.7 FM ao vivo e acompanhe música, informação, entretenimento e os principais acontecimentos do Vale do Paranhana.">
   <meta name="author" content="Gabriel Von Doscht">
   <meta name="application-name" content="Rádio Amizade 98.7 FM">
@@ -20,9 +20,9 @@
   <link rel="canonical" href="https://amizade.fm.br/">
 
   <link rel="icon" type="image/png" href="assets/favicon.png">
-  <link rel="apple-touch-icon" href="assets/avatar.png?v=1.21">
-  <link rel="apple-touch-icon-precomposed" href="assets/avatar.png?v=1.21">
-  <link rel="manifest" href="manifest.webmanifest?v=1.21">
+  <link rel="apple-touch-icon" href="assets/avatar.png?v=1.22">
+  <link rel="apple-touch-icon-precomposed" href="assets/avatar.png?v=1.22">
+  <link rel="manifest" href="manifest.webmanifest?v=1.22">
 
   <meta property="og:type" content="website">
   <meta property="og:locale" content="pt_BR">
@@ -1461,13 +1461,25 @@
         transform: none;
       }
 
-      .quick-image:hover,
       .schedule-wrap {
         order: 2;
         width: 100%;
         padding: 18px;
         border-radius: var(--radius-container);
         overflow: hidden;
+      }
+
+      /* Em telas touch, hover pode permanecer ativo após o toque.
+         Mantemos os botões estáveis e sem mudança de tamanho/efeito preso. */
+      .quick-image:hover,
+      .quick-image:active {
+        transform: none;
+        box-shadow: 0 12px 26px rgba(0,0,0,.10);
+      }
+
+      .quick-image:hover img,
+      .quick-image:active img {
+        filter: brightness(1) saturate(1) contrast(1);
       }
 
       .day-tabs {
