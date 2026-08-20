@@ -5,8 +5,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
-  <title>Amz v1.22</title>
-  <meta name="description" content="Ouça a Rádio Amizade 98.7 FM ao vivo e acompanhe música, informação, entretenimento e os principais acontecimentos do Vale do Paranhana.">
+  <title>Rádio Amizade 98.7 FM</title>
+  <meta name="description" content="Ouça a Rádio Amizade 98.7 FM ao vivo em Igrejinha e no Vale do Paranhana. Música, informação e publicidade para empresas que querem alcançar a região.">
   <meta name="author" content="Gabriel Von Doscht">
   <meta name="application-name" content="Rádio Amizade 98.7 FM">
   <meta name="mobile-web-app-capable" content="yes">
@@ -17,31 +17,32 @@
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
   <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
   <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="geo.region" content="BR-RS">
+  <meta name="geo.placename" content="Igrejinha, Taquara, Três Coroas, Parobé, Rolante, Riozinho, Vale do Paranhana, Rio Grande do Sul">
   <link rel="canonical" href="https://amizade.fm.br/">
 
   <link rel="icon" type="image/png" href="assets/favicon.png">
-  <link rel="apple-touch-icon" href="assets/avatar.png?v=1.22">
-  <link rel="apple-touch-icon-precomposed" href="assets/avatar.png?v=1.22">
-  <link rel="manifest" href="manifest.webmanifest?v=1.22">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png?v=1.25">
+  <link rel="manifest" href="manifest.webmanifest?v=1.25">
 
   <meta property="og:type" content="website">
   <meta property="og:locale" content="pt_BR">
   <meta property="og:site_name" content="Rádio Amizade 98.7 FM">
   <meta property="og:title" content="Rádio Amizade 98.7 FM">
-  <meta property="og:description" content="Há mais de 35 anos em sintonia com o Vale do Paranhana. Ouça a Rádio Amizade 98.7 FM ao vivo e acompanhe nossa programação.">
+  <meta property="og:description" content="Ouça a Rádio Amizade 98.7 FM ao vivo em Igrejinha e no Vale do Paranhana. Música, informação e publicidade para empresas que querem alcançar a região.">
   <meta property="og:url" content="https://amizade.fm.br/">
   <meta property="og:image" content="https://amizade.fm.br/assets/compartilhamento.png">
   <meta property="og:image:secure_url" content="https://amizade.fm.br/assets/compartilhamento.png">
   <meta property="og:image:type" content="image/png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Rádio Amizade 98.7 FM">
+  <meta property="og:image:alt" content="Rádio Amizade 98.7 FM — Igrejinha e Vale do Paranhana">
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Rádio Amizade 98.7 FM">
-  <meta name="twitter:description" content="Há mais de 35 anos em sintonia com o Vale do Paranhana. Ouça a Rádio Amizade 98.7 FM ao vivo e acompanhe nossa programação.">
+  <meta name="twitter:description" content="Ouça a Rádio Amizade 98.7 FM ao vivo em Igrejinha e no Vale do Paranhana. Música, informação e publicidade para empresas que querem alcançar a região.">
   <meta name="twitter:image" content="https://amizade.fm.br/assets/compartilhamento.png">
-  <meta name="twitter:image:alt" content="Rádio Amizade 98.7 FM">
+  <meta name="twitter:image:alt" content="Rádio Amizade 98.7 FM — Igrejinha e Vale do Paranhana">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -49,46 +50,104 @@
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
 
   <script type="application/ld+json">
-    {
+{
       "@context": "https://schema.org",
-      "@type": "RadioStation",
-      "name": "Rádio Amizade 98.7 FM",
-      "alternateName": "Rádio Amizade",
-      "url": "https://amizade.fm.br/",
-      "logo": "https://amizade.fm.br/assets/logo-amizade.png",
-      "image": "https://amizade.fm.br/assets/compartilhamento.png",
-      "description": "Rádio Amizade 98.7 FM — música, informação e entretenimento no Vale do Paranhana.",
-      "email": "amizade@amizade.fm.br",
-      "telephone": "+55-51-3545-2300",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "Rua Ernesto Dorneles, 693",
-        "addressLocality": "Igrejinha",
-        "addressRegion": "RS",
-        "postalCode": "95650-000",
-        "addressCountry": "BR"
-      },
-      "sameAs": [
-        "https://www.instagram.com/radioamizade/",
-        "https://www.facebook.com/RadioAmizadeFM98.7",
-        "https://www.youtube.com/@RadioAmizade98.7"
-      ],
-      "location": {
-        "@type": "Place",
-        "address": {
-          "@type": "PostalAddress",
-          "streetAddress": "Rua Ernesto Dorneles, 693 - Centro",
-          "addressLocality": "Igrejinha",
-          "addressRegion": "RS",
-          "postalCode": "95650-000",
-          "addressCountry": "BR"
-        }
-      }
-    }
+      "@graph": [
+            {
+                  "@type": "RadioStation",
+                  "@id": "https://amizade.fm.br/#radio",
+                  "name": "Rádio Amizade 98.7 FM",
+                  "alternateName": "Rádio Amizade",
+                  "url": "https://amizade.fm.br/",
+                  "logo": "https://amizade.fm.br/assets/logo-amizade.png",
+                  "image": "https://amizade.fm.br/assets/compartilhamento.png",
+                  "description": "Rádio Amizade 98.7 FM em Igrejinha, com música, informação, entretenimento e soluções de publicidade para empresas do Vale do Paranhana.",
+                  "email": "amizade@amizade.fm.br",
+                  "telephone": "+55-51-3545-2300",
+                  "address": {
+                        "@type": "PostalAddress",
+                        "streetAddress": "Rua Ernesto Dorneles, 693",
+                        "addressLocality": "Igrejinha",
+                        "addressRegion": "RS",
+                        "postalCode": "95650-000",
+                        "addressCountry": "BR"
+                  },
+                  "areaServed": [
+                        {
+                              "@type": "City",
+                              "name": "Igrejinha"
+                        },
+                        {
+                              "@type": "City",
+                              "name": "Taquara"
+                        },
+                        {
+                              "@type": "City",
+                              "name": "Três Coroas"
+                        },
+                        {
+                              "@type": "City",
+                              "name": "Parobé"
+                        },
+                        {
+                              "@type": "City",
+                              "name": "Rolante"
+                        },
+                        {
+                              "@type": "City",
+                              "name": "Riozinho"
+                        },
+                        {
+                              "@type": "AdministrativeArea",
+                              "name": "Vale do Paranhana"
+                        },
+                        {
+                              "@type": "State",
+                              "name": "Rio Grande do Sul"
+                        }
+                  ],
+                  "sameAs": [
+                        "https://www.instagram.com/radioamizade/",
+                        "https://www.facebook.com/RadioAmizadeFM98.7",
+                        "https://www.youtube.com/@RadioAmizade98.7"
+                  ],
+                  "makesOffer": {
+                        "@type": "Offer",
+                        "url": "https://wa.me/555180527460",
+                        "itemOffered": {
+                              "@type": "Service",
+                              "name": "Publicidade na Rádio Amizade",
+                              "serviceType": "Publicidade em rádio e mídia digital",
+                              "description": "Soluções de publicidade para empresas que desejam alcançar ouvintes e consumidores do Vale do Paranhana e região.",
+                              "areaServed": [
+                                    "Igrejinha",
+                                    "Taquara",
+                                    "Três Coroas",
+                                    "Parobé",
+                                    "Rolante",
+                                    "Riozinho",
+                                    "Vale do Paranhana"
+                              ]
+                        }
+                  }
+            },
+            {
+                  "@type": "WebSite",
+                  "@id": "https://amizade.fm.br/#website",
+                  "url": "https://amizade.fm.br/",
+                  "name": "Rádio Amizade 98.7 FM",
+                  "alternateName": "Rádio Amizade",
+                  "inLanguage": "pt-BR",
+                  "publisher": {
+                        "@id": "https://amizade.fm.br/#radio"
+                  }
+            }
+      ]
+}
   </script>
 
   <style>
-    /* ========== TOKENS / BASE ========== */
+    
     :root {
       --gray-900: #111319;
       --gray-850: #171920;
@@ -135,7 +194,6 @@
       padding: 14px 0 42px;
     }
 
-    /* ========== CABEÇALHO DESKTOP ========== */
     .topbar {
       position: sticky;
       top: 14px;
@@ -427,7 +485,6 @@
       }
     }
 
-    /* ========== CARROSSEL ========== */
     .hero {
       margin-top: 14px;
       position: relative;
@@ -528,7 +585,6 @@
       transition: filter .22s ease;
     }
 
-    /* ========== CONTEÚDO / PROGRAMAÇÃO ========== */
     .main-content-grid {
       margin-top: var(--section-gap);
       display: grid;
@@ -794,7 +850,6 @@
       display: block;
     }
 
-    /* ========== INSTITUCIONAL / CONTATO ========== */
     .about-card, .contact-card {
       border-radius: var(--radius-container);
       padding: 30px;
@@ -904,11 +959,6 @@
     .about-card p strong {
       font-weight: 700;
     }
-
-    /* =========================================================
-       MODO APP — exibido somente até 900px
-       O desktop acima de 900px permanece visualmente inalterado.
-       ========================================================= */
 
     .mobile-app-shell {
       display: none;
@@ -1469,8 +1519,6 @@
         overflow: hidden;
       }
 
-      /* Em telas touch, hover pode permanecer ativo após o toque.
-         Mantemos os botões estáveis e sem mudança de tamanho/efeito preso. */
       .quick-image:hover,
       .quick-image:active {
         transform: none;
@@ -1622,11 +1670,7 @@
       }
     }
 
-
-    /* =========================================================
-       AJUSTES DA VERSÃO UNIFICADA
-       Desktop preserva o visual aprovado; mobile usa o player app.
-       ========================================================= */
+    
 
     @media (min-width: 901px) {
       .socials {
@@ -2092,7 +2136,6 @@
 
   </main>
 
-
   <div
     class="install-sheet"
     id="installSheet"
@@ -2136,11 +2179,6 @@
       const DESKTOP_MEDIA = window.matchMedia("(min-width: 901px)");
       const MOBILE_MEDIA = window.matchMedia("(max-width: 900px)");
 
-      /* ======================================================
-         BREAKPOINT
-         Recarrega apenas quando a janela cruza desktop/mobile,
-         garantindo que somente o player correto fique ativo.
-         ====================================================== */
       const reloadOnBreakpointChange = () => window.location.reload();
 
       if (MOBILE_MEDIA.addEventListener) {
@@ -2149,9 +2187,6 @@
         MOBILE_MEDIA.addListener(reloadOnBreakpointChange);
       }
 
-      /* ======================================================
-         DESKTOP — CABEÇALHO + PLAYER
-         ====================================================== */
       function initDesktopPlayer() {
         if (!DESKTOP_MEDIA.matches) return;
 
@@ -2290,9 +2325,6 @@
         setupStream();
       }
 
-      /* ======================================================
-         CARROSSEL
-         ====================================================== */
       function initCarousel() {
         const slides = document.getElementById("slides");
         const dots = [...document.querySelectorAll(".dot")];
@@ -2395,9 +2427,6 @@
         restartCarousel();
       }
 
-      /* ======================================================
-         PROGRAMAÇÃO
-         ====================================================== */
       function initSchedule() {
         const mondayToThursday = [
           ["01:00", "Show da Madrugada"],
@@ -2527,9 +2556,6 @@
         renderDay(broadcastDay(new Date()));
       }
 
-      /* ======================================================
-         MOBILE — PLAYER PRINCIPAL + MINI PLAYER
-         ====================================================== */
       function initMobilePlayer() {
         if (!MOBILE_MEDIA.matches) return;
 
@@ -2797,7 +2823,6 @@
           if (userWantsPlayback) seekToLiveEdge();
         }
 
-        // Pré-carrega a transmissão antes do primeiro toque.
         if (nativeHls) {
           audio.preload = "auto";
           audio.src = RADIO_STREAM_URL;
@@ -2879,9 +2904,6 @@
         });
       }
 
-      /* ======================================================
-         INSTALAÇÃO DO APP
-         ====================================================== */
       function initInstallPrompt() {
         if (!MOBILE_MEDIA.matches) return;
 
@@ -2958,10 +2980,6 @@
         });
       }
 
-      /* ======================================================
-         SERVICE WORKER
-         Mantido com o mesmo escopo da versão anterior.
-         ====================================================== */
       function registerServiceWorker() {
         if (!("serviceWorker" in navigator) || !MOBILE_MEDIA.matches) return;
 

@@ -1,13 +1,13 @@
-const CACHE_NAME = "radio-amizade-unified-v1.10";
+const CACHE_NAME = "radio-amizade-unified-v1.25";
 
 const APP_SHELL = [
   "./index2.html",
-  "./manifest.webmanifest?v=1.10",
-  "./assets/avatar.png?v=1.10",
+  "./manifest.webmanifest?v=1.25",
+  "./assets/avatar.png",
   "./assets/icone-instagram.svg",
   "./assets/icone-facebook.svg",
   "./assets/icone-youtube.svg",
-  "./assets/icone-whatsapp.svg",
+  "./assets/icone-whatsapp.svg"
 ];
 
 self.addEventListener("install", (event) => {

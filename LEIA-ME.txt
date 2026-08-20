@@ -1,0 +1,20 @@
+RÁDIO AMIZADE 98.7 FM — ARQUIVOS PARA UPLOAD v1.25
+
+Na raiz do repositório, substituir:
+- index2.html
+- manifest.webmanifest
+- service-worker.js
+
+Na pasta assets/, adicionar:
+- apple-touch-icon.png
+- icon-192.png
+- icon-512.png
+- icon-maskable-192.png
+- icon-maskable-512.png
+
+O arquivo assets/avatar.png existente deve permanecer como está.
+
+IMPORTANTE PARA TESTAR O NOVO ÍCONE:
+Depois de publicar, remova do iPhone/Android o app ou atalho que já estava instalado.
+Em seguida, abra o site novamente no navegador e reinstale o app.
+iOS e Android podem manter o ícone antigo do app já instalado mesmo depois de o site ser atualizado.

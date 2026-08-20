@@ -8,22 +8,37 @@
   "start_url": "./index2.html?source=pwa",
   "scope": "./",
   "display": "standalone",
-  "display_override": ["standalone", "minimal-ui"],
+  "display_override": [
+    "standalone",
+    "minimal-ui"
+  ],
   "orientation": "portrait",
   "background_color": "#111319",
   "theme_color": "#111319",
   "icons": [
     {
-      "src": "assets/avatar.png?v=1.10",
+      "src": "assets/icon-192.png?v=1.25",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "assets/avatar.png?v=1.10",
+      "src": "assets/icon-512.png?v=1.25",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
+    },
+    {
+      "src": "assets/icon-maskable-192.png?v=1.25",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "assets/icon-maskable-512.png?v=1.25",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }
