@@ -1,8 +1,8 @@
-const CACHE_NAME = "radio-amizade-unified-v1.25";
+const CACHE_NAME = "radio-amizade-unified-v1.26";
 
 const APP_SHELL = [
   "./index2.html",
-  "./manifest.webmanifest?v=1.25",
+  "./manifest.webmanifest?v=1.26",
   "./assets/avatar.png",
   "./assets/icone-instagram.svg",
   "./assets/icone-facebook.svg",
