@@ -1,11 +1,11 @@
 {
-  "id": "./app.html",
+  "id": "./index2.html",
   "name": "Rádio Amizade",
   "short_name": "Rádio Amizade",
   "description": "Ouça a Rádio Amizade 98.7 FM ao vivo.",
   "lang": "pt-BR",
   "dir": "ltr",
-  "start_url": "./app.html?source=pwa",
+  "start_url": "./index2.html?source=pwa",
   "scope": "./",
   "display": "standalone",
   "display_override": ["standalone", "minimal-ui"],
