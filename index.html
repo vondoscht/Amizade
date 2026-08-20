@@ -38,9 +38,7 @@
       --menu-gap: 48px;
 
       --play-size: 98px;
-      --play-slot: 116px;
       --social-size: 42px;
-      --social-gap: 6px;
     }
 
     * {
@@ -294,12 +292,10 @@
       left: 22px;
       right: 22px;
 
-      display: grid;
-      grid-template-columns:
-        minmax(0, 1fr)
-        var(--play-slot)
-        minmax(0, 1fr);
+      display: flex;
       align-items: center;
+      justify-content: space-evenly;
+      overflow: visible;
 
       height: var(--menu-height);
 
@@ -314,27 +310,6 @@
       -webkit-backdrop-filter: blur(16px);
     }
 
-    .menu-side {
-      position: static;
-      min-width: 0;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: var(--social-gap);
-    }
-
-    .menu-side--left {
-      grid-column: 1;
-      justify-content: flex-start;
-      padding-left: 16px;
-    }
-
-    .menu-side--right {
-      grid-column: 3;
-      justify-content: flex-end;
-      padding-right: 16px;
-    }
 
     .social-button {
       width: var(--social-size);
@@ -371,11 +346,10 @@
     }
 
     .play-button {
-      position: absolute;
+      position: relative;
       z-index: 10;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
+      flex: 0 0 var(--play-size);
+      transform: none;
 
       width: var(--play-size);
       height: var(--play-size);
@@ -398,7 +372,7 @@
     }
 
     .play-button:active {
-      transform: translate(-50%, -50%) scale(.95);
+      transform: scale(.95);
       filter: brightness(.97);
     }
 
@@ -468,20 +442,10 @@
     }
 
     @media (max-width: 340px) {
-      .menu-side--left {
-        padding-left: 10px;
-      }
-
-      .menu-side--right {
-        padding-right: 10px;
-      }
-
       :root {
         --play-size: 84px;
-        --play-slot: 96px;
         --social-size: 38px;
-        --social-gap: 6px;
-      }
+        }
 
       .social-button img {
         width: 18px;
@@ -551,27 +515,25 @@
       </div>
 
       <nav class="menu" aria-label="Redes sociais e player">
-        <div class="menu-side menu-side--left">
-          <a
-            class="social-button"
-            href="https://www.instagram.com/radioamizade/"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Instagram"
-          >
-            <img src="assets/icone-instagram.svg" alt="">
-          </a>
+        <a
+          class="social-button"
+          href="https://www.instagram.com/radioamizade/"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Instagram"
+        >
+          <img src="assets/icone-instagram.svg" alt="">
+        </a>
 
-          <a
-            class="social-button"
-            href="https://www.facebook.com/RadioAmizadeFM98.7"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Facebook"
-          >
-            <img src="assets/icone-facebook.svg" alt="">
-          </a>
-        </div>
+        <a
+          class="social-button"
+          href="https://www.facebook.com/RadioAmizadeFM98.7"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Facebook"
+        >
+          <img src="assets/icone-facebook.svg" alt="">
+        </a>
 
         <button
           class="play-button"
@@ -593,27 +555,25 @@
           </svg>
         </button>
 
-        <div class="menu-side menu-side--right">
-          <a
-            class="social-button"
-            href="https://www.youtube.com/@RadioAmizade98.7"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="YouTube"
-          >
-            <img src="assets/icone-youtube.svg" alt="">
-          </a>
+        <a
+          class="social-button"
+          href="https://www.youtube.com/@RadioAmizade98.7"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="YouTube"
+        >
+          <img src="assets/icone-youtube.svg" alt="">
+        </a>
 
-          <a
-            class="social-button"
-            href="https://wa.me/5551998770145"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="WhatsApp da Rádio Amizade"
-          >
-            <img src="assets/icone-whatsapp.svg" alt="">
-          </a>
-        </div>
+        <a
+          class="social-button"
+          href="https://wa.me/5551998770145"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="WhatsApp da Rádio Amizade"
+        >
+          <img src="assets/icone-whatsapp.svg" alt="">
+        </a>
       </nav>
 
       <audio id="radioStream" preload="none" playsinline></audio>
